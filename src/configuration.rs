@@ -12,15 +12,6 @@ pub struct Configuration {
 }
 
 impl Configuration {
-    pub fn new() -> Self {
-        Configuration {
-            name: String::new(),
-            tagline: String::new(),
-            dev_url: String::new(),
-            url: String::new()
-        }
-    }
-
     pub fn from_file(f: &str) -> Result<Self, String> {
         match file_contents_from("config.json") {
             Ok(content) => match serde_json::from_str::<Configuration>(&content) {
