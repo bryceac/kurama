@@ -3,7 +3,7 @@ mod link;
 mod section;
 mod navigation_item;
 
-use crate::{ configuration::Configuration, link::Link, section::Section };
+use crate::{ configuration::Configuration, link::Link, section::Section, navigation_item::NavigationItem };
 use std:: { error::Error };
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
@@ -27,6 +27,12 @@ fn main() {
     let mut context = Context::new();
     context.insert("site", &site_configuration);
 
+    if let Some(sections) = menu_from::<Section>("links.json") {
+        context.insert("sections", &sections);
+    } else if let Some(links) = menu_from::<Link>("links.json") {
+        context.insert("links", &links);
+    }
+
     match TEMPLATES.render("test.html", &context) {
         Ok(page) => println!("{:?}", page),
         Err(errors) => {
@@ -42,16 +48,9 @@ fn main() {
     }
 }
 
-fn sections_from(f: &str) -> Option<Vec<Section>> {
-    match Section::from_file(f) {
-        Ok(sections) => Some(sections),
-        _ => None
-    }
-}
-
-fn links_from(f: &str) -> Option<Vec<Link>> {
-    match Link::from_file(f) {
-        Ok(links) => Some(links),
+fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
+    match T::from_file(f) {
+        Ok(items) => Some(items),
         _ => None
     }
 }
