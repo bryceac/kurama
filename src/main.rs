@@ -47,3 +47,10 @@ fn sections_from(f: &str) -> Option<Vec<Section>> {
         _ => None
     }
 }
+
+fn links_from(f: &str) -> Option<Vec<Link>> {
+    match Link::from_file(f) {
+        Ok(links) => Some(links),
+        _ => None
+    }
+}
