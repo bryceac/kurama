@@ -4,10 +4,10 @@ use crate::site::Site;
 
 
 fn main() {
-    match Site::from_file("config.json") {
-        Ok(configuration) => println!("{}", configuration.name),
-        Err(error) => println!("{}", error)
-    }
+    let site = match Site::from_file("config.json") {
+        Ok(configuration) => configuration,
+        _ => Site::new()
+    };
 }
 
 
