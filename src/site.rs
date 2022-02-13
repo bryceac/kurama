@@ -1,11 +1,11 @@
 use serde::{Serialize, Deserialize };
 
 #[derive(Serialize, Deserialize)]
-struct Site {
-    name: String,
+pub struct Site {
+    pub name: String,
     #[serde(default = "String::default")]
-    tagline: String,
+    pub tagline: String,
     #[serde(default = "String::default")]
-    dev_url: String,
-    url: String
+    pub dev_url: String,
+    pub url: String
 }
