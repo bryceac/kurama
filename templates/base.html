@@ -9,11 +9,24 @@
     <body>
         <nav id="nav">
             {% if sections %}
+                <ul>
                 {% for section in sections %}
+                <li>
+                    {{ section.name }}
+                    <ul>
+                        {% for link in links %}
+                            <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
                 {% endfor %}
+                </ul>
             {% elif links %}
+                <ul>
                 {% for link in links %}
+                    <li><a href="{{ link.url }}">{{ link.name }}</a></li>
                 {% endfor %}
+                </ul>
             {% endif %}
         </nav>
         {% block content %}
