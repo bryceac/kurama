@@ -1,12 +1,12 @@
-mod site;
+mod configuration;
 
-use crate::site::Site;
+use crate::configuration::Configuration;
 
 
 fn main() {
-    let site = match Site::from_file("config.json") {
+    let site = match Configuration::from_file("config.json") {
         Ok(configuration) => configuration,
-        _ => Site::new()
+        _ => Configuration::new()
     };
 }
 

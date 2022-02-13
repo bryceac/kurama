@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize };
 use std::{fs::File, io::{ self, Read }};
 
 #[derive(Serialize, Deserialize)]
-pub struct Site {
+pub struct Configuration {
     pub name: String,
     #[serde(default = "String::default")]
     pub tagline: String,
@@ -11,9 +11,9 @@ pub struct Site {
     pub url: String
 }
 
-impl Site {
+impl Configuration {
     pub fn new() -> Self {
-        Site {
+        Configuration {
             name: String::new(),
             tagline: String::new(),
             dev_url: String::new(),
@@ -23,7 +23,7 @@ impl Site {
 
     pub fn from_file(f: &str) -> Result<Self, String> {
         match file_contents_from("config.json") {
-            Ok(content) => match serde_json::from_str::<Site>(&content) {
+            Ok(content) => match serde_json::from_str::<Configuration>(&content) {
                 Ok(decoded_site) => Ok(decoded_site),
                 Err(error) => Err(format!("{}", error))
             },
