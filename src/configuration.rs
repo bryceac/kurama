@@ -13,7 +13,7 @@ pub struct Configuration {
 
 impl Configuration {
     pub fn from_file(f: &str) -> Result<Self, String> {
-        match file_contents_from("config.json") {
+        match file_contents_from(f) {
             Ok(content) => match serde_json::from_str::<Configuration>(&content) {
                 Ok(decoded_site) => Ok(decoded_site),
                 Err(error) => Err(format!("{}", error))
