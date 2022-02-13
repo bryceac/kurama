@@ -33,6 +33,7 @@ fn main() {
 
             while let Some(error) = cause {
                 println!("{}", error);
+                cause = error.source();
             }
         }
     }
