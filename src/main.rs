@@ -2,6 +2,7 @@ mod configuration;
 mod link;
 
 use crate::{ configuration::Configuration, link::Link };
+use std:: { error::Error };
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
 
