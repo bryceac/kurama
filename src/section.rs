@@ -9,9 +9,9 @@ pub struct Section {
 }
 
 impl Section {
-    pub fn from_file(f: &str) -> Result<Self, String> {
+    pub fn from_file(f: &str) -> Result<Vec<Self>, String> {
         match file_contents_from(f) {
-            Ok(content) => match serde_json::from_str::<Section>(&content) {
+            Ok(content) => match serde_json::from_str::<Vec<Self>>(&content) {
                 Ok(decoded_site) => Ok(decoded_site),
                 Err(error) => Err(format!("{}", error))
             },

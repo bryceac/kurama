@@ -2,7 +2,7 @@ mod configuration;
 mod link;
 mod section;
 
-use crate::{ configuration::Configuration, link::Link };
+use crate::{ configuration::Configuration, link::Link, section::Section };
 use std:: { error::Error };
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
@@ -38,5 +38,12 @@ fn main() {
                 cause = error.source();
             }
         }
+    }
+}
+
+fn sections_from(f: &str) -> Option<Vec<Section>> {
+    match Section::from_file(f) {
+        Ok(sections) => Some(sections),
+        _ => None
     }
 }
