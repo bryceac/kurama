@@ -1,5 +1,6 @@
 mod configuration;
 mod link;
+mod section;
 
 use crate::{ configuration::Configuration, link::Link };
 use std:: { error::Error };
