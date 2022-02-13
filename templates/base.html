@@ -14,7 +14,7 @@
                 <li>
                     {{ section.name }}
                     <ul>
-                        {% for link in links %}
+                        {% for link in section.links %}
                             <li><a href="{{ link.url }}">{{ link.name }}</a></li>
                         {% endfor %}
                     </ul>
