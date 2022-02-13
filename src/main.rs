@@ -55,7 +55,17 @@ fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
     }
 }
 
-fn render_page(configuration: &Configuration, page: &str) -> String {
+fn render_page(configuration: &Configuration, page: &str, sections: &Option<Vec<Section>>, links: &Option<Vec<Link>>) -> Result<String, String> {
+    if let (Some(sections), Some(links)) {
+        Err(String::from("Links and Sections cannot be mixed like this. One of the two provided values must be None."))
+    }
+
     let mut context = Context::new();
     context.insert("site", configuration);
+
+    if let Some(sections) = sections {
+        context.insert("sections", sections);
+    } else if let Some(links) = links {
+        context.insert("links", links);
+    }
 }
