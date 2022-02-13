@@ -54,3 +54,8 @@ fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
         _ => None
     }
 }
+
+fn render_page(configuration: &Configuration, page: &str) -> String {
+    let mut context = Context::new();
+    context.insert("site", configuration);
+}
