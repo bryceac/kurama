@@ -7,6 +7,15 @@
         </title>
     </head>
     <body>
+        <nav id="nav">
+            {% if sections %}
+                {% for section in sections %}
+                {% endfor %}
+            {% elif pages %}
+                {% for page in pages %}
+                {% endfor %}
+            {% endif %}
+        </nav>
         {% block content %}
         {% endblock content %}
     </body>
