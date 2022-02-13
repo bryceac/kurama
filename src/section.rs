@@ -1,6 +1,6 @@
 use serde::{ Serialize, Deserialize };
 use std::{fs::File, io::{ self, Read }};
-use crate::link::Link;
+use crate::{ link::Link, navigation_item::NavigationItem };
 
 #[derive(Serialize, Deserialize)]
 pub struct Section {
@@ -8,8 +8,8 @@ pub struct Section {
     pub links: Vec<Link>
 }
 
-impl Section {
-    pub fn from_file(f: &str) -> Result<Vec<Self>, String> {
+impl NavigationItem for Section {
+    fn from_file(f: &str) -> Result<Vec<Self>, String> {
         match file_contents_from(f) {
             Ok(content) => match serde_json::from_str::<Vec<Self>>(&content) {
                 Ok(decoded_site) => Ok(decoded_site),
