@@ -4,7 +4,6 @@ mod link;
 use crate::{ configuration::Configuration, link::Link };
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
-use std::{ error::Error, collections::HashMap };
 
 
 lazy_static! {
@@ -39,9 +38,3 @@ fn main() {
         }
     }
 }
-
-fn sections() -> HashMap<String, Link> {
-
-}
-
-
