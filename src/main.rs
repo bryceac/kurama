@@ -19,9 +19,13 @@ use crate::{
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
 use std::{ fs::{ read_dir, 
-    create_dir_all },
-    path::Path
+    create_dir_all,
+    File
+ },
+ io::{ Read },
+ path::Path
  };
+ use warp::Filter;
 
 
 
@@ -39,10 +43,11 @@ lazy_static! {
     };
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
-    generate(&site_configuration)
+    serve(&site_configuration).await;
 }
 
 fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
@@ -104,4 +109,29 @@ fn generate(config: &Configuration) {
             }
         }
     }
+}
+
+async fn serve(config: &Configuration) {
+    let server_root = Path::new("output");
+
+    generate(config);
+
+    let home = warp::path::end().map(|| {
+        let mut file_content = String::new();
+        match File::open(server_root.join("index.html")) {
+            Ok(mut file) => match file.read_to_string(&mut file_content) {
+                Ok(_) => file_content,
+                Err(error) => format!("{}", error)
+            },
+            Err(error) => format!("{}", error)
+        }
+    });
+
+    let routes = warp::get().and(
+        home
+    );
+
+    warp::serve(routes)
+    .run(([127, 0, 0, 1], 8080))
+    .await;
 }
