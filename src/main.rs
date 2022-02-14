@@ -11,7 +11,7 @@ mod save_string;
 
 use crate::{ 
     configuration::Configuration,
-    kurama::Kurama 
+    kurama::Kurama,
     link::Link, 
     section::Section, 
     navigation_item::NavigationItem,
@@ -54,6 +54,10 @@ lazy_static! {
 fn main() {
     // let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
     let args = Kurama::parse();
+
+    match &args.command {
+
+    }
 }
 
 fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {

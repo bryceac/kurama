@@ -6,5 +6,5 @@ use crate::commands::Commands;
 #[clap(about = "A Static site generator", long_about = None)]
 pub struct Kurama {
     #[clap(subcommand)]
-    command: Commands
+    pub command: Commands
 }
