@@ -18,7 +18,7 @@ use crate::{
 
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
-use walkdir::{ DirEntry, WalkDir };
+use walkdir::{ WalkDir };
 
 
 
