@@ -17,7 +17,7 @@ use crate::{
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
 use pulldown_cmark::{ html, Parser};
-use std::{fs::File, io::{ self, Read }};
+use std::{fs::File, io::{ Write, Error }};
 
 
 lazy_static! {
