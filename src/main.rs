@@ -46,11 +46,9 @@ lazy_static! {
     };
 }
 
-#[tokio::main]
-async fn main() {
-    let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
-    serve(&site_configuration).await;
+fn main() {
+    let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 }
 
 fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
@@ -132,6 +130,7 @@ fn generate(config: &Configuration) {
     }
 }
 
+#[tokio::main]
 async fn serve(config: &Configuration) {
     let server_root = Path::new("output");
 
