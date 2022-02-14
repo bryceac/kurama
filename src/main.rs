@@ -71,7 +71,7 @@ fn render_page(config: &Configuration, p: &str) -> Result<String, String> {
     }
 
     match TEMPLATES.render("page.html", &context) {
-        Ok(output) => format!("{}", output),
+        Ok(output) => Ok(format!("{}", output)),
         Err(errors) => Err(format!("{}", errors))
     }
 }

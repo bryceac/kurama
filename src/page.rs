@@ -20,7 +20,7 @@ impl Page {
                             content: document.content
                         })
                     },
-                    Err(error) => format!("{}", error)
+                    Err(error) => Err(format!("{}", error))
                 }
             },
             _ => Err(String::from("Could not parse file"))
