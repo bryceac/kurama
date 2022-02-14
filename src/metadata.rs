@@ -8,6 +8,7 @@ pub struct Metadata {
 
 impl PartialEq for Metadata {
     fn eq(&self, other: &Self) -> bool {
-        self.title == other.title
+        self.title == other.title &&
+        self.slug == other.slug
     }
 }
