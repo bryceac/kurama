@@ -14,7 +14,6 @@ use crate::{
     page::Page
 };
 
-use std:: { error::Error };
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
 use pulldown_cmark::{ html, Parser};
@@ -35,27 +34,10 @@ lazy_static! {
 
 fn main() {
     let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
-    let mut context = Context::new();
-    context.insert("site", &site_configuration);
 
-    if let Some(sections) = menu_from::<Section>("links.json") {
-        context.insert("sections", &sections);
-    } else if let Some(links) = menu_from::<Link>("links.json") {
-        context.insert("links", &links);
-    }
-
-    match TEMPLATES.render("test.html", &context) {
+    match render_page(&site_configuration, "hello.html") {
         Ok(page) => println!("{:?}", page),
-        Err(errors) => {
-            println!("{}", errors);
-
-            let mut cause = errors.source();
-
-            while let Some(error) = cause {
-                println!("{}", error);
-                cause = error.source();
-            }
-        }
+        Err(error) => println!("{}", error)
     }
 }
 
@@ -81,6 +63,12 @@ fn render_page(config: &Configuration, p: &str) -> Result<String, String> {
     context.insert("site", &config);
     page.content = parse_string(&page.content);
     context.insert("page", &page);
+
+    if let Some(sections) = menu_from::<Section>("links.json") {
+        context.insert("sections", &sections);
+    } else if let Some(links) = menu_from::<Link>("links.json") {
+        context.insert("links", &links);
+    }
 
     match TEMPLATES.render("page.html", &context) {
         Ok(output) => format!("{}", output),
