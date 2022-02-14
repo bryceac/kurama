@@ -36,7 +36,7 @@ lazy_static! {
 fn main() {
     let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
-    match render_page(&site_configuration, "hello.html") {
+    match render_page(&site_configuration, "hello.md") {
         Ok(page) => if let Err(error) = save_html(&page, "/Users/bryce/Desktop/test.html") {
             println!("{}", error);
         },
