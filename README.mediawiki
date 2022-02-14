@@ -199,7 +199,7 @@ However, unlike Hyde, the only available context objects are:
 <dd>
 <p>This give access to details concerning the page.</p>
 <p>Things relating to page metadata are accessed via <pre>page.metadata</pre></p>
-<p>For example, to grab the title of the page, it is as easy as <pre>page.metadata.title</pre>
+<p>For example, to grab the title of the page, it is as easy as <pre>page.metadata.title</pre></p>
 </dd>
 </dl>
 
@@ -216,3 +216,41 @@ While it is not necessary for the block itself to be called
 The variable <strong>content</strong> is required because 
 that is what the program passes the HTML 
 version of the page content to the template.
+
+==Site Configuration==
+
+The site is configured in the <strong>config.json</strong>. 
+This hold all data pertaining to the site, 
+such as the site's name and tagline.
+
+A minimal config file will look like this:
+
+<pre>
+{
+    "name": "Hello, World"
+}
+</pre>
+
+Right now, the configuration is quite minimal with only three keys, 
+which are as follows:
+
+<dl>
+<dt style="font-weight:bold">name</dt>
+<dd>
+The name of the website.
+</dd>
+<dt style="font-weight:bold">tagline</dt>
+<dd>
+The website's tagline.
+</dd>
+<dt style="font-weight:bold">url</dt>
+<dd>
+The website's URL.
+</dd>
+</dl>
+
+As can be seen above, only the name key is required, 
+but as things progress, I may add more keys 
+and some of those may become required too.
+
+For now, I am keeping things simple because that is all I need.
