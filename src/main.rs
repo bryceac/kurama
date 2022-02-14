@@ -101,16 +101,12 @@ fn generate(config: &Configuration) {
                 let mut directory_copy_options = dir::CopyOptions::new();
                 directory_copy_options.copy_inside = true;
 
-                let file_copy_options = file::CopyOptions::new();
+                // let file_copy_options = file::CopyOptions::new();
 
 
 
                 if p.is_dir() {
-                    if let Err(error) = dir::copy(p, output_path.join(entry.path()), &directory_copy_options) {
-                        println!("{}", error)
-                    }
-                } else {
-                    if let Err(error) = file::copy(p, output_path.join(entry.path()), &file_copy_options) {
+                    if let Err(error) = dir::copy(p, output_path.join(entry.path().file_stem().unwrap()), &directory_copy_options) {
                         println!("{}", error)
                     }
                 }
@@ -145,9 +141,15 @@ async fn serve(config: &Configuration) {
     generate(config);
 
     let site = warp::path::end().and(warp::fs::dir(server_root));
+    let css = warp::path("css").and(warp::fs::dir(server_root.join("css")));
+    let js = warp::path("js").and(warp::fs::dir(server_root.join("js")));
+    let images = warp::path("images").and(warp::fs::dir(server_root.join("images")));
 
     let routes = warp::get().and(
         site
+        .or(css)
+        .or(js)
+        .or(images)
     );
 
     println!("website viewable at 127.0.0.1:8080");
