@@ -3,7 +3,7 @@ use std::{fs::File, io::{ self, Read }};
 use crate::metadata::Metadata;
 use yaml_front_matter::YamlFrontMatter;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Eq)]
 pub struct Page {
     pub metadata: Metadata,
     pub content: String
@@ -25,6 +25,13 @@ impl Page {
             },
             _ => Err(String::from("Could not parse file"))
         }
+    }
+}
+
+impl PartialEq for Page {
+    fn eq(&self, other: &Self) -> bool {
+        self.metadata == other.metadata &&
+        self.content == other.content
     }
 }
 
