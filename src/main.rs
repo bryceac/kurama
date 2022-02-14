@@ -17,6 +17,7 @@ use crate::{
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
 use pulldown_cmark::{ html, Parser};
+use std::{fs::File, io::{ self, Read }};
 
 
 lazy_static! {
@@ -36,7 +37,9 @@ fn main() {
     let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
     match render_page(&site_configuration, "hello.html") {
-        Ok(page) => println!("{}", page),
+        Ok(page) => if let Err(error) = save_html(&page, "~/Desktop/test.html") {
+            println!("{}", error);
+        },
         Err(error) => println!("{}", error)
     }
 }
@@ -73,5 +76,14 @@ fn render_page(config: &Configuration, p: &str) -> Result<String, String> {
     match TEMPLATES.render("page.html", &context) {
         Ok(output) => Ok(format!("{:#?}", output)),
         Err(errors) => Err(format!("{}", errors))
+    }
+}
+
+fn save_html(text: &str, path: &str) -> Result<(), String> {
+    let mut output = File::create(path);
+
+    match write!(output, "{}", String::from(text)) {
+        Ok(()) => Ok(()),
+        Err(error) => Err(format!("{}", error))
     }
 }
