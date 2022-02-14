@@ -1,5 +1,5 @@
 ---
 title: Hello, World!
-slug: hello
+slug: index
 ---
 # Welcome to oblivion!
