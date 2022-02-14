@@ -7,7 +7,6 @@ pub struct Configuration {
     #[serde(default = "String::default")]
     pub tagline: String,
     #[serde(default = "String::default")]
-    pub dev_url: String,
     pub url: String
 }
 
