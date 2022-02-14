@@ -10,7 +10,7 @@ use crate::{ configuration::Configuration, link::Link, section::Section, navigat
 use std:: { error::Error };
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
-use pulldown_cmark::{ html, Options, Parser};
+use pulldown_cmark::{ html, Parser};
 
 
 lazy_static! {
