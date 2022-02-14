@@ -20,9 +20,7 @@ use crate::{
 use tera::{ Context, Tera  };
 use std::{ fs::{ read_dir, 
     create_dir_all,
-    File
  },
- io::{ Read },
  path::Path
  };
  use warp::Filter;
@@ -116,20 +114,13 @@ async fn serve(config: &Configuration) {
 
     generate(config);
 
-    let home = warp::path::end().map(|| {
-        let mut file_content = String::new();
-        match File::open(server_root.join("index.html")) {
-            Ok(mut file) => match file.read_to_string(&mut file_content) {
-                Ok(_) => file_content,
-                Err(error) => format!("{}", error)
-            },
-            Err(error) => format!("{}", error)
-        }
-    });
+    let site = warp::path::end().and(warp::fs::dir(server_root));
 
     let routes = warp::get().and(
-        home
+        site
     );
+
+    println!("website viewable at 127.0.0.1:8080");
 
     warp::serve(routes)
     .run(([127, 0, 0, 1], 8080))
