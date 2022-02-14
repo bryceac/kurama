@@ -92,4 +92,121 @@ as that separates page information from the content of the page.
 
 ==Menus/Navigation==
 
-When setting up the
+When setting up the website's navigation, 
+you do so in two places, which are as follows:
+
+<ul>
+<li>The template</li>
+<li>links.json</li>
+</ul>
+
+===Template===
+
+In the template file, you need something like this:
+
+<pre>
+    <nav id="nav">
+        {% if sections %}
+            <ul>
+            {% for section in sections %}
+            <li>
+                {{ section.name }}
+                <ul>
+                    {% for link in section.links %}
+                        <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+            </ul>
+        {% elif links %}
+        <ul>
+        {% for link in links %}
+            <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </nav>
+</pre>
+
+While this may be a bit long for most needs, 
+since one should only need to check for either 
+<strong>sections</strong> or <strong>links</strong>, 
+this should give you and idea of what to implement for your needs.
+
+===JSON===
+
+The info from above is filled in with the data found in 
+<strong>links.json</strong>.
+
+To create sections links, you will do something like the following:
+
+<pre>
+[
+    {
+        "name": "Main",
+        "links": [
+            {
+                "name": "Home",
+                "url": "/"
+            }
+        ]
+    }
+]
+</pre>
+
+This creates a section called <strong>Main</strong> 
+with only one link back to the top level of the site.
+
+If you just want a list of links, you will do this instead:
+
+<pre>
+    [
+        {
+            "name": "Home",
+            "url": "/"
+        }
+    ]
+</pre>
+
+This creates a link back to the top level of the site on its own.
+
+When the site is generated, 
+the contents will be parsed to determine 
+the kind of navigation you seek and will send the variable 
+<strong>sections</strong> or <strong>links</strong> 
+over to your template.
+
+It is <strong>recommended</strong> 
+that you choose one of these styles rather than mix them, 
+as it makes things easier to maintain and layout.
+
+===Templates===
+
+Templates created in much the 
+same way as it is with 
+<a href="https://hyde.github.io/templates/index.html">Hyde</a>.
+
+However, unlike Hyde, the only available context objects are: 
+
+<dl>
+<dt style="font-weight:bold">site</dt>
+<dd>
+<p>This gives access to data concerning the website.</p>
+<p>You can get the website's title via <pre>site.name</pre>.</p>
+</dd>
+<dt style="font-weight:bold">page</dt>
+<dd>
+<p>This give access to details concerning the page.</p>
+<p>Things relating to page metadata are accessed via <pre>page.metadata</pre></p>
+<p>For example, to grab the title of the page, it is as easy as <pre>page.metadata.title</pre>
+</dd>
+</dl>
+
+To place the page content in a particular area, you would do this:
+
+<pre>
+{% block content %}
+    {{ content }}
+{% endblock content %}
+</pre>
