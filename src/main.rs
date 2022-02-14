@@ -37,7 +37,7 @@ fn main() {
     let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
     match render_page(&site_configuration, "hello.html") {
-        Ok(page) => if let Err(error) = save_html(&page, "~/Desktop/test.html") {
+        Ok(page) => if let Err(error) = save_html(&page, "/Users/bryce/Desktop/test.html") {
             println!("{}", error);
         },
         Err(error) => println!("{}", error)
