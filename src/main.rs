@@ -68,9 +68,11 @@ fn page_from_file(p: &str) -> Result<Page, String> {
 
 fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
     let page = p;
+
     let mut context = Context::new();
     context.insert("site", &config);
-    context.insert("page", &page.content_html());
+    context.insert("page", &page);
+    context.insert("content", &page.content_html());
 
     if let Some(sections) = menu_from::<Section>("links.json") {
         context.insert("sections", &sections);
