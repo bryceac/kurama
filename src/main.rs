@@ -6,7 +6,14 @@ mod page;
 mod section;
 
 
-use crate::{ configuration::Configuration, link::Link, section::Section, navigation_item::NavigationItem };
+use crate::{ 
+    configuration::Configuration, 
+    link::Link, 
+    section::Section, 
+    navigation_item::NavigationItem,
+    page::Page
+};
+
 use std:: { error::Error };
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
@@ -66,4 +73,17 @@ fn parse_string(text: &str) -> String {
     html::push_html(&mut html_output, parser);
 
     html_output
+}
+
+fn render_page(config: &Configuration, p: &str) -> Result<String, String> {
+    let mut page = Page::from_file(p)?;
+    let mut context = Context::new();
+    context.insert("site", &config);
+    page.content = parse_string(&page.content);
+    context.insert("page", &page);
+
+    match TEMPLATES.render("page.html", &context) {
+        Ok(output) => format!("{}", output),
+        Err(errors) => Err(format!("{}", errors))
+    }
 }
