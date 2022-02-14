@@ -2,7 +2,8 @@ use serde::{ Deserialize, Serialize };
 
 #[derive(Deserialize, Serialize, Eq )]
 pub struct Metadata {
-    pub title: String
+    pub title: String,
+    pub slug: String
 }
 
 impl PartialEq for Metadata {
