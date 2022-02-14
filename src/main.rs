@@ -1,3 +1,4 @@
+mod commands;
 mod configuration;
 mod link;
 mod navigation_item;

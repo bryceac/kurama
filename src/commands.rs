@@ -1,6 +1,9 @@
-use clap::Parser;
+use clap::{ AppSettings, Subcommand };
 
-#[derive(Parser)]
-pub struct New {
-    pub path: String
+#[derive(Subcommand)]
+pub enum Commands {
+    #[clap(setting(AppSettings::ArgRequiredElseHelp))]
+    New {
+        path: String
+    }
 }
