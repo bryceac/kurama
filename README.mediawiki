@@ -203,10 +203,16 @@ However, unlike Hyde, the only available context objects are:
 </dd>
 </dl>
 
-To place the page content in a particular area, you would do this:
+To place the page content in a particular area, you would do something like this:
 
 <pre>
 {% block content %}
     {{ content }}
 {% endblock content %}
 </pre>
+
+While it is not necessary for the block itself to be called 
+<strong>content</strong>, 
+The variable <strong>content</strong> is required because 
+that is what the program passes the HTML 
+version of the page content to the template.
