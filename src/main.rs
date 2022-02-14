@@ -1,5 +1,6 @@
 mod commands;
 mod configuration;
+mod kurama;
 mod link;
 mod navigation_item;
 mod metadata;
