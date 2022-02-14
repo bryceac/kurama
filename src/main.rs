@@ -58,7 +58,7 @@ fn page_from_file(p: &str) -> Result<Page, String> {
 }
 
 fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
-    let page = Page::from_file(p)?;
+    let page = p;
     let mut context = Context::new();
     context.insert("site", &config);
     context.insert("page", &page.content_html());
