@@ -10,7 +10,8 @@ mod save_string;
 
 
 use crate::{ 
-    configuration::Configuration, 
+    configuration::Configuration,
+    kurama::Kurama 
     link::Link, 
     section::Section, 
     navigation_item::NavigationItem,
@@ -31,6 +32,8 @@ use std::{ fs::{ read_dir,
 
  use fs_extra::{ dir };
 
+ use clap::Parser;
+
 
 
 lazy_static! {
@@ -49,7 +52,8 @@ lazy_static! {
 
 
 fn main() {
-    let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
+    // let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
+    let args = Kurama::parse();
 }
 
 fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
