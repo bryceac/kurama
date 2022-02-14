@@ -1,8 +1,8 @@
-use serde::{ Serialize };
+use serde::{ Deserialize, Serialize };
 use std::{fs::File, io::{ self, Read }};
 use crate::metadata::Metadata;
 
-#[derive(Serialize)]
+#[derive(Deserialize, Serialize)]
 pub struct Page {
     pub metadata: Metadata,
     pub content: String
