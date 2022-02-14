@@ -1,0 +1,95 @@
+=kurama=
+
+'''Description:''' Static site generator written in Rust
+'''Author:''' Bryce Campbell
+'''Copyright:''' 2022
+'''LICENSE:''' See LICENSE
+
+This project is currently a <abbr title="work in progress">WIP</abbr>, 
+and is design specifically for creating websites,
+rather than to handle blogs, which seems to be the focus of 
+<a href="https://github.com/cobalt-org/cobalt.rs">Cobalt</a> and 
+<a href="https://github.com/jekyll/jekyll">Jekyll</a>.
+
+This static site generator uses 
+<a href="https://github.com/Keats/tera">Tera</a> for templating 
+and supports Markdown.
+
+At this point in time, 
+the main program attempts to generate websites immediately 
+and serves the output via 
+<a href="https://github.com/seanmonstar/warp">Warp</a>. 
+For this reason, this project is not ready for use by others.
+
+==To Do==
+
+<ul>
+<li>Implement way to generate website file structure</li>
+<li>Implement <a href="https://crates.io/crates/clap">Clap</a></li>
+</ul>
+
+==Folder Hierarchy==
+
+The expected structure of a website is as follows:
+
+<pre>
+hello
+|_assets
+  |_css
+  |_js
+  |_images
+|_content
+|_templates
+|_output
+|_config.json
+|_links.json
+</pre>
+
+The templates folder contains the files to be used to layout your pages. 
+All files in here are automatically loaded in when the site gets generated
+and are expected to have html extensions.
+
+As of right now, 
+the only template file required is <strong>page.html</strong>, 
+which is used to take page content and generate the HTML.
+
+The content folder houses the webpages for the site and 
+can have any extensions, though the program expects Markdown content.
+
+config.json is used to set site settings, such as the name of the site.
+
+links.json is used for menus and navigation. Depending on the structure presented in the links file, 
+you will either get a list of links or a list of links broken up into sections.
+
+The assets folder holds files that are necessary for the website 
+and are copied over as is to the <strong>output</strong> folder, 
+which will contain the files that can be uploaded to a web host.
+
+However, the assets folder can only contain the folders as seen above in 
+the hierarchy. 
+
+There can be subfolders though, which <strong>should</strong> get copied over as well, but I am uncertain 
+if those files will get served by the serve included in this project.
+
+==Creating Pages==
+
+Pages are created like this inside the content folder:
+
+<pre>
+---
+title: Hello, World!
+slug: index
+---
+# Welcome to oblivion!
+</pre>
+
+<strong>title</strong> sets the page's title 
+and the <strong>slug</strong> sets the output filename, which the program will append 
+<strong>html</strong> upon generation.
+
+The three dashes seen are manadatory, 
+as that separates page information from the content of the page.
+
+==Menus/Navigation==
+
+When setting up the
