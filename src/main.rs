@@ -1,7 +1,10 @@
 mod configuration;
 mod link;
-mod section;
 mod navigation_item;
+mod metadata;
+mod page;
+mod section;
+
 
 use crate::{ configuration::Configuration, link::Link, section::Section, navigation_item::NavigationItem };
 use std:: { error::Error };
