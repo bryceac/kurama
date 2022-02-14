@@ -36,7 +36,7 @@ fn main() {
     let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
     match render_page(&site_configuration, "hello.html") {
-        Ok(page) => println!("{:?}", page),
+        Ok(page) => println!("{}", page),
         Err(error) => println!("{}", error)
     }
 }
