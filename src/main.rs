@@ -7,6 +7,7 @@ use crate::{ configuration::Configuration, link::Link, section::Section, navigat
 use std:: { error::Error };
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
+use pulldown_cmark::{ html, Options, Parser};
 
 
 lazy_static! {
@@ -55,17 +56,11 @@ fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
     }
 }
 
-fn render_page(configuration: &Configuration, page: &str, sections: &Option<Vec<Section>>, links: &Option<Vec<Link>>) -> Result<String, String> {
-    if let (Some(sections), Some(links)) {
-        Err(String::from("Links and Sections cannot be mixed like this. One of the two provided values must be None."))
-    }
+fn parse_string(text: &str) -> String {
+    let parser = Parser::new(text);
 
-    let mut context = Context::new();
-    context.insert("site", configuration);
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, parser);
 
-    if let Some(sections) = sections {
-        context.insert("sections", sections);
-    } else if let Some(links) = links {
-        context.insert("links", links);
-    }
+    html_output
 }
