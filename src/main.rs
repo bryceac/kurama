@@ -46,7 +46,11 @@ fn main() {
             if let Some(file_path) = entry.path().to_str() {
                 if let Ok(page) = page_from_file(file_path) {
                     if let Ok(html) = render_page(&site_configuration, &page) {
-                        let output_path = format!("{}.html", page.metadata.slug)
+                        let output_path = format!("{}.html", page.metadata.slug);
+
+                        if let Err(error) = html.save(&output_path) {
+                            println!("{}", error)
+                        }
                     }
                 }
             }
