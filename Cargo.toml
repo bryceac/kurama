@@ -16,3 +16,4 @@ yaml-front-matter = "0.1"
 tokio = { version = "1", features = ["full"]}
 warp = "0.3"
 fs_extra = "1.2"
+clap = { version = "3.0", features = ["derive"] }
