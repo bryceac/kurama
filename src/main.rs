@@ -19,11 +19,16 @@ use crate::{
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
 use std::{ fs::{ read_dir, 
-    create_dir_all,
+    create_dir_all
  },
- path::Path
+ path::{ Path,
+    PathBuf
+ }
  };
  use warp::Filter;
+
+ use fs_extra::{ dir, 
+    file };
 
 
 
@@ -85,6 +90,31 @@ fn generate(config: &Configuration) {
     if !Path::exists(output_path) {
         if let Err(error) = create_dir_all(output_path) {
             println!("{}", error)
+        }
+    }
+
+    if let Ok(assets) = read_dir("assets") {
+        for item in assets {
+            if let Ok(entry) = item {
+                let p = PathBuf::from(entry.path());
+
+                let mut directory_copy_options = dir::CopyOptions::new();
+                directory_copy_options.copy_inside = true;
+
+                let file_copy_options = file::CopyOptions::new();
+
+
+
+                if p.is_dir() {
+                    if let Err(error) = dir::copy(p, output_path.join(entry.path()), &directory_copy_options) {
+                        println!("{}", error)
+                    }
+                } else {
+                    if let Err(error) = file::copy(p, output_path.join(entry.path()), &file_copy_options) {
+                        println!("{}", error)
+                    }
+                }
+            }
         }
     }
 
