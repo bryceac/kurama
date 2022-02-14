@@ -12,7 +12,8 @@ use crate::{
     link::Link, 
     section::Section, 
     navigation_item::NavigationItem,
-    page::Page
+    page::Page,
+    save_string::Save
 };
 
 #[macro_use] extern crate lazy_static;
@@ -52,7 +53,11 @@ fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
     }
 }
 
-fn render_page(config: &Configuration, p: &str) -> Result<String, String> {
+fn page_from_file(p: &str) -> Result<Page, String> {
+    Page::from_file(p)
+}
+
+fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
     let page = Page::from_file(p)?;
     let mut context = Context::new();
     context.insert("site", &config);
@@ -68,8 +73,4 @@ fn render_page(config: &Configuration, p: &str) -> Result<String, String> {
         Ok(output) => Ok(format!("{:#}", output)),
         Err(errors) => Err(format!("{}", errors))
     }
-}
-
-fn save_html(text: &str, path: &str) -> Result<(), Error> {
-    
 }
