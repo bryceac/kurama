@@ -251,7 +251,6 @@ dependencies = [
  "serde_json",
  "serde_yaml",
  "tera",
- "walkdir",
  "yaml-front-matter",
 ]
 

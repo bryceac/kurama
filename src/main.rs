@@ -18,7 +18,7 @@ use crate::{
 
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
-use walkdir::{ WalkDir };
+use std::{ fs::read_dir };
 
 
 
@@ -39,20 +39,17 @@ lazy_static! {
 fn main() {
     let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
-    let walker = WalkDir::new("content").max_depth(1).into_iter();
-
-    for item in walker.filter_entry(|e| !e.path().is_dir()) {
-        if let Ok(entry) = item {
-            if let Some(file_path) = entry.path().to_str() {
-                if let Ok(page) = page_from_file(file_path) {
-                    if let Ok(html) = render_page(&site_configuration, &page) {
-                        let output_path = format!("{}.html", page.metadata.slug);
-
-                        if let Err(error) = html.save(&output_path) {
-                            println!("{}", error)
-                        }
-                    }
-                }
+    if let Ok(files) = read_dir("content") {
+        for item in files {
+            if let Ok(entry) = item {
+               if let Some(file_path) = entry.path().to_str() {
+                   if let Ok(page) = page_from_file(file_path) {
+                       match render_page(&site_configuration, &page) {
+                           Ok(html) => println!("{}", html),
+                           Err(error) => println!("{}", error)
+                       }
+                   }
+               }
             }
         }
     }
