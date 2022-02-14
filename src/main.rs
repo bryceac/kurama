@@ -16,7 +16,6 @@ use crate::{
 
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
-use pulldown_cmark::{ html, Parser};
 use std::{fs::File, io::{ Write, Error } };
 
 
@@ -52,21 +51,11 @@ fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
     }
 }
 
-fn parse_string(text: &str) -> String {
-    let parser = Parser::new(text);
-
-    let mut html_output = String::new();
-    html::push_html(&mut html_output, parser);
-
-    html_output
-}
-
 fn render_page(config: &Configuration, p: &str) -> Result<String, String> {
-    let mut page = Page::from_file(p)?;
+    let page = Page::from_file(p)?;
     let mut context = Context::new();
     context.insert("site", &config);
-    page.content = parse_string(&page.content);
-    context.insert("page", &page);
+    context.insert("page", &page.content_html());
 
     if let Some(sections) = menu_from::<Section>("links.json") {
         context.insert("sections", &sections);

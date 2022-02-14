@@ -2,6 +2,7 @@ use serde::{ Deserialize, Serialize };
 use std::{fs::File, io::{ self, Read }};
 use crate::metadata::Metadata;
 use yaml_front_matter::YamlFrontMatter;
+use pulldown_cmark::{ html, Parser};
 
 #[derive(Deserialize, Serialize, Eq)]
 pub struct Page {
@@ -25,6 +26,15 @@ impl Page {
             },
             _ => Err(String::from("Could not parse file"))
         }
+    }
+
+    pub fn content_html(&self) -> String {
+        let parser = Parser::new(&self.content);
+
+        let mut html_output = String::new();
+        html::push_html(&mut html_output, parser);
+
+        html_output
     }
 }
 
