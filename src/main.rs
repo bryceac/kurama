@@ -27,8 +27,7 @@ use std::{ fs::{ read_dir,
  };
  use warp::Filter;
 
- use fs_extra::{ dir, 
-    file };
+ use fs_extra::{ dir };
 
 
 
@@ -100,10 +99,7 @@ fn generate(config: &Configuration) {
 
                 let mut directory_copy_options = dir::CopyOptions::new();
                 directory_copy_options.copy_inside = true;
-
-                // let file_copy_options = file::CopyOptions::new();
-
-
+                directory_copy_options.overwrite = true;
 
                 if p.is_dir() {
                     if let Err(error) = dir::copy(p, output_path.join(entry.path().file_stem().unwrap()), &directory_copy_options) {
