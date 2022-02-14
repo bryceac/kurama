@@ -42,7 +42,7 @@ lazy_static! {
 fn main() {
     let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
-    
+    generate(&site_configuration)
 }
 
 fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
