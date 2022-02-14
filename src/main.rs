@@ -17,7 +17,7 @@ use crate::{
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
 use pulldown_cmark::{ html, Parser};
-use std::{fs::File, io::{ Write, Error }};
+use std::{fs::File, io::{ Write, Error } };
 
 
 lazy_static! {
@@ -79,11 +79,11 @@ fn render_page(config: &Configuration, p: &str) -> Result<String, String> {
     }
 }
 
-fn save_html(text: &str, path: &str) -> Result<(), String> {
-    let mut output = File::create(path);
+fn save_html(text: &str, path: &str) -> Result<(), Error> {
+    let mut output = File::create(path)?;
 
-    match write!(output, "{}", String::from(text)) {
+    match write!(output, "{}", text) {
         Ok(()) => Ok(()),
-        Err(error) => Err(format!("{}", error))
+        Err(error) => Err(error)
     }
 }
