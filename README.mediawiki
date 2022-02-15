@@ -21,14 +21,31 @@ and serves the output via
 <a href="https://github.com/seanmonstar/warp">Warp</a>. 
 For this reason, this project is not ready for use by others.
 
-==To Do==
+==Create Website==
 
-<ul>
-<li>Implement way to generate website file structure</li>
-<li>Implement <a href="https://crates.io/crates/clap">Clap</a></li>
-</ul>
+There are two ways of create a website, dependeing on what you want.
 
-==Folder Hierarchy==
+If you want to create a new directory to hold your website files, you can simply do this:
+
+<pre>
+kurama create path/to/directory
+</pre>
+
+This will create a folder with the same file hierarchy as seen below, 
+except for the <strong>links.json</strong> and output folder. 
+All nonexisting folders should be created with the site folder.
+
+If you want to make the current working directory 
+the location of your site files, 
+that can be done with something as simple as the following:
+
+<pre>
+kurama init
+</pre>
+
+This will create all necessary folders and generate a config file.
+
+==File Hierarchy==
 
 The expected structure of a website is as follows:
 
