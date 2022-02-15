@@ -10,6 +10,7 @@ mod save_string;
 
 
 use crate::{ 
+    commands::Commands,
     configuration::Configuration,
     kurama::Kurama,
     link::Link, 
@@ -56,7 +57,9 @@ fn main() {
     let args = Kurama::parse();
 
     match &args.command {
+        Commands::New { path } => {
 
+        }
     }
 }
 
@@ -136,6 +139,51 @@ fn generate(config: &Configuration) {
                }
             }
         }
+    }
+}
+
+fn new(path: &str) {
+    let site_path = Path::new(path);
+
+    if !Path::exists(site_path) {
+       if let Err(error) = create_dir_all(site_path) {
+           println!("{}", error)
+       }
+    }
+
+    if let Err(error) = create_dir_all(site_path.join("assets/css")) {
+        println!("{}", error)
+    }
+
+    if let Err(error) = create_dir_all(site_path.join("assets/js")) {
+        println!("{}", error)
+    }
+
+    if let Err(error) = create_dir_all(site_path.join("assets/images")) {
+        println!("{}", error)
+    }
+
+    if let Err(error) = create_dir_all(site_path.join("content")) {
+        println!("{}", error)
+    }
+
+    if let Err(error) = create_dir_all(site_path.join("templates")) {
+        println!("{}", error)
+    }
+
+    if let Err(error) = create_config(path) {
+        println!("{}", error)
+    }
+}
+
+fn create_config(path: &str) -> Result<(), String> {
+    let site_path = Path::new(path);
+
+    let config = Configuration::from("Hello, World!", "A Grand adventure");
+
+    match config.save(site_path.join("config.json").to_str().unwrap()) {
+        Ok(()) => Ok(()),
+        Err(error) => Err(format!("{}", error))
     }
 }
 
