@@ -58,7 +58,7 @@ fn main() {
 
     match &args.command {
         Commands::New { path } => {
-
+            new(&path)
         }
     }
 }
