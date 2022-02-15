@@ -55,9 +55,8 @@ lazy_static! {
 async fn main() {
     let args = Kurama::parse();
 
-    match &args.command {
+    match args.command {
         Commands::New { path } => {
-
             if path.starts_with("~") {
                 let expanded_path = shellexpand::tilde(&path).into_owned();
                 new(&expanded_path)
@@ -66,6 +65,8 @@ async fn main() {
                     if let Some(real_path) = expanded_path.to_str() {
                         new(&real_path)
                     }
+                } else {
+                    new(&path)
                 }
             }
         },
