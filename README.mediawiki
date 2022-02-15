@@ -1,8 +1,11 @@
 =kurama=
 
 '''Description:''' Static site generator written in Rust
+
 '''Author:''' Bryce Campbell
+
 '''Copyright:''' 2022
+
 '''LICENSE:''' See LICENSE
 
 This project is currently a <abbr title="work in progress">WIP</abbr>, 
