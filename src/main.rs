@@ -22,7 +22,7 @@ use crate::{
 
 #[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
-use std::{ fs::{ read_dir, 
+use std::{ fs::{ self, read_dir, 
     create_dir_all
  },
  path::{ Path,
@@ -57,7 +57,17 @@ async fn main() {
 
     match &args.command {
         Commands::New { path } => {
-            new(&path)
+
+            if path.starts_with("~") {
+                let expanded_path = shellexpand::tilde(&path).into_owned();
+                new(&expanded_path)
+            } else {
+                if let Ok(expanded_path) = fs::canonicalize(path.clone()) {
+                    if let Some(real_path) = expanded_path.to_str() {
+                        new(&real_path)
+                    }
+                }
+            }
         },
         Commands::Gen { } => {
             let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
