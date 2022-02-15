@@ -1,6 +1,7 @@
 use serde::{Serialize, Deserialize };
 use serde_json;
-use std::{fs::File, io::{ self, Read, Write }};
+use std::{fs::File, io::{ Read, Error }};
+use crate::save_string::Save;
 
 #[derive(Serialize, Deserialize)]
 pub struct Configuration {
@@ -30,18 +31,17 @@ impl Configuration {
         }
     }
 
-    pub fn save(&self, p: &str) -> Result<(), io::Error> {
-        let mut output = File::create(p);
+    pub fn save(&self, p: &str) -> Result<(), Error> {
         let json_string = serde_json::to_string_pretty(&self)?;
 
-        match write!(output, "{}", format!("{}", json_string)) {
+        match json_string.save(p) {
             Ok(()) => Ok(()),
             Err(error) => Err(error)
         }
     }
 }
 
-fn file_contents_from(f: &str) -> Result<String, io::Error> {
+fn file_contents_from(f: &str) -> Result<String, Error> {
     let mut file_content = String::new();
     File::open(f)?.read_to_string(&mut file_content)?;
 
