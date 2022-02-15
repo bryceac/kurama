@@ -35,6 +35,8 @@ use std::{ fs::{ self, read_dir,
 
  use clap::Parser;
 
+ use local_ip_address::local_ip;
+
 
 
 lazy_static! {
@@ -237,9 +239,11 @@ async fn serve(config: &Configuration) {
 
     let site = warp::get().and(warp::fs::dir(server_root));
 
-    println!("website viewable at 127.0.0.1:8080");
+    if let Ok(ip_address) = local_ip() {
+        println!("website viewable at {}:8080", ip_address);
+    }
 
     warp::serve(site)
-    .run(([127, 0, 0, 1], 8080))
+    .run(([0, 0, 0, 0], 8080))
     .await;
 }
