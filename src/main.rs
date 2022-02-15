@@ -51,8 +51,8 @@ lazy_static! {
     };
 }
 
-
-fn main() {
+#[tokio::main]
+async fn main() {
     // let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
     let args = Kurama::parse();
 
@@ -187,7 +187,7 @@ fn create_config(path: &str) -> Result<(), String> {
     }
 }
 
-#[tokio::main]
+
 async fn serve(config: &Configuration) {
     let server_root = Path::new("output");
 
