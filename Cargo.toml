@@ -1,7 +1,14 @@
 [package]
 name = "kurama"
 version = "0.1.0"
+authors = ["Bryce Campbell <tonyhawk2100@gmail.com>"]
 edition = "2021"
+license = "MIT"
+description = "Static site generator that uses the Tera template enginge."
+homepage = "https://github.com/bryceac/kurama"
+readme = "README.mediawiki"
+repository = "https://github.com/bryceac/kurama"
+keywords = ["kurama", "static", "site", "generator"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
