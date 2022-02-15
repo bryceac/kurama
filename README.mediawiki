@@ -241,6 +241,11 @@ However, unlike Hyde, the only available context objects are:
 <p>Things relating to page metadata are accessed via <pre>page.metadata</pre></p>
 <p>For example, to grab the title of the page, it is as easy as <pre>page.metadata.title</pre></p>
 </dd>
+<dt style="font-weight:bold">output_file</dt>
+<dd>
+<p>This is the file name that the current page will have when created.</p>
+<p>This can be used to make helpful navigation for your website.</p>
+</dd>
 </dl>
 
 To place the page content in a particular area, you would do something like this:
@@ -271,7 +276,7 @@ A minimal config file will look like this:
 }
 </pre>
 
-Right now, the configuration is quite minimal with only three keys, 
+Right now, the configuration is quite minimal with only four keys, 
 which are as follows:
 
 <dl>
@@ -286,6 +291,10 @@ The website's tagline.
 <dt style="font-weight:bold">url</dt>
 <dd>
 The website's URL.
+</dd>
+<dt style="font-weight:bold">author</dt>
+<dd>
+The website's creator or owner.
 </dd>
 </dl>
 
