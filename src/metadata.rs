@@ -2,6 +2,7 @@ use serde::{ Deserialize, Serialize };
 
 #[derive(Deserialize, Serialize, Eq )]
 pub struct Metadata {
+    #[serde(default="String::default")]
     pub title: String,
     pub slug: String
 }
