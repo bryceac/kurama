@@ -45,6 +45,15 @@ kurama init
 
 This will create all necessary folders and generate a config file.
 
+==Build Website==
+
+To build the website, after getting everything into place, 
+run the following in the directory containing your site files.
+
+<pre>
+
+</pre>
+
 ==File Hierarchy==
 
 The expected structure of a website is as follows:

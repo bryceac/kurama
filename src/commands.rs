@@ -6,7 +6,7 @@ pub enum Commands {
     Create {
         path: String
     },
-    Gen {},
+    Generate {},
     Init {},
     Serve {}
 }

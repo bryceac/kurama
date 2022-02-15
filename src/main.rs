@@ -71,7 +71,7 @@ async fn main() {
                 }
             }
         },
-        Commands::Gen { } => {
+        Commands::Generate { } => {
             let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
             generate(&site_configuration)
         },
