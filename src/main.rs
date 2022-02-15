@@ -230,7 +230,7 @@ async fn serve(config: &Configuration) {
 
     generate(config);
 
-    let site = warp::path::end().and(warp::fs::dir(server_root));
+    let site = warp::get().and(warp::fs::dir(server_root));
     let css = warp::path("css").and(warp::fs::dir(server_root.join("css")));
     let js = warp::path("js").and(warp::fs::dir(server_root.join("js")));
     let images = warp::path("images").and(warp::fs::dir(server_root.join("images")));
