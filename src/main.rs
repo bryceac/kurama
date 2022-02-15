@@ -147,7 +147,7 @@ fn generate(config: &Configuration) {
         for item in files {
             if let Ok(entry) = item {
                if let Some(file_path) = entry.path().to_str() {
-                   if let Ok(page) = page_from_file(file_path) {
+                   /* if let Ok(page) = page_from_file(file_path) {
                        if let Ok(html) = render_page(&config, &page) {
                            let output_file_name = format!("{}.html", page.metadata.slug);
 
@@ -157,6 +157,21 @@ fn generate(config: &Configuration) {
                                println!("{}", error)
                            }
                        }
+                   } */
+                   match page_from_file(file_path) {
+                       Ok(page) => match render_page(&config, &page) {
+                           Ok(html) => {
+                            let output_file_name = format!("{}.html", page.metadata.slug);
+
+                            let file_path = output_path.join(output_file_name);
+
+                            if let Err(error) = html.save(&file_path.to_str().unwrap()) {
+                                println!("{}", error)
+                            }
+                           },
+                           Err(error) => println!("{}", error)
+                       },
+                       Err(error) => println!("{}", error)
                    }
                }
             }
