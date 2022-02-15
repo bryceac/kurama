@@ -103,7 +103,7 @@ fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
     context.insert("site", &config);
     context.insert("page", &page);
     context.insert("content", &page.content_html());
-    context.insert("output_file", format!("{}.html", page.metadata.slug));
+    context.insert("output_file", &format!("{}.html", page.metadata.slug));
 
     if let Some(sections) = menu_from::<Section>("links.json") {
         context.insert("sections", &sections);
