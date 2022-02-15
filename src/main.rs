@@ -35,6 +35,10 @@ use std::{ fs::{ self, read_dir,
 
  use clap::Parser;
 
+ use std::{ sync::mpsc, time };
+
+ use notify::{ Watcher, RecursiveMode };
+
 
 
 lazy_static! {
@@ -228,7 +232,53 @@ fn create_config(path: &str) -> Result<(), String> {
 async fn serve(config: &Configuration) {
     let server_root = Path::new("output");
 
-    generate(config);
+    let (sender, receiver) = mpsc::channel();
+
+    let configuration = config.clone();
+
+    generate(&configuration);
+
+    tokio::spawn(async move {
+        let mut watcher = notify::watcher(sender, time::Duration::from_secs(1)).expect("Could not create watcher");
+        
+        if let Ok(expanded_path) = fs::canonicalize(".") {
+            if let Some(real_path) = expanded_path.to_str() {
+                watcher.watch(&real_path, RecursiveMode::NonRecursive).unwrap();
+
+                loop {
+                   match receiver.recv() {
+                       Ok(event) => {
+                           let event_path = match event {
+                               notify::DebouncedEvent::Create(ref path)
+                               | notify::DebouncedEvent::NoticeWrite(ref path)
+                               | notify::DebouncedEvent::Write(ref path)
+                               | notify::DebouncedEvent::NoticeRemove(ref path)
+                               | notify::DebouncedEvent::Remove(ref path) => Some(path),
+                               notify::DebouncedEvent::Rename(_, ref to) => Some(to),
+                               _ => None
+                           };
+
+                           let rebuild = if let Some(_) = event_path {
+                               if let Err(error) = dir::remove("output") {
+                                   println!("{}", error);
+                                   false
+                               } else {
+                                   true
+                               }
+                           } else {
+                               false
+                           };
+
+                           if rebuild {
+                               generate(&configuration);
+                           }
+                       },
+                       Err(error) => println!("{}", error) 
+                   }
+                }
+            }
+        }
+    });
 
     let site = warp::get().and(warp::fs::dir(server_root));
 

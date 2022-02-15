@@ -3,7 +3,7 @@ use serde_json;
 use std::{fs::File, io::{ Read, Error }};
 use crate::save_string::Save;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Configuration {
     pub name: String,
     #[serde(default = "String::default", skip_serializing_if = "String::is_empty")]
