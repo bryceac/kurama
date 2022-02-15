@@ -56,6 +56,11 @@ async fn main() {
     let args = Kurama::parse();
 
     match args.command {
+        Commands::Clean { } => {
+            if let Err(error) = dir::remove("output") {
+                println!("{}", error)
+            }
+        }
         Commands::Create { path } => {
             if path.starts_with("~") {
                 let expanded_path = shellexpand::tilde(&path);
