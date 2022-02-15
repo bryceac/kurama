@@ -7,5 +7,6 @@ pub enum Commands {
         path: String
     },
     Gen {},
+    Init {},
     Serve {}
 }

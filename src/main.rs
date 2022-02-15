@@ -75,6 +75,9 @@ async fn main() {
             let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
             generate(&site_configuration)
         },
+        Commands::Init { } => {
+            initialize_site()
+        },
         Commands::Serve { } => {
             let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
             serve(&site_configuration).await;
@@ -158,6 +161,14 @@ fn generate(config: &Configuration) {
                }
             }
         }
+    }
+}
+
+fn initialize_site() {
+    let site_path = ".";
+
+    if let Ok(real_path) = fs::canonicalize(site_path) {
+        new(real_path.to_str().unwrap())
     }
 }
 
