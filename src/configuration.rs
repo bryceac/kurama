@@ -8,6 +8,8 @@ pub struct Configuration {
     pub name: String,
     #[serde(default = "String::default", skip_serializing_if = "String::is_empty")]
     pub tagline: String,
+    #[serde(default = "String::default", skip_serializing_if= "String::is_empty")]
+    pub author: String,
     #[serde(default = "String::default", skip_serializing_if = "String::is_empty")]
     pub url: String
 }
@@ -27,6 +29,7 @@ impl Configuration {
         Self {
             name: String::from(n),
             tagline: String::from(t),
+            author: String::new(),
             url: String::default()
         }
     }
