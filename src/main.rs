@@ -231,20 +231,10 @@ async fn serve(config: &Configuration) {
     generate(config);
 
     let site = warp::get().and(warp::fs::dir(server_root));
-    let css = warp::path("css").and(warp::fs::dir(server_root.join("css")));
-    let js = warp::path("js").and(warp::fs::dir(server_root.join("js")));
-    let images = warp::path("images").and(warp::fs::dir(server_root.join("images")));
-
-    let routes = warp::get().and(
-        site
-        .or(css)
-        .or(js)
-        .or(images)
-    );
 
     println!("website viewable at 127.0.0.1:8080");
 
-    warp::serve(routes)
+    warp::serve(site)
     .run(([127, 0, 0, 1], 8080))
     .await;
 }
