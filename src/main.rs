@@ -53,12 +53,19 @@ lazy_static! {
 
 #[tokio::main]
 async fn main() {
-    // let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
     let args = Kurama::parse();
 
     match &args.command {
         Commands::New { path } => {
             new(&path)
+        },
+        Commands::Gen { } => {
+            let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
+            generate(&site_configuration)
+        },
+        Commands::Serve { } => {
+            let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
+            serve(&site_configuration).await;
         }
     }
 }

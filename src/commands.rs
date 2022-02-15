@@ -5,5 +5,7 @@ pub enum Commands {
     #[clap(setting(AppSettings::ArgRequiredElseHelp))]
     New {
         path: String
-    }
+    },
+    Gen {},
+    Serve {}
 }
