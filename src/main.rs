@@ -58,7 +58,8 @@ async fn main() {
     match args.command {
         Commands::New { path } => {
             if path.starts_with("~") {
-                let expanded_path = shellexpand::tilde(&path).into_owned();
+                let expanded_path = shellexpand::tilde(&path);
+
                 new(&expanded_path)
             } else {
                 if let Ok(expanded_path) = fs::canonicalize(path.clone()) {
