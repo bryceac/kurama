@@ -15,12 +15,6 @@ This static site generator uses
 <a href="https://github.com/Keats/tera">Tera</a> for templating 
 and supports Markdown.
 
-At this point in time, 
-the main program attempts to generate websites immediately 
-and serves the output via 
-<a href="https://github.com/seanmonstar/warp">Warp</a>. 
-For this reason, this project is not ready for use by others.
-
 ==Create Website==
 
 There are two ways of create a website, dependeing on what you want.
@@ -51,8 +45,28 @@ To build the website, after getting everything into place,
 run the following in the directory containing your site files.
 
 <pre>
-
+kurama generate
 </pre>
+
+This will create an output directory, 
+which contained the generated HTML files 
+and the assets that were copied over.
+
+==Preview Website==
+
+If you would like to preview your website before publishing it,
+run the following in the directory containing your site files:
+
+<pre>
+kurama serve
+</pre>
+
+This starts a server on your local machine that listens on port 8080.
+
+The content is served from the output directory.
+
+The server has a default index of 
+<strong>index.html</strong>.
 
 ==File Hierarchy==
 
