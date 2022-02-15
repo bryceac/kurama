@@ -3,7 +3,7 @@ use clap::{ AppSettings, Subcommand };
 #[derive(Subcommand)]
 pub enum Commands {
     #[clap(setting(AppSettings::ArgRequiredElseHelp))]
-    New {
+    Create {
         path: String
     },
     Gen {},
