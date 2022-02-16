@@ -40,7 +40,7 @@ use std::{ fs::{ self, read_dir,
 
  use tokio::time;
 
-use futures::{ executor, future };
+use futures::{ future };
 
 lazy_static! {
     pub static ref TEMPLATES: Tera = {

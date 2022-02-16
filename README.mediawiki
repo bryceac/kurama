@@ -1,6 +1,6 @@
 =kurama=
 
-'''Version:''' 0.1
+'''Version:''' 0.1.1
 
 '''Description:''' Simple Static site generator written in Rust
 
@@ -21,6 +21,22 @@ with minimal effort,
 and break up the navigation from general configuration.
 
 This static site generator is my homebrewed solution to that trouble.
+
+==Version History==
+
+<dl>
+<dt style="font-weight:bold">0.1.1</dt>
+<dd>
+<p>Minor Update.</p>
+<p>Add naive file watching to dev server.</p>
+<p>Released Feb. 16, 2022</p>
+</dd>
+<dt style="font-weight:bold">0.1</dt>
+<dd>
+<p>Initial release.</p>
+<p>Released Feb. 15, 2022</p>
+</dd>
+</dl>
 
 ==Installing==
 
@@ -82,6 +98,10 @@ The content is served from the output directory.
 
 The server has a default index of 
 <strong>index.html</strong>.
+
+While the server is running, 
+the output folder will be recreated every 10 seconds, 
+so changes made to the content will be visible shortly after saving.
 
 ==File Hierarchy==
 
