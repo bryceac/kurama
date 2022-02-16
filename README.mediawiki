@@ -76,7 +76,7 @@ run the following in the directory containing your site files:
 kurama serve
 </pre>
 
-This starts a server on your local machine that listens on port 8080.
+This starts a server on your local machine that listens to any incoming traffic on port 8080.
 
 The content is served from the output directory.
 
