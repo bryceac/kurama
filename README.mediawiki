@@ -8,15 +8,13 @@
 
 '''LICENSE:''' See LICENSE
 
-This project is currently a <abbr title="work in progress">WIP</abbr>, 
-and is design specifically for creating websites,
-rather than to handle blogs, which seems to be the focus of 
-<a href="https://github.com/cobalt-org/cobalt.rs">Cobalt</a> and 
-<a href="https://github.com/jekyll/jekyll">Jekyll</a>.
+==Installing==
 
-This static site generator uses 
-<a href="https://github.com/Keats/tera">Tera</a> for templating 
-and supports Markdown.
+To install this application, 
+download the appropriate installer file 
+and install it like you would typically do.
+
+The mac package is both both Intel and Apple Silicon macs.
 
 ==Create Website==
 
@@ -133,6 +131,8 @@ and the <strong>slug</strong> sets the output filename, which the program will a
 The three dashes seen are manadatory, 
 as that separates page information from the content of the page.
 
+If you so desire, You can use inline HTML for the content.
+
 ==Menus/Navigation==
 
 When setting up the website's navigation, 
@@ -226,9 +226,9 @@ as it makes things easier to maintain and layout.
 
 ===Templates===
 
-Templates created in much the 
-same way as it is with 
-<a href="https://hyde.github.io/templates/index.html">Hyde</a>.
+The templating engine used is called <a href="https://github.com/Keats/tera">Tera</a> template engine, which means Templates created in much the 
+same way as they are with 
+<a href="https://hyde.github.io/templates/index.html">Hyde</a> and other static site generators that use Jinja templates.
 
 However, unlike Hyde, the only available context objects are: 
 
