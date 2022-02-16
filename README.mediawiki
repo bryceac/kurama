@@ -1,12 +1,26 @@
 =kurama=
 
-'''Description:''' Static site generator written in Rust
+'''Version:''' 0.1
+
+'''Description:''' Simple Static site generator written in Rust
 
 '''Author:''' Bryce Campbell
 
 '''Copyright:''' 2022
 
 '''LICENSE:''' See LICENSE
+
+While there are many static site generators out there, 
+one of which also uses a Jinja-like templating engine, 
+I wanted a system in which I could 
+specify configuration in the JSON format and 
+utilizing Jinja, 
+so that I could migrate my own website from 
+<a href="https://blog.getpelican.com/">Pelican</a> 
+with minimal effort, 
+and break up the navigation from general configuration.
+
+This static site generator is my homebrewed solution to that trouble.
 
 ==Installing==
 
