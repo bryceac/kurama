@@ -27,7 +27,8 @@ use std::{ fs::{ self, read_dir,
  },
  path::{ Path,
     PathBuf
- }
+ },
+ time::Duration
  };
  use warp::Filter;
 
@@ -37,7 +38,9 @@ use std::{ fs::{ self, read_dir,
 
  use local_ip_address::local_ip;
 
+ use tokio::time;
 
+use futures::{ executor, future };
 
 lazy_static! {
     pub static ref TEMPLATES: Tera = {
@@ -59,9 +62,7 @@ async fn main() {
 
     match args.command {
         Commands::Clean { } => {
-            if let Err(error) = dir::remove("output") {
-                println!("{}", error)
-            }
+            remove_output_folder().await;
         }
         Commands::Create { path } => {
             if path.starts_with("~") {
@@ -79,15 +80,13 @@ async fn main() {
             }
         },
         Commands::Generate { } => {
-            let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
-            generate(&site_configuration)
+            generate().await;
         },
         Commands::Init { } => {
             initialize_site()
         },
         Commands::Serve { } => {
-            let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
-            serve(&site_configuration).await;
+            serve().await;
         }
     }
 }
@@ -126,7 +125,7 @@ fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
     }
 }
 
-fn generate(config: &Configuration) {
+async fn generate() {
     let output_path = Path::new("output");
 
     if !Path::exists(output_path) {
@@ -134,6 +133,8 @@ fn generate(config: &Configuration) {
             println!("{}", error)
         }
     }
+
+    let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
 
     if let Ok(assets) = read_dir("assets") {
         for item in assets {
@@ -158,7 +159,7 @@ fn generate(config: &Configuration) {
             if let Ok(entry) = item {
                if let Some(file_path) = entry.path().to_str() {
                    match page_from_file(file_path) {
-                       Ok(page) => match render_page(&config, &page) {
+                       Ok(page) => match render_page(&site_configuration, &page) {
                            Ok(html) => {
                             let output_file_name = format!("{}.html", page.metadata.slug);
 
@@ -232,10 +233,12 @@ fn create_config(path: &str) -> Result<(), String> {
 }
 
 
-async fn serve(config: &Configuration) {
+async fn serve() {
     let server_root = Path::new("output");
 
-    generate(&config);
+    if Path::exists(server_root) {
+        generate().await;
+    }
 
     let site = warp::get().and(warp::fs::dir(server_root));
 
@@ -243,7 +246,32 @@ async fn serve(config: &Configuration) {
         println!("website viewable at {}:8080", ip_address);
     }
 
-    warp::serve(site)
+    let (_clean, _server) = future::join(warp::serve(site)
+    .run(([0, 0, 0, 0], 8080)), refresh_output_folder()).await;
+
+    /* warp::serve(site)
     .run(([0, 0, 0, 0], 8080))
-    .await;
+    .await; */
+}
+
+async fn remove_output_folder() {
+    if let Err(error) = dir::remove("output") {
+        println!("{}", error)
+    }
+}
+
+async fn refresh_output_folder() {
+    let refresh_output = tokio::task::spawn(async {
+        let mut interval = time::interval(Duration::from_secs(10));
+
+        loop {
+            interval.tick().await;
+            remove_output_folder().await;
+            generate().await;
+        }
+    });
+
+    if let Err(error) = refresh_output.await {
+        println!("{}", error)
+    }
 }
