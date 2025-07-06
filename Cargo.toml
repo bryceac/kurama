@@ -35,10 +35,10 @@ A static site generator written in Rust and uses JSON configuration."""
 section = "unknown"
 priority = "optional"
 assets = [
-    ["target/release/rcheckbook", "usr/local/bin/", "755"],
+    ["target/release/kurama", "usr/local/bin/", "755"],
 ]
 
 [package.metadata.generate-rpm]
 assets = [
-    { source = "target/release/rcheckbook", dest = "/usr/local/bin/", mode = "755" },
+    { source = "target/release/kurama", dest = "/usr/local/bin/", mode = "755" },
 ]
