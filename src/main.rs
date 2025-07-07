@@ -17,7 +17,7 @@ mod save_string;
 use crate::{
     create::Create as Create, 
     commands::Commands,
-    configuration::Configuration,
+    configuration::Configuration as Configuration,
     kurama::Kurama,
     link::Link, 
     section::Section, 

@@ -1,5 +1,6 @@
 use clap::Parser;
 use std::{ fs::create_dir_all, path::Path };
+use crate::Configuration;
 
 #[derive(Parser)]
 #[clap(about = "create a project directory at the given path", long_about = None)]
@@ -37,8 +38,19 @@ impl Create {
             println!("{}", error)
         }
     
-        if let Err(error) = create_config(path) {
+        if let Err(error) = create_config(&self.path) {
             println!("{}", error)
         }
+    }
+}
+
+fn create_config(path: &str) -> Result<(), String> {
+    let site_path = Path::new(path);
+
+    let config = Configuration::from("Hello, World!", "A Grand adventure");
+
+    match config.save(site_path.join("config.json").to_str().unwrap()) {
+        Ok(()) => Ok(()),
+        Err(error) => Err(format!("{}", error))
     }
 }
