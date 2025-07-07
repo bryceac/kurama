@@ -15,7 +15,8 @@ mod save_string;
 
 
 use crate::{
-    create::Create as Create, 
+    create::Create as Create,
+    init::Init as Init, 
     commands::Commands,
     configuration::Configuration as Configuration,
     kurama::Kurama,
@@ -180,14 +181,6 @@ async fn generate() {
                }
             }
         }
-    }
-}
-
-fn initialize_site() {
-    let site_path = ".";
-
-    if let Ok(real_path) = fs::canonicalize(site_path) {
-        new(real_path.to_str().unwrap())
     }
 }
 

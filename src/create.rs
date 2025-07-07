@@ -9,7 +9,13 @@ pub struct Create {
 }
 
 impl Create {
-    fn run(&self) {
+    pub fn from(p: &str) -> Self {
+        Self {
+            path: String::from(p)
+        }
+    }
+
+    pub fn run(&self) {
         let site_path = Path::new(&self.path);
     
         if !Path::exists(site_path) {
