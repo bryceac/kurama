@@ -7,7 +7,7 @@ use std::fs;
 pub struct Init {}
 
 impl Init {
-    pub fn run() {
+    pub fn run(&self) {
         let site_path = ".";
     
         match fs::canonicalize(site_path) {

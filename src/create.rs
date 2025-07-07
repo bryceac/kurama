@@ -15,7 +15,7 @@ impl Create {
         }
     }
 
-    pub fn run(&self) {
+    pub async fn run(&self) {
         let site_path = Path::new(&self.path);
     
         if !Path::exists(site_path) {
