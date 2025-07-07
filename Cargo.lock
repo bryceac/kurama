@@ -853,7 +853,6 @@ dependencies = [
  "clap",
  "fs_extra",
  "futures",
- "lazy_static",
  "local-ip-address",
  "pulldown-cmark",
  "serde",
