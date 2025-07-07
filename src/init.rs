@@ -7,12 +7,12 @@ use std::fs;
 pub struct Init {}
 
 impl Init {
-    pub fn run(&self) {
+    pub async fn run(&self) {
         let site_path = ".";
     
         match fs::canonicalize(site_path) {
             Ok(real_path) => if let Some(real_path) = real_path.to_str() {
-                Create::from(real_path).run()
+                Create::from(real_path).run().await
             },
             Err(error) => println!("{}", error)
         }

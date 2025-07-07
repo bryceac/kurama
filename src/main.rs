@@ -38,10 +38,10 @@ async fn main() {
     let site = Kurama::parse();
 
     match site.command {
-        Commands::Clean(clean) => clean.run(),
-        Commands::Create(create) => create.run(),
-        Commands::Generate(generate) => generate.run(),
-        Commands::Init(initializer) => initializer.run(),
-        Commands::Serve(serve) => serve.run()
+        Commands::Clean(clean) => clean.run().await,
+        Commands::Create(create) => create.run().await,
+        Commands::Generate(generate) => generate.run().await,
+        Commands::Init(initializer) => initializer.run().await,
+        Commands::Serve(serve) => serve.run().await
     }
 }
