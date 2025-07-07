@@ -14,5 +14,5 @@ pub enum Commands {
     Init {},
     #[clap(about = "start dev server, to preview a website", long_about = None)]
     Serve {} */
-    Clean()
+    Create()
 }
