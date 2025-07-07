@@ -31,7 +31,7 @@ impl Page {
                     Err(error) => Err(format!("{}", error))
                 }
             },
-            _ => Err(String::from("Could not parse file"))
+            Err(error) => Err(format!("{}", error))
         }
     }
 
