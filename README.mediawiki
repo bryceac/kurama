@@ -1,6 +1,6 @@
 =kurama=
 
-'''Version:''' 0.1.1
+'''Version:''' 0.2.0
 
 '''Description:''' Simple Static site generator written in Rust
 
@@ -25,6 +25,14 @@ This static site generator is my homebrewed solution to that trouble.
 ==Version History==
 
 <dl>
+<dt style="font-weight:bold">0.2.0</dt>
+<dd>
+<p>Minor Update.</p>
+<p>Update dependencies and break code into separate modules.</p>
+<p>Because of the changes, 
+this program will only compile with Rust edition 2024 or later.</p>
+<p>To Be Released</p>
+</dd>
 <dt style="font-weight:bold">0.1.1</dt>
 <dd>
 <p>Minor Update.</p>
