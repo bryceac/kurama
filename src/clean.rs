@@ -6,7 +6,7 @@ use fs_extra::dir;
 pub struct Clean {}
 
 impl Clean {
-    pub async fn run() {
+    pub async fn run(&self) {
         if let Err(error) = dir::remove("output") {
             println!("{}", error)
         }

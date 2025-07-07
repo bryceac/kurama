@@ -19,6 +19,7 @@ use crate::{
     create::Create as Create,
     generate::Generate as Generate,
     init::Init as Init, 
+    serve::Serve as Serve
     commands::Commands,
     configuration::Configuration as Configuration,
     kurama::Kurama,

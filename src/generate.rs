@@ -31,7 +31,7 @@ static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
 pub struct Generate {}
 
 impl Generate {
-    pub async fn run() {
+    pub async fn run(&self) {
         let output_path = Path::new("output");
     
         if !Path::exists(output_path) {
