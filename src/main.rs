@@ -24,7 +24,7 @@ use crate::{
     link::Link, 
     section::Section, 
     navigation_item::NavigationItem,
-    page::Page,
+    page::Page as Page,
     save_string::Save
 };
 
@@ -102,10 +102,6 @@ fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
         Ok(items) => Some(items),
         _ => None
     }
-}
-
-fn page_from_file(p: &str) -> Result<Page, String> {
-    Page::from_file(p)
 }
 
 fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
