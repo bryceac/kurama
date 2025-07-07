@@ -271,7 +271,5 @@ async fn refresh_output_folder() {
         }
     });
 
-    if let Err(error) = refresh_output.await {
-        println!("{}", error)
-    }
+    let _ = refresh_output.await;
 }
