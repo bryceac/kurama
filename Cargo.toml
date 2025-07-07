@@ -16,7 +16,6 @@ keywords = ["kurama", "static", "site", "generator"]
 tera = "1"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-pulldown-cmark = "0.9"
 yaml-front-matter = "0.1"
 tokio = { version = "1", features = ["full"]}
 warp = "0.3"
