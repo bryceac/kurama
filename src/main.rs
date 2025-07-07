@@ -15,6 +15,7 @@ mod save_string;
 
 
 use crate::{
+    clean::Clean as Clean,
     create::Create as Create,
     init::Init as Init, 
     commands::Commands,
@@ -249,12 +250,6 @@ async fn serve() {
     /* warp::serve(site)
     .run(([0, 0, 0, 0], 8080))
     .await; */
-}
-
-async fn remove_output_folder() {
-    if let Err(error) = dir::remove("output") {
-        println!("{}", error)
-    }
 }
 
 async fn refresh_output_folder() {

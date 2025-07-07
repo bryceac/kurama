@@ -1,5 +1,5 @@
 use clap::Parser;
-use crate::{ Create, Init };
+use crate::{ Clean, Create, Init };
 
 #[derive(Parser)]
 pub enum Commands {
@@ -15,6 +15,7 @@ pub enum Commands {
     Init {},
     #[clap(about = "start dev server, to preview a website", long_about = None)]
     Serve {} */
+    Clean(Clean),
     Create(Create),
     Init(Init)
 }
