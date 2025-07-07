@@ -27,6 +27,7 @@ clap = { version = "3.0", features = ["derive"] }
 shellexpand = "2.1"
 local-ip-address = "0.4"
 futures = "0.3"
+serde_yaml_bw = "2.0.1"
 
 [package.metadata.deb]
 license-file = ["LICENSE", "4"]
