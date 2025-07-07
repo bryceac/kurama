@@ -1,6 +1,6 @@
 [package]
 name = "kurama"
-version = "0.2"
+version = "0.2.0"
 authors = ["Bryce Campbell <tonyhawk2100@gmail.com>"]
 edition = "2024"
 license = "MIT"
