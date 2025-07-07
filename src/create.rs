@@ -1,3 +1,44 @@
+use clap::Parser;
+use std::{ fs::create_dir_all, path::Path };
+
+#[derive(Parser)]
+#[clap(about = "create a project directory at the given path", long_about = None)]
 pub struct Create {
     pub path: String
+}
+
+impl Create {
+    fn run(&self) {
+        let site_path = Path::new(&self.path);
+    
+        if !Path::exists(site_path) {
+           if let Err(error) = create_dir_all(site_path) {
+               println!("{}", error)
+           }
+        }
+    
+        if let Err(error) = create_dir_all(site_path.join("assets/css")) {
+            println!("{}", error)
+        }
+    
+        if let Err(error) = create_dir_all(site_path.join("assets/js")) {
+            println!("{}", error)
+        }
+    
+        if let Err(error) = create_dir_all(site_path.join("assets/images")) {
+            println!("{}", error)
+        }
+    
+        if let Err(error) = create_dir_all(site_path.join("content")) {
+            println!("{}", error)
+        }
+    
+        if let Err(error) = create_dir_all(site_path.join("templates")) {
+            println!("{}", error)
+        }
+    
+        if let Err(error) = create_config(path) {
+            println!("{}", error)
+        }
+    }
 }
