@@ -31,7 +31,7 @@ This static site generator is my homebrewed solution to that trouble.
 <p>Update dependencies and break code into separate modules.</p>
 <p>Because of the changes, 
 this program will only compile with Rust edition 2024 or later.</p>
-<p>To Be Released</p>
+<p>To Be Released Jul 7, 2025</p>
 </dd>
 <dt style="font-weight:bold">0.1.1</dt>
 <dd>
