@@ -1,5 +1,5 @@
 use clap::Parser;
-use crate::{ Clean, Create, Init };
+use crate::{ Clean, Create, Init, Generate };
 
 #[derive(Parser)]
 pub enum Commands {
@@ -17,5 +17,6 @@ pub enum Commands {
     Serve {} */
     Clean(Clean),
     Create(Create),
+    Generate(Generate),
     Init(Init)
 }

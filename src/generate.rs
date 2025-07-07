@@ -3,16 +3,35 @@ use std::{ fs::{
     create_dir_all,
     read_dir 
 }, path::{ Path, 
-    PathBuf } };
-use crate::{ Configuration, Page };
+    PathBuf },
+    sync::LazyLock, };
+use crate::{ Configuration,
+    Link,
+    NavigationItem, 
+    Page,
+    Save,
+    Section };
 use fs_extra::dir;
-use tera::Context;
+use tera::{ Context, Tera };
+
+static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
+    let mut tera = match Tera::new("templates/*.html") {
+            Ok(t) => t,
+            Err(error) => {
+                println!("Parsing error(s): {}", error);
+                ::std::process::exit(1);
+            }
+        };
+        tera.autoescape_on(vec![]);
+        tera
+});
 
 #[derive(Default, Parser)]
+#[clap(about = "build the website", long_about = None)]
 pub struct Generate {}
 
 impl Generate {
-    async fn run() {
+    pub async fn run() {
         let output_path = Path::new("output");
     
         if !Path::exists(output_path) {
@@ -87,5 +106,12 @@ fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
     match TEMPLATES.render("page.html", &context) {
         Ok(output) => Ok(format!("{:#}", output)),
         Err(errors) => Err(format!("{}", errors))
+    }
+}
+
+fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
+    match T::from_file(f) {
+        Ok(items) => Some(items),
+        _ => None
     }
 }

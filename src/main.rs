@@ -17,15 +17,16 @@ mod save_string;
 use crate::{
     clean::Clean as Clean,
     create::Create as Create,
+    generate::Generate as Generate,
     init::Init as Init, 
     commands::Commands,
     configuration::Configuration as Configuration,
     kurama::Kurama,
-    link::Link, 
-    section::Section, 
-    navigation_item::NavigationItem,
+    link::Link as Link, 
+    section::Section as Section, 
+    navigation_item::NavigationItem as NavigationItem,
     page::Page as Page,
-    save_string::Save
+    save_string::Save as Save
 };
 
 use tera::{ Context, Tera  };
