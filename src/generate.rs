@@ -86,32 +86,3 @@ impl Generate {
     }
 }
 
-fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
-    let page = p;
-
-    let output_url = format!("{}.html", page.metadata.slug);
-
-    let mut context = Context::new();
-    context.insert("site", &config);
-    context.insert("page", &page);
-    context.insert("content", &page.content_html());
-    context.insert("output_file", &output_url);
-
-    if let Some(sections) = menu_from::<Section>("links.json") {
-        context.insert("sections", &sections);
-    } else if let Some(links) = menu_from::<Link>("links.json") {
-        context.insert("links", &links);
-    }
-
-    match TEMPLATES.render("page.html", &context) {
-        Ok(output) => Ok(format!("{:#}", output)),
-        Err(errors) => Err(format!("{}", errors))
-    }
-}
-
-fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
-    match T::from_file(f) {
-        Ok(items) => Some(items),
-        _ => None
-    }
-}
