@@ -6,13 +6,10 @@ use std::{ fs::{
     PathBuf },
     sync::LazyLock, };
 use crate::{ Configuration,
-    Link,
-    NavigationItem, 
     Page,
-    Save,
-    Section };
+    Save };
 use fs_extra::dir;
-use tera::{ Context, Tera };
+use tera::Tera;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
     let mut tera = match Tera::new("templates/*.html") {
@@ -65,7 +62,7 @@ impl Generate {
                 if let Ok(entry) = item {
                    if let Some(file_path) = entry.path().to_str() {
                        match Page::from_file(file_path) {
-                           Ok(page) => match render_page(&site_configuration, &page) {
+                           Ok(page) => match page.render(&site_configuration, &TEMPLATES) {
                                Ok(html) => {
                                 let output_file_name = format!("{}.html", page.metadata.slug);
     

@@ -1,8 +1,15 @@
 use serde::{ Deserialize, Serialize };
-use std::{fs::File, io::{ self, Read }};
-use crate::metadata::Metadata;
+use std::{fs::File, 
+    io::{ self, Read },
+sync::LazyLock };
+use crate::{ Configuration, 
+    Link, 
+    metadata::Metadata, 
+    NavigationItem, 
+    Section };
 use yaml_front_matter::YamlFrontMatter;
 use pulldown_cmark::{ html, Parser};
+use tera::{ Context, Tera };
 
 #[derive(Deserialize, Serialize, Eq)]
 pub struct Page {
@@ -37,15 +44,13 @@ impl Page {
         html_output
     }
 
-    fn render_page(config: &Configuration, p: &Page) -> Result<String, String> {
-        let page = p;
-    
-        let output_url = format!("{}.html", page.metadata.slug);
+    pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>) -> Result<String, String> {
+        let output_url = format!("{}.html", self.metadata.slug);
     
         let mut context = Context::new();
         context.insert("site", &config);
-        context.insert("page", &page);
-        context.insert("content", &page.content_html());
+        context.insert("page", &self);
+        context.insert("content", &self.content_html());
         context.insert("output_file", &output_url);
     
         if let Some(sections) = menu_from::<Section>("links.json") {
@@ -54,7 +59,7 @@ impl Page {
             context.insert("links", &links);
         }
     
-        match TEMPLATES.render("page.html", &context) {
+        match templates.render("page.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),
             Err(errors) => Err(format!("{}", errors))
         }
