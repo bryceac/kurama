@@ -1,11 +1,10 @@
-use clap::{ AppSettings, Subcommand };
+use clap::Parser;
 
-#[derive(Subcommand)]
+#[derive(Parser)]
 pub enum Commands {
     #[clap(about = "deletes the output directory", long_about = None)]
     Clean {},
     #[clap(about = "create a project directory at the given path", long_about = None)]
-    #[clap(setting(AppSettings::ArgRequiredElseHelp))]
     Create {
         path: String
     },
