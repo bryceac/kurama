@@ -20,7 +20,6 @@ use crate::{
     save_string::Save
 };
 
-#[macro_use] extern crate lazy_static;
 use tera::{ Context, Tera  };
 use std::{ fs::{ self, read_dir, 
     create_dir_all
@@ -28,6 +27,7 @@ use std::{ fs::{ self, read_dir,
  path::{ Path,
     PathBuf
  },
+ sync::LazyLock,
  time::Duration
  };
  use warp::Filter;
@@ -42,9 +42,8 @@ use std::{ fs::{ self, read_dir,
 
 use futures::{ future };
 
-lazy_static! {
-    pub static ref TEMPLATES: Tera = {
-        let mut tera = match Tera::new("templates/*.html") {
+static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
+    let mut tera = match Tera::new("templates/*.html") {
             Ok(t) => t,
             Err(error) => {
                 println!("Parsing error(s): {}", error);
@@ -53,8 +52,7 @@ lazy_static! {
         };
         tera.autoescape_on(vec![]);
         tera
-    };
-}
+});
 
 #[tokio::main]
 async fn main() {
