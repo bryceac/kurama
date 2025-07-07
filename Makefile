@@ -8,12 +8,12 @@ install: build
 ifneq (, $(findstring darwin, $(SYS)))
 	test ! -d $(resourcedir) && mkdir -p $(resourcedir)
 
-	install "target/release/nikki" "$(bindir)/nikki"
+	install "target/release/kurama" "$(bindir)/kurama"
 else
-	install -D "target/release/nikki" "$(bindir)/nikki"
+	install -D "target/release/kurama" "$(bindir)/kurama"
 endif
 uninstall:
-	rm -rf "$(bindir)/nikki"
+	rm -rf "$(bindir)/kurama"
 clean:
 	rm -rf target
 .PHONY: build install uninstall clean
