@@ -1,3 +1,5 @@
+use std::{ fs, path::{ Path, PathBuf } };
+use fs_extra::dir;
 pub struct Store {
     assets: String,
     content_dir: String,
@@ -13,7 +15,7 @@ impl Store {
 
     pub fn copy_assets(&self, p: &str) {
         let output_path = Path::new(p);
-        if let Ok(assets) = read_dir("assets") {
+        if let Ok(assets) = fs::read_dir(self.assets.clone()) {
             for item in assets {
                 if let Ok(entry) = item {
                     let path = PathBuf::from(entry.path());
