@@ -1,6 +1,6 @@
 use std::{ fs, path::{ Path, PathBuf } };
 use fs_extra::dir;
-use crate::{Page, Configuration, Save};
+use crate::{Page, Post, Configuration, Save};
 pub struct Store {
     assets: String,
     content_dir: String,
@@ -61,10 +61,11 @@ impl Store {
         .collect()
     }
 
-    pub fn posts(&self) -> Vec<Page> {
+    pub fn posts(&self) -> Vec<Post> {
         self.retrieve_pages()
         .into_iter()
         .filter(|p| p.metadata.date.is_some())
+        .map(|p| Post::from_page(p))
         .collect()
     }
 }
