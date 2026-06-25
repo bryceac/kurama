@@ -65,11 +65,23 @@ impl Generate {
                            Ok(page) => match page.render(&site_configuration, &TEMPLATES) {
                                Ok(html) => {
                                 let output_file_name = format!("{}.html", page.metadata.slug);
+
+                                if let Some(date) = page.metadata.date {
+                                    let date_components: Vec<String> = date.to_string().split("-").map(|s| s.to_owned()).collect();
+
+                                    let post_output_dir = output_path.join(date_components[0]).join(date_components[1]).join(date_components[2]);
+
+                                    let file_path = post_output_dir.join(output_file_name);
     
-                                let file_path = output_path.join(output_file_name);
+                                    if let Err(error) = html.save(&file_path.to_str().unwrap()) {
+                                        println!("{}", error)
+                                    }
+                                } else {
+                                    let file_path = output_path.join(output_file_name);
     
-                                if let Err(error) = html.save(&file_path.to_str().unwrap()) {
-                                    println!("{}", error)
+                                    if let Err(error) = html.save(&file_path.to_str().unwrap()) {
+                                        println!("{}", error)
+                                    }
                                 }
                                },
                                Err(error) => println!("{}", error)
