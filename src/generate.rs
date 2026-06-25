@@ -1,13 +1,10 @@
 use clap::Parser;
 use std::{ fs::{ 
     create_dir_all,
-}, path::{ Path, 
-    PathBuf },
+}, path::{ Path },
     sync::LazyLock, };
 use crate::{ Configuration,
-    Page,
-    Save, Store };
-use fs_extra::dir;
+     Store };
 use tera::Tera;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
@@ -42,7 +39,8 @@ impl Generate {
     
         let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
     
-        generate_pages(&store, &site_configuration, &TEMPLATES, "output");
+        store.generate_pages(&site_configuration, &TEMPLATES, "output");
+        store.generate_posts(&site_configuration, &TEMPLATES, "output");
     }
 }
 

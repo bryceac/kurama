@@ -38,7 +38,7 @@ impl Store {
 
     fn retrieve_pages(&self) -> Vec<Page> {
         let mut pages: Vec<Page> = vec![];
-        
+
         if let Ok(files) = fs::read_dir(self.content_dir.clone()) {
             for item in files {
                 if let Ok(entry) = item {
@@ -87,7 +87,7 @@ impl Store {
         }
     }
     
-    fn generate_posts(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
+    pub fn generate_posts(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         let output_path = Path::new(p);
         for post in self.posts() {
             match post.render(config, templates) {
