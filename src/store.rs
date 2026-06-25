@@ -60,4 +60,11 @@ impl Store {
         .filter(|p| p.metadata.date.is_none())
         .collect()
     }
+
+    pub fn entries(&self) -> Vec<Page> {
+        self.retrieve_pages()
+        .into_iter()
+        .filter(|p| p.metadata.date.is_some())
+        .collect()
+    }
 }
