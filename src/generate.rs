@@ -69,7 +69,7 @@ impl Generate {
                                 if let Some(date) = page.metadata.date {
                                     let date_components: Vec<String> = date.to_string().split("-").map(|s| s.to_owned()).collect();
 
-                                    let post_output_dir = output_path.join(date_components[0]).join(date_components[1]).join(date_components[2]);
+                                    let post_output_dir = output_path.join(date_components[0].clone()).join(date_components[1].clone()).join(date_components[2].clone());
 
                                     let file_path = post_output_dir.join(output_file_name);
     
