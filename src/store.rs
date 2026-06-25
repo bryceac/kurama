@@ -35,42 +35,16 @@ impl Store {
         }
     }
 
-    pub fn pages(&self, config: &Configuration, p: &str) -> Vec<Page> {
+    fn retrieve_pages(&self) -> Vec<Page> {
         let mut pages: Vec<Page> = vec![];
         let output_path = Path::new(p);
 
-        if let Ok(files) = fs::read_dir("content") {
+        if let Ok(files) = fs::read_dir(self.content_dir.clone()) {
             for item in files {
                 if let Ok(entry) = item {
                    if let Some(file_path) = entry.path().to_str() {
-                       match Page::from_file(file_path) {
-                           Ok(page) => match page.render(&site_configuration, &TEMPLATES) {
-                               Ok(html) => {
-                                let output_file_name = format!("{}.html", page.metadata.slug);
-
-                                if let Some(date) = page.metadata.date {
-                                    let date_components: Vec<String> = date.to_string().split("-").map(|s| s.to_owned()).collect();
-
-                                    let post_output_dir = output_path.join(date_components[0].clone()).join(date_components[1].clone()).join(date_components[2].clone());
-
-                                    let _ = fs::create_dir_all(post_output_dir.as_path()).unwrap();
-
-                                    let file_path = post_output_dir.as_path().join(output_file_name);
-    
-                                    if let Err(error) = html.save(&file_path.to_str().unwrap()) {
-                                        println!("{}", error)
-                                    }
-                                } else {
-                                    let file_path = output_path.join(output_file_name);
-    
-                                    if let Err(error) = html.save(&file_path.to_str().unwrap()) {
-                                        println!("{}", error)
-                                    }
-                                }
-                               },
-                               Err(error) => println!("{}", error)
-                           },
-                           Err(error) => println!("{}", error)
+                       if let Ok(page) = Page::from_file(file_path) {
+                            pages.push(page);
                        }
                    }
                 }
@@ -78,5 +52,12 @@ impl Store {
         }
 
         return pages;
+    }
+
+    pub fn pages(&self) -> Vec<Page> {
+        self.retrieve_pages()
+        .into_iter()
+        .filter(|p| p.metadata.date.is_none())
+        .collect()
     }
 }
