@@ -1,3 +1,5 @@
+use chrono::NaiveDate;
+use crate::Page;
 pub struct Post {
     title: String,
     date: NaiveDate,

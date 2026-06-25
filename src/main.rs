@@ -9,6 +9,7 @@ mod link;
 mod navigation_item;
 mod metadata;
 mod page;
+mod post;
 mod section;
 mod serve;
 mod save_string;
@@ -28,6 +29,7 @@ use crate::{
     section::Section as Section, 
     navigation_item::NavigationItem as NavigationItem,
     page::Page as Page,
+    post::Post as Post,
     save_string::Save as Save,
     store::Store as Store,
 };
