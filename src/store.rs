@@ -51,7 +51,7 @@ impl Store {
             }
         }
 
-        return pages;
+        pages
     }
 
     pub fn pages(&self) -> Vec<Page> {
