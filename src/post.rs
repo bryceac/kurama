@@ -1,6 +1,12 @@
 use chrono::NaiveDate;
-use crate::Page;
+use crate::{ Configuration, Page, page::menu_from, Link, Section };
 use pulldown_cmark::{html, Parser};
+use std::sync::LazyLock;
+use tera::{ Context, Tera };
+
+use serde::{ Deserialize, Serialize };
+
+#[derive(Serialize, Deserialize)]
 pub struct Post {
     title: String,
     date: NaiveDate,
@@ -25,5 +31,26 @@ impl Post {
         html::push_html(&mut html_output, parser);
 
         html_output
+    }
+
+    pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>) -> Result<String, String> {
+        let output_url = format!("{}.html", self.slug);
+    
+        let mut context = Context::new();
+        context.insert("site", &config);
+        context.insert("page", &self);
+        context.insert("content", &self.content_html());
+        context.insert("output_file", &output_url);
+    
+        if let Some(sections) = menu_from::<Section>("links.json") {
+            context.insert("sections", &sections);
+        } else if let Some(links) = menu_from::<Link>("links.json") {
+            context.insert("links", &links);
+        }
+
+        match templates.render("entry.html", &context) {
+            Ok(output) => Ok(format!("{:#}", output)),
+            Err(errors) => Err(format!("{}", errors))
+        }
     }
 }

@@ -4,7 +4,7 @@ use std::{fs::File,
 sync::LazyLock };
 use crate::{ Configuration, 
     Link, 
-    metadata::Metadata, 
+    Metadata, 
     NavigationItem, 
     Section };
 use yaml_front_matter::YamlFrontMatter;
@@ -89,7 +89,7 @@ fn file_contents_from(f: &str) -> Result<String, io::Error> {
     Ok(file_content)
 }
 
-fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
+pub fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
     match T::from_file(f) {
         Ok(items) => Some(items),
         _ => None
