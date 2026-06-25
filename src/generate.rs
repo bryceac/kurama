@@ -43,43 +43,7 @@ impl Generate {
     
         let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
     
-        /* if let Ok(files) = read_dir("content") {
-            for item in files {
-                if let Ok(entry) = item {
-                   if let Some(file_path) = entry.path().to_str() {
-                       match Page::from_file(file_path) {
-                           Ok(page) => match page.render(&site_configuration, &TEMPLATES) {
-                               Ok(html) => {
-                                let output_file_name = format!("{}.html", page.metadata.slug);
-
-                                if let Some(date) = page.metadata.date {
-                                    let date_components: Vec<String> = date.to_string().split("-").map(|s| s.to_owned()).collect();
-
-                                    let post_output_dir = output_path.join(date_components[0].clone()).join(date_components[1].clone()).join(date_components[2].clone());
-
-                                    let _ = create_dir_all(post_output_dir.as_path()).unwrap();
-
-                                    let file_path = post_output_dir.as_path().join(output_file_name);
-    
-                                    if let Err(error) = html.save(&file_path.to_str().unwrap()) {
-                                        println!("{}", error)
-                                    }
-                                } else {
-                                    let file_path = output_path.join(output_file_name);
-    
-                                    if let Err(error) = html.save(&file_path.to_str().unwrap()) {
-                                        println!("{}", error)
-                                    }
-                                }
-                               },
-                               Err(error) => println!("{}", error)
-                           },
-                           Err(error) => println!("{}", error)
-                       }
-                   }
-                }
-            }
-        } */
+        
     }
 }
 
