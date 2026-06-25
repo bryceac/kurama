@@ -71,7 +71,9 @@ impl Generate {
 
                                     let post_output_dir = output_path.join(date_components[0].clone()).join(date_components[1].clone()).join(date_components[2].clone());
 
-                                    let file_path = post_output_dir.join(output_file_name);
+                                    let _ = create_dir_all(post_output_dir.as_path()).unwrap();
+
+                                    let file_path = post_output_dir.as_path().join(output_file_name);
     
                                     if let Err(error) = html.save(&file_path.to_str().unwrap()) {
                                         println!("{}", error)
