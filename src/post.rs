@@ -8,10 +8,10 @@ use serde::{ Deserialize, Serialize };
 
 #[derive(Serialize, Deserialize)]
 pub struct Post {
-    title: String,
-    date: NaiveDate,
-    content: String,
-    slug: String
+    pub title: String,
+    pub date: NaiveDate,
+    pub content: String,
+    pub slug: String
 }
 
 impl Post {
