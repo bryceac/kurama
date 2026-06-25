@@ -58,10 +58,17 @@ impl Page {
         } else if let Some(links) = menu_from::<Link>("links.json") {
             context.insert("links", &links);
         }
-    
-        match templates.render("page.html", &context) {
-            Ok(output) => Ok(format!("{:#}", output)),
-            Err(errors) => Err(format!("{}", errors))
+
+        if let Some(_) = self.metadata.date {
+            match templates.render("entry.html", &context) {
+                Ok(output) => Ok(format!("{:#}", output)),
+                Err(errors) => Err(format!("{}", errors))
+            }
+        } else {
+            match templates.render("page.html", &context) {
+                Ok(output) => Ok(format!("{:#}", output)),
+                Err(errors) => Err(format!("{}", errors))
+            }
         }
     }
 
