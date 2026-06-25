@@ -10,4 +10,25 @@ impl Store {
             content_dir: content.to_owned()
         }
     }
+
+    pub fn copy_assets(&self, p: &str) {
+        let output_path = Path::new(p);
+        if let Ok(assets) = read_dir("assets") {
+            for item in assets {
+                if let Ok(entry) = item {
+                    let path = PathBuf::from(entry.path());
+    
+                    let mut directory_copy_options = dir::CopyOptions::new();
+                    directory_copy_options.copy_inside = true;
+                    directory_copy_options.overwrite = true;
+    
+                    if path.is_dir() {
+                        if let Err(error) = dir::copy(p, output_path.join(entry.path().file_stem().unwrap()), &directory_copy_options) {
+                            println!("{}", error)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
