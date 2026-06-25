@@ -12,6 +12,7 @@ mod page;
 mod section;
 mod serve;
 mod save_string;
+mod store;
 
 
 use crate::{
@@ -27,7 +28,8 @@ use crate::{
     section::Section as Section, 
     navigation_item::NavigationItem as NavigationItem,
     page::Page as Page,
-    save_string::Save as Save
+    save_string::Save as Save,
+    store::Store as Store,
 };
 
 use clap::Parser;
