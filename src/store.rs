@@ -1,6 +1,7 @@
-use std::{ fs, path::{ Path, PathBuf } };
+use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use crate::{Page, Post, Configuration, Save};
+use tera::Tera;
 pub struct Store {
     assets: String,
     content_dir: String,
@@ -37,8 +38,7 @@ impl Store {
 
     fn retrieve_pages(&self) -> Vec<Page> {
         let mut pages: Vec<Page> = vec![];
-        let output_path = Path::new(p);
-
+        
         if let Ok(files) = fs::read_dir(self.content_dir.clone()) {
             for item in files {
                 if let Ok(entry) = item {
@@ -67,5 +67,52 @@ impl Store {
         .filter(|p| p.metadata.date.is_some())
         .map(|p| Post::from_page(p))
         .collect()
+    }
+
+    pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
+        let output_path = Path::new(p);
+        for page in self.pages() {
+            match page.render(config, templates) {
+                Ok(html) => {
+                    let output_file = format!("{}.html", page.metadata.slug);
+    
+                    let file_path = output_path.join(output_file);
+    
+                    if let Err(error) = html.save(file_path.to_str().unwrap()) {
+                        println!("{}", error)
+                    }
+                },
+                Err(error) => println!("{}", error)
+            }
+        }
+    }
+    
+    fn generate_posts(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
+        let output_path = Path::new(p);
+        for post in self.posts() {
+            match post.render(config, templates) {
+                Ok(html) => {
+                    let output_file = format!("{}.html", post.slug);
+                    let date_components: Vec<String> = post.date.to_string()
+                    .split("-")
+                    .map(|c| c.to_owned())
+                    .collect();
+    
+                    let post_dir = output_path
+                    .join(date_components[0].clone())
+                    .join(date_components[1].clone())
+                    .join(date_components[2].clone());
+
+                    let _ = fs::create_dir_all(post_dir.clone()).unwrap();
+
+                    let file_path = post_dir.clone().join(output_file);
+
+                    if let Err(error) = html.save(file_path.to_str().unwrap()) {
+                        println!("{}", error);
+                    }
+                },
+                Err(error) => println!("{}", error)
+            }
+        }
     }
 }

@@ -46,28 +46,3 @@ impl Generate {
     }
 }
 
-fn generate_pages(store: &Store, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
-    let output_path = Path::new(p);
-    for page in store.pages() {
-        match page.render(config, templates) {
-            Ok(html) => {
-                let output_file = format!("{}.html", page.metadata.slug);
-
-                let file_path = output_path.join(output_file);
-
-                if let Err(error) = html.save(file_path.to_str().unwrap()) {
-                    println!("{}", error)
-                }
-            },
-            Err(error) => println!("{}", error)
-        }
-    }
-}
-
-fn generate_posts(store: &Store, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
-    let output_path = Path::new(p);
-    for post in store.posts() {
-        let output_file = format!("{}.html", post.slug);
-    }
-}
-
