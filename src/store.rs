@@ -61,8 +61,8 @@ impl Store {
         .collect()
     }
 
-    pub fn entries(&self) -> Vec<Page> {
-        self.retrieve_posts()
+    pub fn posts(&self) -> Vec<Page> {
+        self.retrieve_pages()
         .into_iter()
         .filter(|p| p.metadata.date.is_some())
         .collect()
