@@ -7,7 +7,7 @@ use std::{ fs::{
     sync::LazyLock, };
 use crate::{ Configuration,
     Page,
-    Save };
+    Save, Store };
 use fs_extra::dir;
 use tera::Tera;
 
@@ -30,34 +30,20 @@ pub struct Generate {}
 impl Generate {
     pub async fn run(&self) {
         let output_path = Path::new("output");
+
+        let store = Store::from("assets", "content");
     
         if !Path::exists(output_path) {
             if let Err(error) = create_dir_all(output_path) {
                 println!("{}", error)
             }
         }
+
+        store.copy_assets("output");
     
         let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
     
-        if let Ok(assets) = read_dir("assets") {
-            for item in assets {
-                if let Ok(entry) = item {
-                    let p = PathBuf::from(entry.path());
-    
-                    let mut directory_copy_options = dir::CopyOptions::new();
-                    directory_copy_options.copy_inside = true;
-                    directory_copy_options.overwrite = true;
-    
-                    if p.is_dir() {
-                        if let Err(error) = dir::copy(p, output_path.join(entry.path().file_stem().unwrap()), &directory_copy_options) {
-                            println!("{}", error)
-                        }
-                    }
-                }
-            }
-        }
-    
-        if let Ok(files) = read_dir("content") {
+        /* if let Ok(files) = read_dir("content") {
             for item in files {
                 if let Ok(entry) = item {
                    if let Some(file_path) = entry.path().to_str() {
@@ -93,7 +79,7 @@ impl Generate {
                    }
                 }
             }
-        }
+        } */
     }
 }
 
