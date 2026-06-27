@@ -116,12 +116,16 @@ impl Store {
         }
     }
 
-    pub fn generate_blog(&self, config: &Configuration, templates: &LazyLock<Tera>) {
+    pub fn generate_blog(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator) {
         if !config.blog_path.is_empty() && config.blog_name.is_empty() {
             println!("Blog name must be provided if a path is specified.");
             return;
         }
 
         let mut archive = Archive::default();
+
+        for page in 1..=paginator.page_count() {
+            
+        }
     }
 }
