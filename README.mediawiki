@@ -292,7 +292,7 @@ It is <strong>recommended</strong>
 that you choose one of these styles rather than mix them, 
 as it makes things easier to maintain and layout.
 
-===Templates===
+==Templates==
 
 The templating engine used is called <a href="https://github.com/Keats/tera">Tera</a> template engine, which means Templates created in much the 
 same way as they are with 
