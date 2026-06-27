@@ -22,20 +22,24 @@ impl Paginator {
     }
 
     pub fn page(&self, page: usize) -> Vec<Post> {
-        let start_index = if page == 1 {
-            page-1
+        if self.items_per_page > 0 {
+            let start_index = if page == 1 {
+                page-1
+            } else {
+                self.items_per_page*(page-1)
+            };
+    
+            let increment = self.items_per_page-1;
+    
+            let end_index = if start_index+increment >= self.total_items() {
+                self.total_items()-1
+            } else {
+                start_index+increment
+            };
+    
+            self.posts[start_index..=end_index].to_vec()
         } else {
-            self.items_per_page*(page-1)
-        };
-
-        let increment = self.items_per_page-1;
-
-        let end_index = if start_index+increment >= self.total_items() {
-            self.total_items()-1
-        } else {
-            start_index+increment
-        };
-
-        self.posts[start_index..=end_index].to_vec()
+            self.posts.clone()
+        } 
     }
 }

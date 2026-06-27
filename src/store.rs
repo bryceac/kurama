@@ -1,6 +1,6 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
-use crate::{Page, Post, Configuration, Save};
+use crate::{Page, Post, Configuration, Save, paginator::Paginator};
 use tera::{ Tera, Context };
 pub struct Store {
     assets: String,
@@ -122,10 +122,10 @@ impl Store {
             return;
         }
 
-        let paginator
+        let paginator = Paginator::from(&self.posts(), config.items_per_page);
 
         let mut context = Context::new();
-        context.insert(self.posts());
+        context.insert("site", &config);
 
         if !config.blog_path.is_empty() {
 
