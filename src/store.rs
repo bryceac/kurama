@@ -1,7 +1,7 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use crate::{Page, Post, Configuration, Save, Paginator};
-use tera::{ Tera, Context };
+use tera::Tera;
 pub struct Store {
     assets: String,
     content_dir: String,
@@ -121,16 +121,6 @@ impl Store {
             println!("Blog name must be provided if a path is specified.");
             return;
         }
-
-        let paginator = Paginator::from(&self.posts(), config.items_per_page);
-
-        let mut context = Context::new();
-        context.insert("site", &config);
-
-        if !config.blog_path.is_empty() {
-            for page in 1..=paginator.page_count() {
-                
-            }
-        }
+        
     }
 }
