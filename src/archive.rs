@@ -12,7 +12,7 @@ impl Archive {
     pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator) -> Result<String, String> {
         let mut context = Context::new();
         context.insert("site", &config);
-        context.insert("current_dir", &config.blog_path);
+        context.insert("current_dir", &format!("{}/", config.blog_path));
         context.insert("page", &self);
         context.insert("posts", &paginator.page(self.page));
         context.insert("pages", &paginator.page_count());
