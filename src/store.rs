@@ -76,6 +76,7 @@ impl Store {
                 println!("Skipping this file because index.html is not allowed here.");
                 continue;
             }
+            
             match page.render(config, templates) {
                 Ok(html) => {
                     let output_file = format!("{}.html", page.metadata.slug);
