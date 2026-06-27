@@ -1,3 +1,4 @@
+mod blog;
 mod clean;
 mod commands;
 mod create;
