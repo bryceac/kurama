@@ -38,6 +38,7 @@ impl Configuration {
             author: String::new(),
             url: String::default(),
             blog_path: String::default(),
+            blog_name: String::default(),
             items_per_page: usize::default()
         }
     }
