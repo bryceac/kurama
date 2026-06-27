@@ -1,7 +1,7 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use crate::{Page, Post, Configuration, Save};
-use tera::Tera;
+use tera::{ Tera, Context };
 pub struct Store {
     assets: String,
     content_dir: String,
@@ -118,8 +118,17 @@ impl Store {
 
     pub fn generate_blog(&self, config: &Configuration, templates: &LazyLock<Tera>) {
         if !config.blog_path.is_empty() && config.blog_name.is_empty() {
-            println!("Blog name must be provided if a path is specified.")
+            println!("Blog name must be provided if a path is specified.");
             return;
+        }
+
+        let paginator
+
+        let mut context = Context::new();
+        context.insert(self.posts());
+
+        if !config.blog_path.is_empty() {
+
         }
     }
 }

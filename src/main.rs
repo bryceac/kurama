@@ -31,6 +31,7 @@ use crate::{
     section::Section as Section, 
     navigation_item::NavigationItem as NavigationItem,
     page::Page as Page,
+    paginator::Paginator as Paginator,
     post::Post as Post,
     save_string::Save as Save,
     store::Store as Store,
