@@ -61,5 +61,5 @@ fn file_contents_from(f: &str) -> Result<String, Error> {
 }
 
 fn number_is_default(num: &usize) -> bool {
-    num == *usize::default()
+    *num == usize::default()
 }
