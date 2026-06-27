@@ -13,7 +13,7 @@ pub struct Configuration {
     #[serde(default = "String::default", skip_serializing_if = "String::is_empty")]
     pub url: String,
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
-    pub archive: String
+    pub blog: String
 }
 
 impl Configuration {
@@ -33,7 +33,7 @@ impl Configuration {
             tagline: String::from(t),
             author: String::new(),
             url: String::default(),
-            archive: String::default()
+            blog: String::default()
         }
     }
 
