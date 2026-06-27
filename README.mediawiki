@@ -182,6 +182,25 @@ as that separates page information from the content of the page.
 
 If you so desire, You can use inline HTML for the content.
 
+==Creating Posts==
+
+Creating posts is down very much like posts. 
+The only addition needed is to give it a date in YYYY-MM-DD format.
+
+The front matter will look like this:
+
+<pre>
+---
+title: Hello, World!
+date: 2026-06-27
+slug: index
+---
+</pre>
+
+Posts will then be found in a directory called <strong>posts</strong>
+
+in the output folder in a directory structure of YYYY/MM/DD.
+
 ==Menus/Navigation==
 
 When setting up the website's navigation, 
