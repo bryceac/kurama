@@ -40,7 +40,13 @@ impl Generate {
         let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
     
         store.generate_pages(&site_configuration, &TEMPLATES, "output");
-        store.generate_posts(&site_configuration, &TEMPLATES, "output");
+
+        let blog_path = if site_configuration.blog_path.is_empty() {
+            "output/posts"
+        } else {
+            &format!("output/{}/posts", site_configuration.blog_path)
+        };
+        store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
     }
 }
 
