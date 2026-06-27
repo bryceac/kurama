@@ -1,6 +1,6 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
-use crate::{Page, Post, Configuration, Save, Paginator};
+use crate::{ Archive, Page, Post, Configuration, Save, Paginator};
 use tera::Tera;
 pub struct Store {
     assets: String,
@@ -121,6 +121,7 @@ impl Store {
             println!("Blog name must be provided if a path is specified.");
             return;
         }
-        
+
+        let mut archive = Archive::default();
     }
 }
