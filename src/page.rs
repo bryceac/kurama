@@ -59,16 +59,9 @@ impl Page {
             context.insert("links", &links);
         }
 
-        if let Some(_) = self.metadata.date {
-            match templates.render("entry.html", &context) {
-                Ok(output) => Ok(format!("{:#}", output)),
-                Err(errors) => Err(format!("{}", errors))
-            }
-        } else {
-            match templates.render("page.html", &context) {
-                Ok(output) => Ok(format!("{:#}", output)),
-                Err(errors) => Err(format!("{}", errors))
-            }
+        match templates.render("page.html", &context) {
+            Ok(output) => Ok(format!("{:#}", output)),
+            Err(errors) => Err(format!("{}", errors))
         }
     }
 
