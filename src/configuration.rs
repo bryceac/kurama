@@ -32,7 +32,8 @@ impl Configuration {
             name: String::from(n),
             tagline: String::from(t),
             author: String::new(),
-            url: String::default()
+            url: String::default(),
+            archive: String::default()
         }
     }
 
