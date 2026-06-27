@@ -41,14 +41,14 @@ impl Generate {
     
         store.generate_pages(&site_configuration, &TEMPLATES, "output");
 
-        let blog_path = if site_configuration.blog_path.is_empty() {
-            "output/posts"
-        } else {
-            &format!("output/{}/posts", site_configuration.blog_path)
-        };
-
         if !store.posts().is_empty() {
             let paginator = Paginator::from(&store.posts(), site_configuration.items_per_page);
+
+            let blog_path = if site_configuration.blog_path.is_empty() {
+                "output/posts"
+            } else {
+                &format!("output/{}/posts", site_configuration.blog_path)
+            };
 
             store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
             store.generate_archive(&site_configuration, &TEMPLATES, &paginator, "output");
