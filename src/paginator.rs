@@ -18,7 +18,11 @@ impl Paginator {
     }
 
     pub fn page_count(&self) -> usize {
-        self.total_items()/self.items_per_page
+        if self.items_per_page > 0 {
+            self.total_items()/self.items_per_page
+        } else {
+            1
+        }
     }
 
     pub fn page(&self, page: usize) -> Vec<Post> {
