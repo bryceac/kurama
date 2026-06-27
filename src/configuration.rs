@@ -11,7 +11,9 @@ pub struct Configuration {
     #[serde(default = "String::default", skip_serializing_if= "String::is_empty")]
     pub author: String,
     #[serde(default = "String::default", skip_serializing_if = "String::is_empty")]
-    pub url: String
+    pub url: String,
+    #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
+    pub archive: String
 }
 
 impl Configuration {
