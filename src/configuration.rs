@@ -13,7 +13,9 @@ pub struct Configuration {
     #[serde(default = "String::default", skip_serializing_if = "String::is_empty")]
     pub url: String,
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
-    pub blog: String,
+    pub blog_path: String,
+    #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
+    pub blog_name: String,
     #[serde(rename = "items", default= "usize::default", skip_serializing_if = "number_is_default")]
     pub items_per_page: usize
 }
@@ -35,7 +37,7 @@ impl Configuration {
             tagline: String::from(t),
             author: String::new(),
             url: String::default(),
-            blog: String::default(),
+            blog_path: String::default(),
             items_per_page: usize::default()
         }
     }
