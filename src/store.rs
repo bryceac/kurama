@@ -72,6 +72,10 @@ impl Store {
     pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         let output_path = Path::new(p);
         for page in self.pages() {
+            if config.blog_path.is_empty() && !self.posts().is_empty() && page.metadata.slug == "index" {
+                println!("Skipping this file because index.html is not allowed here.");
+                continue;
+            }
             match page.render(config, templates) {
                 Ok(html) => {
                     let output_file = format!("{}.html", page.metadata.slug);
