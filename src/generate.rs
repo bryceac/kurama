@@ -46,6 +46,7 @@ impl Generate {
         } else {
             &format!("output/{}/posts", site_configuration.blog_path)
         };
+        
         store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
     }
 }
