@@ -47,10 +47,12 @@ impl Generate {
             &format!("output/{}/posts", site_configuration.blog_path)
         };
 
-        let paginator = Paginator::from(&store.posts(), site_configuration.items_per_page);
+        if !store.posts().is_empty() {
+            let paginator = Paginator::from(&store.posts(), site_configuration.items_per_page);
 
-        store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
-        store.generate_archive(&site_configuration, &TEMPLATES, &paginator, "output");
+            store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
+            store.generate_archive(&site_configuration, &TEMPLATES, &paginator, "output");
+        }
     }
 }
 
