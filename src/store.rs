@@ -116,16 +116,37 @@ impl Store {
         }
     }
 
-    pub fn generate_blog(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator) {
+    pub fn generate_blog(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, p: &str) {
         if !config.blog_path.is_empty() && config.blog_name.is_empty() {
             println!("Blog name must be provided if a path is specified.");
             return;
         }
 
+        let output_path = new Path(p);
+
         let mut archive = Archive::default();
 
         for page in 1..=paginator.page_count() {
-            
+            archive.page = page;
+
+            match archive.render(config, templates, paginator) {
+                Ok(html) => if !config.blog_path.is_empty() {
+                    let archive_dir = output_path.join(config.blog_path);
+                    let output_file = if archive.page > 1 {
+                        format("index{}.html", archive.page)
+                    } else {
+                        "index.html".to_owned()
+                    };
+
+                    let file_path = archive_dir.join(output_file);
+
+                    if let Err(error) = html.save(file_path) {
+                        println!("{}", error);
+                    }
+
+                },
+                Err(error) => println!("{}", error),
+            }
         }
     }
 }
