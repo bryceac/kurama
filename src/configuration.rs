@@ -13,7 +13,9 @@ pub struct Configuration {
     #[serde(default = "String::default", skip_serializing_if = "String::is_empty")]
     pub url: String,
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
-    pub blog: String
+    pub blog: String,
+    #[serde(rename = "items", default= "usize::default", skip_serializing_if = "number_is_default")]
+    pub items_per_page: usize
 }
 
 impl Configuration {
@@ -33,7 +35,8 @@ impl Configuration {
             tagline: String::from(t),
             author: String::new(),
             url: String::default(),
-            blog: String::default()
+            blog: String::default(),
+            items_per_page: usize::default()
         }
     }
 
@@ -52,4 +55,8 @@ fn file_contents_from(f: &str) -> Result<String, Error> {
     File::open(f)?.read_to_string(&mut file_content)?;
 
     Ok(file_content)
+}
+
+fn number_is_default(num: &usize) -> bool {
+    num == usize::default()
 }
