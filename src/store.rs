@@ -116,13 +116,13 @@ impl Store {
         }
     }
 
-    pub fn generate_blog(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, p: &str) {
+    pub fn generate_archive(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, p: &str) {
         if !config.blog_path.is_empty() && config.blog_name.is_empty() {
             println!("Blog name must be provided if a path is specified.");
             return;
         }
 
-        let output_path = new Path(p);
+        let output_path = Path::new(p);
 
         let mut archive = Archive::default();
 
@@ -131,19 +131,30 @@ impl Store {
 
             match archive.render(config, templates, paginator) {
                 Ok(html) => if !config.blog_path.is_empty() {
-                    let archive_dir = output_path.join(config.blog_path);
+                    let archive_dir = output_path.join(&config.blog_path);
                     let output_file = if archive.page > 1 {
-                        format("index{}.html", archive.page)
+                        format!("index{}.html", archive.page)
                     } else {
                         "index.html".to_owned()
                     };
 
                     let file_path = archive_dir.join(output_file);
 
-                    if let Err(error) = html.save(file_path) {
+                    if let Err(error) = html.save(file_path.to_str().unwrap()) {
                         println!("{}", error);
                     }
+                } else {
+                    let output_file = if archive.page > 1 {
+                        format!("index{}.html", archive.page)
+                    } else {
+                        "index.html".to_owned()
+                    };
 
+                    let file_path = output_path.join(output_file);
+
+                    if let Err(error) = html.save(file_path.to_str().unwrap()) {
+                        println!("{}", error);
+                    }
                 },
                 Err(error) => println!("{}", error),
             }
