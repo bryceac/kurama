@@ -312,6 +312,7 @@ However, unlike Hyde, the only available context objects are:
 <p>Things relating to page metadata are accessed via <pre>page.metadata</pre></p>
 <p>For example, to grab the title of the page, it is as easy as <pre>page.metadata.title</pre></p>
 <p>On a post, metadata does not exist. Instead the elements are properties of the page.</p>
+<p>On an archive, which s what blogs are considered, this will have a subproperty called page that will return the page number.</p>
 </dd>
 <dt style="font-weight:bold">output_file</dt>
 <dd>
@@ -323,6 +324,15 @@ However, unlike Hyde, the only available context objects are:
 <p>This is only available or an archive, or where posts get list.</p>
 <p>If the blog is not at the root of the site, 
 this is useful in creating helpful navigation, even when data has been paginated.</p>
+</dd>
+<dt style="font-weight:bold">posts</dt>
+<dd>
+<p>This only exists for an archive. It gives you access to the posts contained on the page.</p>
+</dd>
+<dt style="font-weight:bold">pages</dt>
+<dd>
+<p>This is another archive exclusive property that will return the total number of pages
+in the archive.</p>
 </dd>
 </dl>
 
