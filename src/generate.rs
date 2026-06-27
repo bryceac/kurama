@@ -4,7 +4,7 @@ use std::{ fs::{
 }, path::{ Path },
     sync::LazyLock, };
 use crate::{ Configuration,
-     Store };
+     Store, Paginator };
 use tera::Tera;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
@@ -46,8 +46,11 @@ impl Generate {
         } else {
             &format!("output/{}/posts", site_configuration.blog_path)
         };
-        
+
+        let paginator = Paginator::from(&store.posts(), site_configuration.items_per_page);
+
         store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
+        store.generate_archive(&site_configuration, &TEMPLATES, &paginator, "output");
     }
 }
 
