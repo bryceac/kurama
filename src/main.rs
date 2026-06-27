@@ -9,6 +9,7 @@ mod link;
 mod navigation_item;
 mod metadata;
 mod page;
+mod paginator;
 mod post;
 mod section;
 mod serve;
