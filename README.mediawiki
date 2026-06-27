@@ -364,7 +364,7 @@ A minimal config file will look like this:
 }
 </pre>
 
-Right now, the configuration is quite minimal with only four keys, 
+Right now, the configuration is quite minimal with only seven keys, 
 which are as follows:
 
 <dl>
@@ -383,6 +383,21 @@ The website's URL.
 <dt style="font-weight:bold">author</dt>
 <dd>
 The website's creator or owner.
+</dd>
+<dt style="font-weight:bold">blog_path</dt>
+<dd>
+The path for the archive. If this set, 
+then you need to provide a separate name for the archive.
+</dd>
+<dt style="font-weight:bold">blog_name</dt>
+<dd>
+This is the name of the archive/blog. 
+It is not needed if your site is a blog.
+</dd>
+<dt style="font-weight:bold">items_per_page</dt>
+<dd>
+The number of posts to display per a page.
+If this is not set or set to zero, then no pagination will occur.</p>
 </dd>
 </dl>
 
