@@ -121,7 +121,7 @@ impl Store {
         }
     }
 
-    pub fn generate_archive(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, p: &str) {
+    pub fn generate_archive(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         if !config.blog_path.is_empty() && config.blog_name.is_empty() {
             println!("Blog name must be provided if a path is specified.");
             return;
