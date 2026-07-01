@@ -49,7 +49,7 @@ impl Paginator {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum PaginationMethod {
     #[default]
@@ -59,6 +59,6 @@ pub enum PaginationMethod {
 
 impl PaginationMethod {
     pub fn is_default(method: &PaginationMethod) -> bool {
-        method == PaginationMethod::default()
+        *method == PaginationMethod::default()
     }
 }
