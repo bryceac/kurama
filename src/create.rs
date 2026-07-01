@@ -18,7 +18,7 @@ impl Create {
     pub async fn run(&self) {
         let input = if self.path.starts_with("~") {
             shellexpand::tilde(&self.path).into_owned()
-        } self {
+        } else {
             self.path
         };
 
