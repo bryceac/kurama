@@ -52,12 +52,8 @@ impl Post {
         context.insert("page", &self);
         context.insert("content", &self.content_html());
         context.insert("output_file", &output_url);
-    
-        if let Some(sections) = menu_from::<Section>("links.json") {
-            context.insert("sections", &sections);
-        } else if let Some(links) = menu_from::<Link>("links.json") {
-            context.insert("links", &links);
-        }
+        context.insert("sections", &config.sections);
+        context.insert("links", &config.links);
 
         match templates.render("entry.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),

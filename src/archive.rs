@@ -22,12 +22,8 @@ impl Archive {
         context.insert("pages", &paginator.page_count());
         context.insert("prev_page", &previous_page_from(self.page, config));
         context.insert("next_page", &next_page_from(self.page, paginator, config));
-    
-        if let Some(sections) = menu_from::<Section>("links.json") {
-            context.insert("sections", &sections);
-        } else if let Some(links) = menu_from::<Link>("links.json") {
-            context.insert("links", &links);
-        }
+        context.insert("sections", &config.sections);
+        context.insert("links", &config.links);
 
         match templates.render("archive.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),
