@@ -145,9 +145,9 @@ impl Store {
 
     pub fn generate_feed(&self, config: &Configuration, p: &str) {
         let paginator = Paginator::from(&self.posts(), config.items_per_page);
-        let mut feed_builder = Feed::builder()
-        .set_version(&FeedVersion::JSONFeed1_1)
-        .set_home_page(config.url.clone().unwrap().as_str());
+        let mut feed_builder = Feed::builder();
+        feed_builder.set_version(&FeedVersion::JSONFeed1_1);
+        feed_builder.set_home_page(config.url.clone().unwrap().as_str());
 
         let output_dir = Path::new(p);
 
@@ -171,8 +171,17 @@ impl Store {
                 feed_builder.add_item(&post_to_item(&post, config));
             }
 
-            let file_path = if let Ok(output_url) = Url::parse(&url) {
+            let file_path = output_dir.join(feed_output_path(&url));
 
+            let _ = fs::create_dir_all(file_path.clone()).unwrap();
+
+            match feed_builder.build() {
+                Ok(feed) => {
+                    if let Err(_) = feed.to_string().expect("Unable to create feed").save(file_path.to_str().unwrap()) {
+                        println!("{} could not be created", file_path.to_str().unwrap());
+                    }
+                },
+                Err(error) => println!("{}", error)
             }
         }
     }
