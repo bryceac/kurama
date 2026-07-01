@@ -14,6 +14,8 @@ pub struct Configuration {
     pub url: Option<Url>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub sections: Vec<Section>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub links: Vec<Link>,
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
     pub blog_path: String,
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
@@ -41,6 +43,8 @@ impl Configuration {
             tagline: String::from(t),
             author: String::new(),
             url: None,
+            sections: vec![],
+            links: vec![],
             blog_path: String::default(),
             blog_name: String::default(),
             items_per_page: usize::default(),
