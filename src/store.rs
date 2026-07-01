@@ -208,11 +208,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 println!("{}", error);
             }
         } else {
-            let output_file = if page > 1 {
-                format!("index{}.html", page)
-            } else {
-                "index.html".to_owned()
-            };
+            let output_file = "index.html".to_owned();
 
             let file_path = output_dir.join(format!("{}", page)).join(output_file);
             let _ = fs::create_dir_all(file_path.clone()).unwrap();
