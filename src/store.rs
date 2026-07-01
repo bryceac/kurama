@@ -195,6 +195,17 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
     }
 }
 
-fn permalink_for_post(post: &Post) -> String {
-    todo!()
+fn permalink_for_post(post: &Post, config: &Configuration) -> String {
+    let date_components: Vec<String> = post.date
+    .date_naive()
+    .to_string()
+    .split("-")
+    .map(|c| c.to_owned())
+    .collect();
+
+    if let Some(mut site_url) = config.url {
+        if !config.blog_path.is_empty() {
+
+        }
+    }
 }
