@@ -20,6 +20,8 @@ impl Archive {
         context.insert("archive", &self);
         context.insert("posts", &paginator.page(self.page));
         context.insert("pages", &paginator.page_count());
+        context.insert("prev_page", &previous_page_from(self.page, config));
+        context.insert("next_page", &next_page_from(self.page, paginator, config));
     
         if let Some(sections) = menu_from::<Section>("links.json") {
             context.insert("sections", &sections);
@@ -53,7 +55,7 @@ fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration) ->
     }
 }
 
-fn previous_page_from(page: usize, paginator: &Paginator, config: &Configuration) -> Option<String> {
+fn previous_page_from(page: usize, config: &Configuration) -> Option<String> {
     if page == 1 {
         None
     } else {
