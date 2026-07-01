@@ -169,8 +169,9 @@ impl Store {
     }
 }
 
-fn write_archive(content: &str, config: &Configuration, page: usize) {
+fn write_archive(content: &str, config: &Configuration, page: usize, output_dir: &Path) {
     match config.pagination_method {
-        PaginationMethod
+        PaginationMethod::File => todo!(),
+        PaginationMethod::Dir => todo!()
     }
 }
