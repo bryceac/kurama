@@ -56,3 +56,9 @@ pub enum PaginationMethod {
     File,
     Dir
 }
+
+impl PaginationMethod {
+    pub fn is_default(method: &PaginationMethod) -> bool {
+        method == PaginationMethod::default()
+    }
+}
