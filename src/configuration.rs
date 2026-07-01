@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize };
 use std::{fs::File, io::{ Read, Error }};
-use crate::{save_string::Save, PaginationMethod};
+use crate::{Save, PaginationMethod, Section };
 use url::Url;
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -12,6 +12,8 @@ pub struct Configuration {
     pub author: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<Url>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub sections: Vec<Section>,
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
     pub blog_path: String,
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
