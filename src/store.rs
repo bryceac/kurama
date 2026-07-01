@@ -194,3 +194,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
         }
     }
 }
+
+fn permalink_for_post(post: &Post) -> String {
+    todo!()
+}
