@@ -4,6 +4,8 @@ use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use crate::{ Archive, Page, Post, Configuration, Save, Paginator, PaginationMethod};
 use tera::Tera;
 use url::Url;
+use unicode_segmentation::UnicodeSegmentation;
+
 pub struct Store {
     assets: String,
     content_dir: String,
@@ -327,4 +329,20 @@ fn post_to_item(post: &Post, config: &Configuration) -> Item {
     .add_author(&author)
     .set_content(&content)
     .build().unwrap()
+}
+
+fn drop_first_character_from(s: &str) -> String {
+    let characters: Vec<String> = s.graphemes(true).map(|s| s.to_owned()).collect();
+
+    let content: String = characters[1..].iter().map(|s| s.to_owned()).collect();
+
+    content
+}
+
+fn feed_output_path(path: &str) -> String {
+    if let Ok(url) = Url::parse(path) {
+        drop_first_character_from(url.path())
+    } else {
+        drop_first_character_from(path)
+    }
 }
