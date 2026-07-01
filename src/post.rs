@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{ DateTime, Local };
 use crate::{ Configuration, Page, page::menu_from, Link, Section };
 use pulldown_cmark::{html, Parser};
 use std::sync::LazyLock;
@@ -9,7 +9,7 @@ use serde::{ Deserialize, Serialize };
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Post {
     pub title: String,
-    pub date: NaiveDate,
+    pub date: DateTime<Local>,
     pub content: String,
     pub slug: String
 }

@@ -1,11 +1,11 @@
-use chrono::NaiveDate;
+use chrono::{ DateTime, Local };
 use serde::{ Deserialize, Serialize };
 
 #[derive(Deserialize, Serialize, Eq )]
 pub struct Metadata {
     #[serde(default="String::default")]
     pub title: String,
-    pub date: Option<NaiveDate>,
+    pub date: Option<DateTime<Local>>,
     pub slug: String
 }
 
