@@ -18,8 +18,8 @@ pub struct Configuration {
     pub blog_name: String,
     #[serde(rename = "items", default= "usize::default", skip_serializing_if = "number_is_default")]
     pub items_per_page: usize,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub pagination_method: Option<PaginationMethod>
+    #[serde(default, skip_serializing_if = "PaginationMethod::is_default")]
+    pub pagination_method: PaginationMethod
 }
 
 impl Configuration {
