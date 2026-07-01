@@ -39,7 +39,7 @@ impl Configuration {
             name: String::from(n),
             tagline: String::from(t),
             author: String::new(),
-            url: String::default(),
+            url: None,
             blog_path: String::default(),
             blog_name: String::default(),
             items_per_page: usize::default(),
