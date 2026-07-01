@@ -2,11 +2,8 @@ use serde::{ Deserialize, Serialize };
 use std::{fs::File, 
     io::{ self, Read },
 sync::LazyLock };
-use crate::{ Configuration, 
-    Link, 
-    Metadata, 
-    NavigationItem, 
-    Section };
+use crate::{ Configuration,  
+    Metadata };
 use yaml_front_matter::YamlFrontMatter;
 use pulldown_cmark::{ html, Parser};
 use tera::{ Context, Tera };
@@ -76,11 +73,4 @@ fn file_contents_from(f: &str) -> Result<String, io::Error> {
     File::open(f)?.read_to_string(&mut file_content)?;
 
     Ok(file_content)
-}
-
-pub fn menu_from<T: NavigationItem>(f: &str) -> Option<Vec<T>> {
-    match T::from_file(f) {
-        Ok(items) => Some(items),
-        _ => None
-    }
 }

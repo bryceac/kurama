@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize };
 use std::{fs::File, io::{ Read, Error }};
-use crate::{Save, PaginationMethod, Section };
+use crate::{Save, PaginationMethod, Section, Link };
 use url::Url;
 
 #[derive(Serialize, Deserialize, Clone)]

@@ -1,7 +1,7 @@
 use serde::{ Serialize, Deserialize };
-use crate::{ link::Link, navigation_item::NavigationItem };
+use crate::Link;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Section {
     pub name: String,
     pub links: Vec<Link>

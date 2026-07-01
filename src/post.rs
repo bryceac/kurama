@@ -1,5 +1,5 @@
 use chrono::{ DateTime, Local };
-use crate::{ Configuration, Page, page::menu_from, Link, Section };
+use crate::{ Configuration, Page};
 use pulldown_cmark::{html, Parser};
 use std::sync::LazyLock;
 use tera::{ Context, Tera };

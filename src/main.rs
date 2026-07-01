@@ -7,7 +7,6 @@ mod generate;
 mod init;
 mod kurama;
 mod link;
-mod navigation_item;
 mod metadata;
 mod page;
 mod paginator;
@@ -30,8 +29,7 @@ use crate::{
     archive::Archive as Archive,
     link::Link as Link,
     metadata::Metadata as Metadata, 
-    section::Section as Section, 
-    navigation_item::NavigationItem as NavigationItem,
+    section::Section as Section,
     page::Page as Page,
     paginator::Paginator as Paginator,
     paginator::PaginationMethod as PaginationMethod,
