@@ -13,7 +13,7 @@ impl Archive {
         let mut context = Context::new();
         context.insert("site", &config);
         context.insert("current_dir", &format!("{}/", config.blog_path));
-        context.insert("page", &self);
+        context.insert("archive", &self);
         context.insert("posts", &paginator.page(self.page));
         context.insert("pages", &paginator.page_count());
     
