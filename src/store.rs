@@ -197,6 +197,32 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 println!("{}", error);
             }
         },
-        PaginationMethod::Dir => todo!()
+        PaginationMethod::Dir => if !config.blog_path.is_empty() {
+            let archive_dir = output_dir.join(&config.blog_path);
+            let output_file = if page > 1 {
+                format!("index{}.html", page)
+            } else {
+                "index.html".to_owned()
+            };
+
+            let file_path = archive_dir.join(format!("{}", page));
+            let _ = fs::create_dir_all(file_path.clone()).unwrap();
+
+            if let Err(error) = content.save(file_path.to_str().unwrap()) {
+                println!("{}", error);
+            }
+        } else {
+            let output_file = if page > 1 {
+                format!("index{}.html", page)
+            } else {
+                "index.html".to_owned()
+            };
+
+            let file_path = output_dir.join(output_file);
+
+            if let Err(error) = content.save(file_path.to_str().unwrap()) {
+                println!("{}", error);
+            }
+        }
     }
 }
