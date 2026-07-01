@@ -172,7 +172,11 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
             let archive_dir = output_dir.join(&config.blog_path);
             let output_file = "index.html".to_owned();
 
-            let file_path = archive_dir.join(format!("{}", page)).join(output_file);
+            let file_path = if page > 1 {
+                archive_dir.join(format!("{}", page)).join(output_file)
+            } else {
+                archive_dir.join(output_file)
+            };
             let _ = fs::create_dir_all(file_path.clone()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
@@ -181,7 +185,11 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
         } else {
             let output_file = "index.html".to_owned();
 
-            let file_path = output_dir.join(format!("{}", page)).join(output_file);
+            let file_path = if page > 1 {
+                output_dir.join(format!("{}", page)).join(output_file)
+            } else {
+                output_dir.join(output_file)
+            };
             let _ = fs::create_dir_all(file_path.clone()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
@@ -225,5 +233,36 @@ fn feed_title(config: &Configuration, page: usize) -> String {
         format!("{} ({})", title, page)
     } else {
         format!("{}", title)
+    }
+}
+
+fn feed_url(config: &Configuration, page: usize) -> String {
+    let mut path = if !config.blog_path.is_empty() {
+        config.blog_path.clone()
+    } else {
+        String::default()
+    };
+
+    let feed = match config.pagination_method {
+        PaginationMethod::File => if page > 1 {
+            format!("feed{}.json", page)
+        } else {
+            "feed.json".to_owned()
+        },
+        PaginationMethod::Dir => if page > 1 {
+            format!("{}/feed.json", page)
+        } else {
+            "feed.json".to_owned()
+        }
+    };
+
+    path.push_str("/");
+    path.push_str(&feed);
+
+    if let Some(mut site_url) = config.url {
+        site_url.set_path(&path);
+        site_url.as_str().to_owned()
+    } else {
+        path
     }
 }
