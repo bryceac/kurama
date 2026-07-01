@@ -1,5 +1,6 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
+use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use crate::{ Archive, Page, Post, Configuration, Save, Paginator, PaginationMethod};
 use tera::Tera;
 pub struct Store {
@@ -138,6 +139,34 @@ impl Store {
             }
         }
     }
+
+    pub fn generate_feed(&self, config: &Configuration) {
+        let paginator = Paginator::from(&self.posts(), config.items_per_page);
+        let mut feed_builder = Feed::builder()
+        .set_version(&FeedVersion::JSONFeed1_1)
+        .set_home_page(config.url.clone().unwrap().as_str());
+
+        for page in 1..=paginator.page_count() {
+            let url = feed_url(config, page);
+            let next_url = if page == paginator.page_count() {
+                None
+            } else {
+                Some(feed_url(config, page+1))
+            };
+            
+            feed_builder.set_title(&feed_title(config, page));
+            
+            feed_builder.set_url(&url);
+
+            if let Some(next_url) = next_url {
+                feed_builder.set_next_url(&next_url);
+            }
+
+            for post in paginator.page(page) {
+                feed_builder.add_item(&post_to_item(&post, config));
+            }
+        }
+    }
 }
 
 fn write_archive(content: &str, config: &Configuration, page: usize, output_dir: &Path) {
@@ -265,4 +294,30 @@ fn feed_url(config: &Configuration, page: usize) -> String {
     } else {
         path
     }
+}
+
+fn post_to_item(post: &Post, config: &Configuration) -> Item {
+    let permalink = permalink_for_post(post, config);
+
+    let dates = Dates::builder()
+    .set_published(&post.date.to_rfc3339())
+    .build().unwrap();
+
+    let author = Author::builder()
+    .set_name(&config.author)
+    .build().unwrap();
+
+    let content = Content::builder()
+    .set_html(&post.content_html())
+    .build().unwrap();
+
+
+    Item::builder()
+    .set_id(&permalink)
+    .set_url(&permalink)
+    .set_title(&post.title)
+    .set_dates(&dates)
+    .add_author(&author)
+    .set_content(&content)
+    .build().unwrap()
 }
