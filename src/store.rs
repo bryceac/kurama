@@ -140,11 +140,13 @@ impl Store {
         }
     }
 
-    pub fn generate_feed(&self, config: &Configuration) {
+    pub fn generate_feed(&self, config: &Configuration, p: &str) {
         let paginator = Paginator::from(&self.posts(), config.items_per_page);
         let mut feed_builder = Feed::builder()
         .set_version(&FeedVersion::JSONFeed1_1)
         .set_home_page(config.url.clone().unwrap().as_str());
+
+        let output_dir = Path::new(p);
 
         for page in 1..=paginator.page_count() {
             let url = feed_url(config, page);
