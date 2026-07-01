@@ -1,5 +1,5 @@
 use serde::{ Serialize, Deserialize };
-use crate::{ Configuration, Paginator, Section, Link, page::menu_from };
+use crate::{ Configuration, Paginator, Section, Link, page::menu_from, paginator::PaginationMethod };
 use tera::{ Tera, Context };
 use std::sync::LazyLock;
 
@@ -34,6 +34,40 @@ impl Archive {
     }
 }
 
-fn next_page_from(p: usize, paginator: &paginator) -> Option<String> {
-    todo!()
+fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration) -> Option<String> {
+    if page == paginator.page_count() {
+        None
+    } else {
+        match config.pagination_method {
+            PaginationMethod::File => if !config.blog_path.is_empty() {
+                Some(format!("/{}/index{}.html", config.blog_path, page+1))
+            } else {
+                Some(format!("/index{}.html", page+1))
+            },
+            PaginationMethod::Dir => if !config.blog_path.is_empty() {
+                Some(format!("/{}/{}", config.blog_path, page+1))
+            } else {
+                Some(format!("/{}", page+1))
+            }
+        }
+    }
+}
+
+fn previous_page_from(page: usize, paginator: &Paginator, config: &Configuration) -> Option<String> {
+    if page == 1 {
+        None
+    } else {
+        match config.pagination_method {
+            PaginationMethod::File => if !config.blog_path.is_empty() {
+                Some(format!("/{}/index{}.html", config.blog_path, page-1))
+            } else {
+                Some(format!("/index{}.html", page-1))
+            },
+            PaginationMethod::Dir => if !config.blog_path.is_empty() {
+                Some(format!("/{}/{}", config.blog_path, page-1))
+            } else {
+                Some(format!("/{}", page-1))
+            }
+        }
+    }
 }
