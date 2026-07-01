@@ -98,15 +98,11 @@ impl Store {
             match post.render(config, templates) {
                 Ok(html) => {
                     let output_file = format!("{}.html", post.slug);
-                    let date_components: Vec<String> = post.date.to_string()
-                    .split("-")
-                    .map(|c| c.to_owned())
-                    .collect();
     
                     let post_dir = output_path
-                    .join(date_components[0].clone())
-                    .join(date_components[1].clone())
-                    .join(date_components[2].clone());
+                    .join(post.date_components()[0].clone())
+                    .join(post.date_components()[1].clone())
+                    .join(post.date_components()[2].clone());
 
                     let _ = fs::create_dir_all(post_dir.clone()).unwrap();
 
@@ -196,16 +192,24 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
 }
 
 fn permalink_for_post(post: &Post, config: &Configuration) -> String {
-    let date_components: Vec<String> = post.date
-    .date_naive()
-    .to_string()
-    .split("-")
-    .map(|c| c.to_owned())
-    .collect();
 
-    if let Some(mut site_url) = config.url {
-        if !config.blog_path.is_empty() {
+    let path = if !config.blog_path.is_empty() {
+        format!("{}/posts/{}/{}/{}/{}", config.blog_path, 
+        post.date_components()[0], 
+        post.date_components()[1], 
+        post.date_components()[2], 
+        post.slug)
+    } else {
+        format!("posts/{}/{}/{}/{}", post.date_components()[0], 
+        post.date_components()[1], 
+        post.date_components()[2], 
+        post.slug)
+    };
 
-        }
+    if let Some(mut site_url) = config.url.clone() {
+        site_url.set_path(&path);
+        site_url.as_str().to_owned()
+    } else {
+        path
     }
 }

@@ -33,6 +33,17 @@ impl Post {
         html_output
     }
 
+    pub fn date_components(&self) -> Vec<String> {
+        let components: Vec<String> = self.date.to_rfc3339()
+        .split("T")
+        .map(|c| c.to_owned())
+        .collect();
+
+        components[0].split("-")
+        .map(|c| c.to_owned())
+        .collect()
+    }
+
     pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>) -> Result<String, String> {
         let output_url = format!("{}.html", self.slug);
     
