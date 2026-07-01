@@ -199,13 +199,9 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
         },
         PaginationMethod::Dir => if !config.blog_path.is_empty() {
             let archive_dir = output_dir.join(&config.blog_path);
-            let output_file = if page > 1 {
-                format!("index{}.html", page)
-            } else {
-                "index.html".to_owned()
-            };
+            let output_file = "index.html".to_owned();
 
-            let file_path = archive_dir.join(format!("{}", page));
+            let file_path = archive_dir.join(format!("{}", page)).join(output_file);
             let _ = fs::create_dir_all(file_path.clone()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
@@ -218,7 +214,8 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 "index.html".to_owned()
             };
 
-            let file_path = output_dir.join(output_file);
+            let file_path = output_dir.join(format!("{}", page)).join(output_file);
+            let _ = fs::create_dir_all(file_path.clone()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
