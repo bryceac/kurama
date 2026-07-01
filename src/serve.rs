@@ -17,7 +17,6 @@ impl Serve {
         let server_root = Path::new("output");
     
         if Path::exists(server_root) {
-            // generate().await;
             Generate::default().run().await
         }
     

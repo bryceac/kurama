@@ -2,7 +2,7 @@ use clap::Parser;
 use fs_extra::dir;
 
 #[derive(Default, Parser)]
-#[clap(about = "deletes the output directory", long_about = None)]
+#[clap(version = "0.1", about = "deletes the output directory", long_about = None)]
 pub struct Clean {}
 
 impl Clean {

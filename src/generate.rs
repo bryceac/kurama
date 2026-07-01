@@ -20,7 +20,7 @@ static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
 });
 
 #[derive(Default, Parser)]
-#[clap(about = "build the website", long_about = None)]
+#[clap(version = "0.2", about = "build the website", long_about = None)]
 pub struct Generate {}
 
 impl Generate {
