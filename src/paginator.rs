@@ -49,9 +49,10 @@ impl Paginator {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum PaginationMethod {
+    #[default]
     File,
     Dir
 }
