@@ -137,32 +137,7 @@ impl Store {
             archive.page = page;
 
             match archive.render(config, templates, &paginator) {
-                Ok(html) => if !config.blog_path.is_empty() {
-                    let archive_dir = output_path.join(&config.blog_path);
-                    let output_file = if archive.page > 1 {
-                        format!("index{}.html", archive.page)
-                    } else {
-                        "index.html".to_owned()
-                    };
-
-                    let file_path = archive_dir.join(output_file);
-
-                    if let Err(error) = html.save(file_path.to_str().unwrap()) {
-                        println!("{}", error);
-                    }
-                } else {
-                    let output_file = if archive.page > 1 {
-                        format!("index{}.html", archive.page)
-                    } else {
-                        "index.html".to_owned()
-                    };
-
-                    let file_path = output_path.join(output_file);
-
-                    if let Err(error) = html.save(file_path.to_str().unwrap()) {
-                        println!("{}", error);
-                    }
-                },
+                Ok(html) => write_archive(&html, config, page, output_path),
                 Err(error) => println!("{}", error),
             }
         }
