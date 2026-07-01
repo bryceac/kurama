@@ -34,4 +34,6 @@ impl Archive {
     }
 }
 
-fn next_page_from(p: usize) -> Option<String>
+fn next_page_from(p: usize, paginator: &paginator) -> Option<String> {
+    todo!()
+}

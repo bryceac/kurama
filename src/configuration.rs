@@ -1,5 +1,4 @@
 use serde::{Serialize, Deserialize };
-use serde_json;
 use std::{fs::File, io::{ Read, Error }};
 use crate::{save_string::Save, PaginationMethod};
 use url::Url;
@@ -26,7 +25,7 @@ pub struct Configuration {
 impl Configuration {
     pub fn from_file(f: &str) -> Result<Self, String> {
         match file_contents_from(f) {
-            Ok(content) => match serde_json::from_str::<Configuration>(&content) {
+            Ok(content) => match yaml_serde::from_str::<Configuration>(&content) {
                 Ok(decoded_site) => Ok(decoded_site),
                 Err(error) => Err(format!("{}", error))
             },
@@ -47,12 +46,13 @@ impl Configuration {
         }
     }
 
-    pub fn save(&self, p: &str) -> Result<(), Error> {
-        let json_string = serde_json::to_string_pretty(&self)?;
-
-        match json_string.save(p) {
-            Ok(()) => Ok(()),
-            Err(error) => Err(error)
+    pub fn save(&self, p: &str) -> Result<(), String> {
+        match yaml_serde::to_string(&self) {
+            Ok(yaml_string) => match yaml_string.save(p) {
+                Ok(()) => Ok(()),
+                Err(error) => Err(format!("{}", error))
+            },
+            Err(error) => Err(format!("{}", error))
         }
     }
 }
