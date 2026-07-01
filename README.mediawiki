@@ -28,7 +28,7 @@ This static site generator is my homebrewed solution to that trouble.
 <dt style="font-weight:bold">0.3.0</dt>
 <dd>
 <p>Major change.</p>
-<p>Add ability to create posts and implement pagination.</p>
+<p>Add ability to create posts, implement pagination, and switch to yaml configuration.</p>
 <p>This allow kurama to be used for blogging, or to create a news feed.</p>
 <p>However, there is no support for tags or categories at this time, and there is no post clipping.</p>
 </dd>
