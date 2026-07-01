@@ -167,6 +167,10 @@ impl Store {
             for post in paginator.page(page) {
                 feed_builder.add_item(&post_to_item(&post, config));
             }
+
+            let file_path = if let Ok(output_url) = Url::parse(&url) {
+
+            }
         }
     }
 }
