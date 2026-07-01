@@ -213,3 +213,17 @@ fn permalink_for_post(post: &Post, config: &Configuration) -> String {
         path
     }
 }
+
+fn feed_title(config: &Configuration, page: usize) -> String {
+    let title = if !config.blog_name.is_empty() {
+        config.blog_name.clone()
+    } else {
+        config.name.clone()
+    };
+
+    if page > 1 {
+        format!("{} ({})", title, page)
+    } else {
+        format!("{}", title)
+    }
+}
