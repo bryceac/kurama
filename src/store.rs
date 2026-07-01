@@ -1,6 +1,6 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
-use crate::{ Archive, Page, Post, Configuration, Save, Paginator};
+use crate::{ Archive, Page, Post, Configuration, Save, Paginator, PaginationMethod};
 use tera::Tera;
 pub struct Store {
     assets: String,
@@ -166,5 +166,11 @@ impl Store {
                 Err(error) => println!("{}", error),
             }
         }
+    }
+}
+
+fn write_archive(content: &str, config: &Configuration, page: usize) {
+    match config.pagination_method {
+        PaginationMethod
     }
 }
