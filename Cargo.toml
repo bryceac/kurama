@@ -28,6 +28,7 @@ shellexpand = "3.1.1"
 clap = { version = "4.5.40", features = ["derive"] }
 chrono = {version = "0.4.45", features = ["serde", "alloc"] }
 url = { version = "2.5.8", features = ["serde"] }
+jfeed = "0.1.0"
 
 [package.metadata.deb]
 license-file = ["LICENSE", "4"]
