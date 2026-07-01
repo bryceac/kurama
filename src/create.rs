@@ -19,7 +19,7 @@ impl Create {
         let input = if self.path.starts_with("~") {
             shellexpand::tilde(&self.path).into_owned()
         } else {
-            self.path
+            self.path.clone()
         };
 
         let site_path = Path::new(&input);
