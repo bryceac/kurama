@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize };
 use serde_json;
 use std::{fs::File, io::{ Read, Error }};
-use crate::save_string::Save;
+use crate::{save_string::Save, PaginationMethod};
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Configuration {
@@ -17,7 +17,9 @@ pub struct Configuration {
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
     pub blog_name: String,
     #[serde(rename = "items", default= "usize::default", skip_serializing_if = "number_is_default")]
-    pub items_per_page: usize
+    pub items_per_page: usize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pagination_method: Option<PaginationMethod>
 }
 
 impl Configuration {
@@ -39,7 +41,8 @@ impl Configuration {
             url: String::default(),
             blog_path: String::default(),
             blog_name: String::default(),
-            items_per_page: usize::default()
+            items_per_page: usize::default(),
+            pagination_method: None
         }
     }
 
