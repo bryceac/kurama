@@ -910,7 +910,6 @@ dependencies = [
  "local-ip-address",
  "pulldown-cmark",
  "serde",
- "serde_json",
  "serde_yaml_bw",
  "shellexpand",
  "tera",
