@@ -127,6 +127,8 @@ impl Store {
             return;
         }
 
+        let paginator = Paginator::from(&self.posts(), config.items_per_page);
+
         let output_path = Path::new(p);
 
         let mut archive = Archive::default();
@@ -134,7 +136,7 @@ impl Store {
         for page in 1..=paginator.page_count() {
             archive.page = page;
 
-            match archive.render(config, templates, paginator) {
+            match archive.render(config, templates, &paginator) {
                 Ok(html) => if !config.blog_path.is_empty() {
                     let archive_dir = output_path.join(&config.blog_path);
                     let output_file = if archive.page > 1 {
