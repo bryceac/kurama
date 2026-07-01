@@ -1,6 +1,7 @@
 use clap::Parser;
 use std::{ fs::create_dir_all, path::Path };
 use crate::Configuration;
+use url_path::UrlPath;
 
 #[derive(Parser)]
 #[clap(version = "0.2", about = "create a project directory at the given path", long_about = None)]
@@ -19,7 +20,7 @@ impl Create {
         let input = if self.path.starts_with("~") {
             shellexpand::tilde(&self.path).into_owned()
         } else {
-            self.path.clone()
+            UrlPath::new(&self.path).normalize()
         };
 
         let site_path = Path::new(&input);
