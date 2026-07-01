@@ -16,7 +16,11 @@ impl Create {
     }
 
     pub async fn run(&self) {
-        let site_path = Path::new(&self.path);
+        let site_path = Path::new(if self.path.starts_with("~") {
+            shellexpand::tilde(&self.path).into_owned()
+        } self {
+            self.path
+        });
     
         if !Path::exists(site_path) {
            if let Err(error) = create_dir_all(site_path) {
