@@ -34,6 +34,7 @@ use crate::{
     navigation_item::NavigationItem as NavigationItem,
     page::Page as Page,
     paginator::Paginator as Paginator,
+    paginator::PaginationMethod as PaginationMethod,
     post::Post as Post,
     save_string::Save as Save,
     store::Store as Store,

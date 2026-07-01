@@ -1,4 +1,5 @@
 use crate::Post;
+use serde::{ Deserialize, Serialize };
 
 pub struct Paginator {
     posts: Vec<Post>,
@@ -46,4 +47,11 @@ impl Paginator {
             self.posts.clone()
         } 
     }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+#[serde(rename_all = "lowercase")]
+pub enum PaginationMethod {
+    File,
+    Dir
 }
