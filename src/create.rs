@@ -3,7 +3,7 @@ use std::{ fs::create_dir_all, path::Path };
 use crate::Configuration;
 
 #[derive(Parser)]
-#[clap(about = "create a project directory at the given path", long_about = None)]
+#[clap(version = "0.2", about = "create a project directory at the given path", long_about = None)]
 pub struct Create {
     pub path: String
 }
