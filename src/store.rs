@@ -259,7 +259,7 @@ fn feed_url(config: &Configuration, page: usize) -> String {
     path.push_str("/");
     path.push_str(&feed);
 
-    if let Some(mut site_url) = config.url {
+    if let Some(mut site_url) = config.url.clone() {
         site_url.set_path(&path);
         site_url.as_str().to_owned()
     } else {
