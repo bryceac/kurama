@@ -42,7 +42,7 @@ impl Configuration {
             blog_path: String::default(),
             blog_name: String::default(),
             items_per_page: usize::default(),
-            pagination_method: None
+            pagination_method: PaginationMethod::default()
         }
     }
 
