@@ -14,3 +14,14 @@ impl Save for String {
         }
     }
 }
+
+impl Save for &str {
+    fn save(&self, path: &str) -> Result<(), Error> {
+        let mut output = File::create(path)?;
+
+        match write!(output, "{}", self) {
+            Ok(()) => Ok(()),
+            Err(error) => Err(error)
+        }
+    }
+}
