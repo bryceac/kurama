@@ -59,7 +59,7 @@ To install this application,
 download the appropriate installer file 
 and install it like you would typically do.
 
-The mac package is both both Intel and Apple Silicon macs.
+The mac package is for both Intel and Apple Silicon macs.
 
 ==Create Website==
 
