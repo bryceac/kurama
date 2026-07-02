@@ -43,6 +43,9 @@ impl Generate {
     
         let mut site_configuration = Configuration::from_file("config.yaml").expect("Could not load configuration");
 
+        /* 
+         * change url to IP address and port used by preview
+         * server in dev mode. */
         if let BuildMode::Dev = self.build_mode {
             if let Ok(ip_address) = local_ip() {
                 site_configuration.url.set_ip_host(ip_address).unwrap();
