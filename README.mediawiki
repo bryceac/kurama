@@ -208,7 +208,7 @@ you do so in two places, which are as follows:
 
 <ul>
 <li>The template</li>
-<li>links.json</li>
+<li>config.yaml</li>
 </ul>
 
 ===Template===
@@ -245,46 +245,63 @@ since one should only need to check for either
 <strong>sections</strong> or <strong>links</strong>, 
 this should give you and idea of what to implement for your needs.
 
-===JSON===
+===YAML===
 
 The info from above is filled in with the data found in 
-<strong>links.json</strong>.
+<strong>config.yaml</strong>.
 
 To create sections links, you will do something like the following:
 
 <pre>
-[
-    {
-        "name": "Main",
-        "links": [
-            {
-                "name": "Home",
-                "url": "/"
-            }
-        ]
-    }
-]
+sections:
+  - name: Main
+    links:
+      - name: About
+        url: index.html
+      - name: Beliefs
+        url: beliefs.html
+      - name: Bio
+        url: bio.html
+  - name: Favorites
+    links:
+      - name: Favorite Quotes
+        url: quotes.html
+      - name: Favorite Books
+        url: fbooks.html
+      - name: Favorite Anime
+        url: anime.html
+      - name: Favorite Manga
+        url: manga.html
+  - name: Projects
+    links:
+      - name: Books
+        url: books.html
+      - name: Apps
+        url: apps.html
+      - name: Habari
+        url: habari.html
 </pre>
 
-This creates a section called <strong>Main</strong> 
-with only one link back to the top level of the site.
+This creates a sections called:</p>
+<ul>
+<li>Main</li>
+<li>Favorites</li>
+<li>Projects</li>
+</ul> 
+
+with a few links in each section.
 
 If you just want a list of links, you will do this instead:
 
 <pre>
-    [
-        {
-            "name": "Home",
-            "url": "/"
-        }
-    ]
+    - links:
+      - name: Home
+        url: /
 </pre>
 
 This creates a link back to the top level of the site on its own.
 
-When the site is generated, 
-the contents will be parsed to determine 
-the kind of navigation you seek and will send the variable 
+When the site is generated, both links and sections will be made available
 <strong>sections</strong> or <strong>links</strong> 
 over to your template.
 
@@ -298,7 +315,7 @@ The templating engine used is called <a href="https://github.com/Keats/tera">Ter
 same way as they are with 
 <a href="https://hyde.github.io/templates/index.html">Hyde</a> and other static site generators that use Jinja templates.
 
-However, unlike Hyde, the only available context objects are: 
+The following are some available context objects are: 
 
 <dl>
 <dt style="font-weight:bold">site</dt>
@@ -321,7 +338,7 @@ However, unlike Hyde, the only available context objects are:
 </dd>
 <dt style="font-weight:bold">current_dir</dt>
 <dd>
-<p>This is only available or an archive, or where posts get list.</p>
+<p>This is only available on an archive, or where posts get listed.</p>
 <p>If the blog is not at the root of the site, 
 this is useful in creating helpful navigation, even when data has been paginated.</p>
 </dd>
@@ -333,6 +350,14 @@ this is useful in creating helpful navigation, even when data has been paginated
 <dd>
 <p>This is another archive exclusive property that will return the total number of pages
 in the archive.</p>
+</dd>
+<dt style="font-weight:bold">next_page</dt>
+<dd>
+<p>This is another archive exclusive property that will return a link relative to the next page, if you aren't on the last page.</p>
+</dd>
+<dt style="font-weight:bold">prev_pages</dt>
+<dd>
+<p>This is another archive exclusive property that will return the same kind of data as the next page, as long as you're not on the first page.</p>
 </dd>
 </dl>
 
