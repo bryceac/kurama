@@ -10,8 +10,7 @@ pub struct Configuration {
     pub tagline: String,
     #[serde(default = "String::default", skip_serializing_if= "String::is_empty")]
     pub author: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub url: Option<Url>,
+    pub url: Url,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub sections: Vec<Section>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
