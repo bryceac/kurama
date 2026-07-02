@@ -4,8 +4,9 @@ use std::{ fs::{
 }, path::{ Path },
     sync::LazyLock, };
 use crate::{ Configuration,
-     Store };
+     Store, BuildMode };
 use tera::Tera;
+use local_ip_address::local_ip;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
     let mut tera = match Tera::new("templates/*.html") {
@@ -21,7 +22,10 @@ static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
 
 #[derive(Default, Parser)]
 #[clap(version = "0.2", about = "build the website", long_about = None)]
-pub struct Generate {}
+pub struct Generate {
+    #[clap(value_enum, default_value_t=BuildMode::Dev)]
+    pub build_mode: BuildMode
+}
 
 impl Generate {
     pub async fn run(&self) {
@@ -37,7 +41,27 @@ impl Generate {
 
         store.copy_assets("output");
     
-        let site_configuration = Configuration::from_file("config.yaml").expect("Could not load configuration");
+        let mut site_configuration = Configuration::from_file("config.yaml").expect("Could not load configuration");
+
+        /* 
+         * change url to IP address and port used by preview
+         * server in dev mode. */
+        if let BuildMode::Dev = self.build_mode {
+            if let Ok(ip_address) = local_ip() {
+                site_configuration.url.set_ip_host(ip_address).unwrap();
+
+                if let Some(port) = site_configuration.url.port(){
+                    if port != 8080 {
+                        site_configuration.url.set_port(Some(8080)).unwrap();
+                    }
+                }
+
+                if site_configuration.url.scheme() != "http" {
+                    site_configuration.url.set_scheme("http").unwrap();
+                }
+                
+            }
+        }
     
         store.generate_pages(&site_configuration, &TEMPLATES, "output");
 
@@ -50,10 +74,7 @@ impl Generate {
 
             store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
             store.generate_archive(&site_configuration, &TEMPLATES, "output");
-
-            if site_configuration.url.is_some() {
-                store.generate_feed(&site_configuration, "output")
-            }
+            store.generate_feed(&site_configuration, "output")
         }
     }
 }
