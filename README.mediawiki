@@ -56,8 +56,9 @@ this program will only compile with Rust edition 2024 or later.</p>
 ==Installing==
 
 To install this application, 
-download the appropriate installer file 
-and install it like you would typically do.
+either download the appropriate installer file 
+and install it like you would typically do, or you can compile and 
+install from source via this repo.
 
 The mac package is for both Intel and Apple Silicon macs.
 
