@@ -394,8 +394,7 @@ A minimal config file will look like this:
 }
 </pre>
 
-Right now, the configuration is quite minimal with only seven keys, 
-which are as follows:
+The configuration currently has quite few settings, as seen below:
 
 <dl>
 <dt style="font-weight:bold">name</dt>
@@ -408,7 +407,7 @@ The website's tagline.
 </dd>
 <dt style="font-weight:bold">url</dt>
 <dd>
-The website's URL.
+The website's full URL.
 </dd>
 <dt style="font-weight:bold">author</dt>
 <dd>

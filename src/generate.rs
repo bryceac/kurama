@@ -37,7 +37,7 @@ impl Generate {
 
         store.copy_assets("output");
     
-        let site_configuration = Configuration::from_file("config.json").expect("Could not load configuration");
+        let site_configuration = Configuration::from_file("config.yaml").expect("Could not load configuration");
     
         store.generate_pages(&site_configuration, &TEMPLATES, "output");
 
