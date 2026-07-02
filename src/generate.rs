@@ -27,12 +27,6 @@ pub struct Generate {
 }
 
 impl Generate {
-    pub fn from(mode: BuildMode) -> Self {
-        Self {
-            build_mode: mode
-        }
-    }
-    
     pub async fn run(&self) {
         let output_path = Path::new("output");
 
