@@ -6,6 +6,7 @@ use std::{ fs::{
 use crate::{ Configuration,
      Store, BuildMode };
 use tera::Tera;
+use local_ip_address::local_ip;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
     let mut tera = match Tera::new("templates/*.html") {
@@ -41,6 +42,12 @@ impl Generate {
         store.copy_assets("output");
     
         let site_configuration = Configuration::from_file("config.yaml").expect("Could not load configuration");
+
+        if let BuildMode::Dev = self.build_mode {
+            if let Ok(ip_address) = local_ip() {
+                println!("website viewable at {}:8080", ip_address);
+            }
+        }
     
         store.generate_pages(&site_configuration, &TEMPLATES, "output");
 
