@@ -425,8 +425,13 @@ It is not needed if your site is a blog.
 </dd>
 <dt style="font-weight:bold">items_per_page</dt>
 <dd>
-The number of posts to display per a page.
+<p>The number of posts to display per a page.
 If this is not set or set to zero, then no pagination will occur.</p>
+</dd>
+<dt style="font-weight:bold">pagination_method</dt>
+<dd>
+<p>Determines how pages will be paginated. The default is as a file.</p>
+<p>Set this to <strong>dir</strong> use directory pagination.</p>
 </dd>
 </dl>
 
