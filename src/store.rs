@@ -75,13 +75,14 @@ impl Store {
 
     pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         let output_path = Path::new(p);
+        let feed = feed_url(config, 1);
         for page in self.pages() {
             if config.blog_path.is_empty() && !self.posts().is_empty() && page.metadata.slug == "index" {
                 println!("Skipping this file because index.html is not allowed here.");
                 continue;
             }
             
-            match page.render(config, templates) {
+            match page.render(config, templates, &feed) {
                 Ok(html) => {
                     let output_file = format!("{}.html", page.metadata.slug);
     
@@ -98,8 +99,10 @@ impl Store {
     
     pub fn generate_posts(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         let output_path = Path::new(p);
+        let feed = feed_url(config, 1);
+
         for post in self.posts() {
-            match post.render(config, templates) {
+            match post.render(config, templates, &feed) {
                 Ok(html) => {
                     let output_file = format!("{}.html", post.slug);
     
@@ -136,7 +139,9 @@ impl Store {
         for page in 1..=paginator.page_count() {
             archive.page = page;
 
-            match archive.render(config, templates, &paginator) {
+            let feed = feed_url(config, page);
+
+            match archive.render(config, templates, &paginator, &feed) {
                 Ok(html) => write_archive(&html, config, page, output_path),
                 Err(error) => println!("{}", error),
             }

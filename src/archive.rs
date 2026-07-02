@@ -9,7 +9,7 @@ pub struct Archive {
 }
 
 impl Archive {
-    pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator) -> Result<String, String> {
+    pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, feed: &str) -> Result<String, String> {
         let mut context = Context::new();
         context.insert("site", &config);
         if !config.blog_path.is_empty() {
@@ -18,6 +18,7 @@ impl Archive {
             context.insert("current_dir", "/");
         }
         context.insert("archive", &self);
+        context.insert("feed_url", feed);
         context.insert("posts", &paginator.page(self.page));
         context.insert("pages", &paginator.page_count());
         context.insert("prev_page", &previous_page_from(self.page, config));

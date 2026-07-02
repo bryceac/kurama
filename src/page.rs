@@ -41,11 +41,12 @@ impl Page {
         html_output
     }
 
-    pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>) -> Result<String, String> {
+    pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, feed: &str) -> Result<String, String> {
         let output_url = format!("{}.html", self.metadata.slug);
     
         let mut context = Context::new();
         context.insert("site", &config);
+        context.insert("feed_url", feed);
         context.insert("page", &self);
         context.insert("content", &self.content_html());
         context.insert("output_file", &output_url);
