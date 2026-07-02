@@ -447,6 +447,13 @@ If this is not set or set to zero, then no pagination will occur.</p>
 <p>Determines how pages will be paginated. The default is as a file.</p>
 <p>Set this to <strong>dir</strong> use directory pagination.</p>
 </dd>
+<dt style="font-weight:bold">feed_url</dt>
+<dd>
+<p>The feed URL. This should be accessible in all templates, 
+as all three page types are passed appropriate feed URLs, 
+due to JSON feeds allowing pagination.</p>
+<p>However, pages and posts will always point to the main feed.</p>
+</dd>
 </dl>
 
 As can be seen above, only the name key is required, 
