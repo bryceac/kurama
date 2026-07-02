@@ -41,11 +41,13 @@ impl Generate {
 
         store.copy_assets("output");
     
-        let site_configuration = Configuration::from_file("config.yaml").expect("Could not load configuration");
+        let mut site_configuration = Configuration::from_file("config.yaml").expect("Could not load configuration");
 
         if let BuildMode::Dev = self.build_mode {
             if let Ok(ip_address) = local_ip() {
-                println!("website viewable at {}:8080", ip_address);
+                site_configuration.url.set_ip_host(ip_address).unwrap();
+                site_configuration.url.set_port(Some(8080));
+                site_configuration.url.set_scheme("http");
             }
         }
     
