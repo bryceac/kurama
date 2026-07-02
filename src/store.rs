@@ -76,7 +76,8 @@ impl Store {
     pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         let output_path = Path::new(p);
         let feed = feed_url(config, 1);
-        for page in self.pages() {
+        for (index, page) in self.pages().iter().enumerate() {
+            println!("Attempting to create page {} of {}", index+1, self.pages().len());
             if config.blog_path.is_empty() && !self.posts().is_empty() && page.metadata.slug == "index" {
                 println!("Skipping this file because index.html is not allowed here.");
                 continue;
@@ -101,7 +102,8 @@ impl Store {
         let output_path = Path::new(p);
         let feed = feed_url(config, 1);
 
-        for post in self.posts() {
+        for (index, post) in self.posts().iter().enumerate() {
+            println!("Attempting to create post {} of {}", index+1, self.posts().len());
             match post.render(config, templates, &feed) {
                 Ok(html) => {
                     let output_file = format!("{}.html", post.slug);
@@ -137,6 +139,7 @@ impl Store {
         let mut archive = Archive::default();
 
         for page in 1..=paginator.page_count() {
+            println!("attempting to create page {} of the {}-page archive.", page, paginator.page_count());
             archive.page = page;
 
             let feed = feed_url(config, page);
@@ -157,6 +160,7 @@ impl Store {
         let output_dir = Path::new(p);
 
         for page in 1..=paginator.page_count() {
+            println!("attempting to create page {} of the {}-page feed.", page, paginator.page_count());
             let url = feed_url(config, page);
             let next_url = if page == paginator.page_count() {
                 None
