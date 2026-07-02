@@ -11,9 +11,9 @@ pub struct Configuration {
     #[serde(default = "String::default", skip_serializing_if= "String::is_empty")]
     pub author: String,
     pub url: Url,
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub sections: Vec<Section>,
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub links: Vec<Link>,
     #[serde(default= "String::default", skip_serializing_if = "String::is_empty")]
     pub blog_path: String,
