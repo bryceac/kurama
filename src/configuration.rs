@@ -41,7 +41,7 @@ impl Configuration {
             name: String::from(n),
             tagline: String::from(t),
             author: String::new(),
-            url: None,
+            url: Url::parse("https://example.com").unwrap(),
             sections: vec![],
             links: vec![],
             blog_path: String::default(),

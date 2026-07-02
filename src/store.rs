@@ -266,7 +266,7 @@ fn permalink_for_post(post: &Post, config: &Configuration) -> String {
         post.slug)
     };
 
-    let mut = config.url.clone();
+    let mut site_url = config.url.clone();
     site_url.set_path(&path);
     site_url.as_str().to_owned()
 }
