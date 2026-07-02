@@ -329,7 +329,11 @@ The following are some available context objects are:
 <p>Things relating to page metadata are accessed via <pre>page.metadata</pre></p>
 <p>For example, to grab the title of the page, it is as easy as <pre>page.metadata.title</pre></p>
 <p>On a post, metadata does not exist. Instead the elements are properties of the page.</p>
-<p>On an archive, which s what blogs are considered, this will have a subproperty called page that will return the page number.</p>
+</dd>
+<dt style="font-weight:bold">archive</dt>
+<dd>
+<p>This is like <strong>page</strong>, but only feature a property that gives you the current page number.</p>
+<p>Archives pull other data from the main site configuration.</p>
 </dd>
 <dt style="font-weight:bold">output_file</dt>
 <dd>
