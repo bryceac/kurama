@@ -50,7 +50,11 @@ impl Generate {
             if let Ok(ip_address) = local_ip() {
                 site_configuration.url.set_ip_host(ip_address).unwrap();
                 site_configuration.url.set_port(Some(8080)).unwrap();
-                site_configuration.url.set_scheme("http").unwrap();
+
+                if site_configuration.url.scheme() != "http" {
+                    site_configuration.url.set_scheme("http").unwrap();
+                }
+                
             }
         }
     
