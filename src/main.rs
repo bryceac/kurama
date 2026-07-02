@@ -15,6 +15,7 @@ mod section;
 mod serve;
 mod save_string;
 mod store;
+mod build_mode;
 
 
 use crate::{
@@ -36,6 +37,7 @@ use crate::{
     post::Post as Post,
     save_string::Save as Save,
     store::Store as Store,
+    build_mode::BuildMode as BuildMode
 };
 
 use clap::Parser;
