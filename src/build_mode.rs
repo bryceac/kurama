@@ -1,7 +1,8 @@
 use clap::ValueEnum;
 
-#[derive(ValueEnum, Clone, Debug)]
+#[derive(Default, ValueEnum, Clone, Debug)]
 pub enum BuildMode {
+    #[default]
     Dev,
     Release
 }

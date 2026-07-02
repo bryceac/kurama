@@ -19,7 +19,7 @@ static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
         tera
 });
 
-#[derive(Parser)]
+#[derive(Default, Parser)]
 #[clap(version = "0.2", about = "build the website", long_about = None)]
 pub struct Generate {
     #[clap(value_enum, default_value_t=BuildMode::Dev)]
@@ -27,6 +27,12 @@ pub struct Generate {
 }
 
 impl Generate {
+    pub fn from(mode: BuildMode) -> Self {
+        Self {
+            build_mode: mode
+        }
+    }
+    
     pub async fn run(&self) {
         let output_path = Path::new("output");
 
