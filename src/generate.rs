@@ -49,7 +49,12 @@ impl Generate {
         if let BuildMode::Dev = self.build_mode {
             if let Ok(ip_address) = local_ip() {
                 site_configuration.url.set_ip_host(ip_address).unwrap();
-                site_configuration.url.set_port(Some(8080)).unwrap();
+
+                if let Some(port) = site_configuration.url.port(){
+                    if port != 8080 {
+                        site_configuration.url.set_port(Some(8080)).unwrap();
+                    }
+                }
 
                 if site_configuration.url.scheme() != "http" {
                     site_configuration.url.set_scheme("http").unwrap();
