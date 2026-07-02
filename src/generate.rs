@@ -4,7 +4,7 @@ use std::{ fs::{
 }, path::{ Path },
     sync::LazyLock, };
 use crate::{ Configuration,
-     Store };
+     Store, BuildMode };
 use tera::Tera;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
@@ -19,9 +19,12 @@ static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
         tera
 });
 
-#[derive(Default, Parser)]
+#[derive(Parser)]
 #[clap(version = "0.2", about = "build the website", long_about = None)]
-pub struct Generate {}
+pub struct Generate {
+    #[clap(value_enum, default_value_t=BuildMode::Dev)]
+    pub build_mode: BuildMode
+}
 
 impl Generate {
     pub async fn run(&self) {
