@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize };
 use std::{fs::File, io::{ Read, Error }};
 use crate::{Save, PaginationMethod, Section, Link };
-use url::Url;
+use http::uri::Uri;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Configuration {
@@ -10,7 +10,8 @@ pub struct Configuration {
     pub tagline: String,
     #[serde(default = "String::default", skip_serializing_if= "String::is_empty")]
     pub author: String,
-    pub url: Url,
+    #[serde(with = "http_serde_ext::uri")]
+    pub url: Uri,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub sections: Vec<Section>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -41,7 +42,7 @@ impl Configuration {
             name: String::from(n),
             tagline: String::from(t),
             author: String::new(),
-            url: Url::parse("https://example.com").unwrap(),
+            url: "//example.com".parse::<Uri>().unwrap(),
             sections: vec![],
             links: vec![],
             blog_path: String::default(),
