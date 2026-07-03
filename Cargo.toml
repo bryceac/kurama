@@ -30,6 +30,8 @@ jfeed = "0.1.1"
 unicode-segmentation = "1.13.3"
 yaml_serde = "0.10.4"
 url_path = "0.1.3"
+http-serde-ext = "1.0.2"
+http = "1.4.2"
 
 [package.metadata.deb]
 license-file = ["LICENSE", "4"]

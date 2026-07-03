@@ -916,6 +916,8 @@ dependencies = [
  "clap",
  "fs_extra",
  "futures",
+ "http 1.4.2",
+ "http-serde-ext",
  "jfeed",
  "local-ip-address",
  "pulldown-cmark",
