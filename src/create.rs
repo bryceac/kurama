@@ -62,7 +62,7 @@ fn create_config(path: &str) -> Result<(), String> {
 
     let config = Configuration::from("Hello, World!", "A Grand adventure");
 
-    match config.save(site_path.join("config.yaml").to_str().unwrap()) {
+    match config.save(site_path.join("config.json").to_str().unwrap()) {
         Ok(()) => Ok(()),
         Err(error) => Err(format!("{}", error))
     }
