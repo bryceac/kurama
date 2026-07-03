@@ -53,19 +53,36 @@ fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration) ->
 }
 
 fn previous_page_from(page: usize, config: &Configuration) -> Option<String> {
+    let prev_page = page -1;
     if page == 1 {
         None
     } else {
         match config.pagination_method {
             PaginationMethod::File => if !config.blog_path.is_empty() {
-                Some(format!("/{}/index{}.html", config.blog_path, page-1))
+                if prev_page > 1 {
+                    Some(format!("/{}/index{}.html", config.blog_path, prev_page))
+                } else {
+                    Some(format!("/{}/", config.blog_path, prev_page))
+                }
             } else {
-                Some(format!("/index{}.html", page-1))
+                if prev_page > 1 {
+                    Some(format!("/index{}.html", prev_page))
+                } else {
+                    Some(format!("/"))
+                }
             },
             PaginationMethod::Dir => if !config.blog_path.is_empty() {
-                Some(format!("/{}/{}", config.blog_path, page-1))
+                if prev_page > 1 {
+                    Some(format!("/{}/{}", config.blog_path, prev_page))
+                } else {
+                    Some(format!("/{}/", config.blog_path))
+                }
             } else {
-                Some(format!("/{}", page-1))
+                if prev_page > 1 {
+                    Some(format!("/{}/", prev_page))
+                } else {
+                    Some(format!("/", config.blog_path))
+                }
             }
         }
     }
