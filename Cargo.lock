@@ -621,12 +621,11 @@ dependencies = [
 
 [[package]]
 name = "http"
-version = "1.3.1"
+version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f4a85d31aea989eead29a3aaf9e1115a180df8282431156e533de47660892565"
+checksum = "6970f50e31d6fc17d3fa27329444bfa74e196cf62e95052a3f6fee181dba6425"
 dependencies = [
  "bytes",
- "fnv",
  "itoa",
 ]
 
@@ -639,6 +638,16 @@ dependencies = [
  "bytes",
  "http 0.2.12",
  "pin-project-lite",
+]
+
+[[package]]
+name = "http-serde-ext"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "665c24b8e7e21688dc74edb228f07c1815bbc7ff3b48a3ee72fa20937fbde095"
+dependencies = [
+ "http 1.4.2",
+ "serde",
 ]
 
 [[package]]
@@ -878,14 +887,15 @@ checksum = "4a5f13b858c8d314ee3e8f639011f7ccefe71f97f96e50151fb991f267928e2c"
 
 [[package]]
 name = "jfeed"
-version = "0.1.0"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "373272e9333dcdea1ee4e72482c4477495cc334816bff4069d4c992ce86d9009"
+checksum = "1eebf90eea840d94501f68f8be23d54bd69d6662f02510f49be4bd3def012228"
 dependencies = [
  "chrono",
+ "http 1.4.2",
+ "http-serde-ext",
  "serde",
  "serde_json",
- "url",
 ]
 
 [[package]]
@@ -1825,7 +1835,7 @@ dependencies = [
  "byteorder",
  "bytes",
  "data-encoding",
- "http 1.3.1",
+ "http 1.4.2",
  "httparse",
  "log",
  "rand",
@@ -1937,7 +1947,6 @@ dependencies = [
  "idna",
  "percent-encoding",
  "serde",
- "serde_derive",
 ]
 
 [[package]]

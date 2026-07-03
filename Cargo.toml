@@ -26,7 +26,7 @@ pulldown-cmark = "0.13.0"
 shellexpand = "3.1.1"
 clap = { version = "4.5.40", features = ["derive"] }
 chrono = {version = "0.4.45", features = ["serde", "alloc"] }
-jfeed = "0.1.0"
+jfeed = "0.1.1"
 unicode-segmentation = "1.13.3"
 yaml_serde = "0.10.4"
 url_path = "0.1.3"
