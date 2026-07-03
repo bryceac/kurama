@@ -155,7 +155,7 @@ impl Store {
         let paginator = Paginator::from(&self.posts(), config.items_per_page);
         let mut feed_builder = Feed::builder();
         feed_builder.set_version(&FeedVersion::JSONFeed1_1);
-        feed_builder.set_home_page(config.url.clone().as_str());
+        feed_builder.set_home_page(&format!("{}", config.url.clone()));
 
         let output_dir = Path::new(p);
 
@@ -270,9 +270,9 @@ fn permalink_for_post(post: &Post, config: &Configuration) -> String {
         post.slug)
     };
 
-    let mut site_url = config.url.clone();
-    site_url.set_path(&path);
-    site_url.as_str().to_owned()
+    let mut site_url = format!("{}", config.url);
+    site_url.push_str(&format!("/{}", path));
+    site_url
 }
 
 fn feed_title(config: &Configuration, page: usize) -> String {
@@ -312,9 +312,9 @@ fn feed_url(config: &Configuration, page: usize) -> String {
     path.push_str("/");
     path.push_str(&feed);
 
-    let mut site_url = config.url.clone();
-    site_url.set_path(&path);
-    site_url.as_str().to_owned()
+    let mut site_url = format!("{}", config.url);
+    site_url.push_str(&format!("/{}", path));
+    site_url
 }
 
 fn post_to_item(post: &Post, config: &Configuration) -> Item {
