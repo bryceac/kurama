@@ -19,7 +19,7 @@ impl Paginator {
     }
 
     pub fn page_count(&self) -> usize {
-        if self.total_items() > 1 && self.items_per_page > 0 {
+        if self.total_items() >= self.items_per_page && self.items_per_page > 0 {
             self.total_items()/self.items_per_page
         } else {
             1
@@ -34,12 +34,12 @@ impl Paginator {
                 self.items_per_page*(page-1)
             };
     
-            let increment = self.items_per_page-1;
+            let incrementer = self.items_per_page-1;
     
-            let end_index = if start_index+increment >= self.total_items() {
+            let end_index = if start_index+incrementer >= self.total_items() {
                 self.total_items()-1
             } else {
-                start_index+increment
+                start_index+incrementer
             };
     
             self.posts[start_index..=end_index].to_vec()
