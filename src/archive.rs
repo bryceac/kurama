@@ -62,7 +62,7 @@ fn previous_page_from(page: usize, config: &Configuration) -> Option<String> {
                 if prev_page > 1 {
                     Some(format!("/{}/index{}.html", config.blog_path, prev_page))
                 } else {
-                    Some(format!("/{}/", config.blog_path, prev_page))
+                    Some(format!("/{}/", config.blog_path))
                 }
             } else {
                 if prev_page > 1 {
