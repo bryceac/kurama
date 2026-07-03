@@ -3,7 +3,7 @@ use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use crate::{ Archive, Page, Post, Configuration, Save, Paginator, PaginationMethod};
 use tera::Tera;
-use url::Url;
+use http::uri::Uri;
 use unicode_segmentation::UnicodeSegmentation;
 
 pub struct Store {
