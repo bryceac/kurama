@@ -915,7 +915,6 @@ dependencies = [
  "tera",
  "tokio",
  "unicode-segmentation",
- "url",
  "url_path",
  "warp",
  "yaml-front-matter",
