@@ -20,6 +20,7 @@ impl Store {
     }
 
     pub fn copy_assets(&self, p: &str) {
+        println!("copying assets...");
         let output_path = Path::new(p);
         if let Ok(assets) = fs::read_dir(self.assets.clone()) {
             for item in assets {

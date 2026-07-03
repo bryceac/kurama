@@ -53,6 +53,8 @@ impl Generate {
 
             store.generate_feed(&site_configuration, "output")
         }
+
+        println!("Your site is now ready.")
     }
 }
 
