@@ -352,7 +352,7 @@ fn drop_first_character_from(s: &str) -> String {
 }
 
 fn feed_output_path(path: &str) -> String {
-    if let Ok(url) = Url::parse(path) {
+    if let Ok(url) = path.parse::<Uri>() {
         drop_first_character_from(url.path())
     } else {
         drop_first_character_from(path)
