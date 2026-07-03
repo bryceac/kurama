@@ -4,7 +4,7 @@ use crate::Configuration;
 use url_path::UrlPath;
 
 #[derive(Parser)]
-#[clap(version = "0.2", about = "create a project directory at the given path", long_about = None)]
+#[clap(version = "0.2.1", about = "create a project directory at the given path", long_about = None)]
 pub struct Create {
     pub path: String
 }
