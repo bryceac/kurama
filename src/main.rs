@@ -15,7 +15,6 @@ mod section;
 mod serve;
 mod save_string;
 mod store;
-mod build_mode;
 
 
 use crate::{
@@ -36,8 +35,7 @@ use crate::{
     paginator::PaginationMethod as PaginationMethod,
     post::Post as Post,
     save_string::Save as Save,
-    store::Store as Store,
-    build_mode::BuildMode as BuildMode
+    store::Store as Store
 };
 
 use clap::Parser;
