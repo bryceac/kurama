@@ -19,7 +19,7 @@ impl Paginator {
     }
 
     pub fn page_count(&self) -> usize {
-        if self.items_per_page > 0 {
+        if self.total_items() > 1 && self.items_per_page > 0 {
             self.total_items()/self.items_per_page
         } else {
             1
