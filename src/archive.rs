@@ -81,7 +81,7 @@ fn previous_page_from(page: usize, config: &Configuration) -> Option<String> {
                 if prev_page > 1 {
                     Some(format!("/{}/", prev_page))
                 } else {
-                    Some(format!("/", config.blog_path))
+                    Some(format!("/"))
                 }
             }
         }
