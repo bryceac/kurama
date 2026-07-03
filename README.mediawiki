@@ -209,7 +209,7 @@ you do so in two places, which are as follows:
 
 <ul>
 <li>The template</li>
-<li>config.yaml</li>
+<li>config.json</li>
 </ul>
 
 ===Template===
@@ -254,50 +254,30 @@ The info from above is filled in with the data found in
 To create sections links, you will do something like the following:
 
 <pre>
-sections:
-  - name: Main
-    links:
-      - name: About
-        url: index.html
-      - name: Beliefs
-        url: beliefs.html
-      - name: Bio
-        url: bio.html
-  - name: Favorites
-    links:
-      - name: Favorite Quotes
-        url: quotes.html
-      - name: Favorite Books
-        url: fbooks.html
-      - name: Favorite Anime
-        url: anime.html
-      - name: Favorite Manga
-        url: manga.html
-  - name: Projects
-    links:
-      - name: Books
-        url: books.html
-      - name: Apps
-        url: apps.html
-      - name: Habari
-        url: habari.html
+[
+    {
+        "name": "Main",
+        "links": [
+            {
+                "name": "Home",
+                "url": "/"
+            }
+        ]
+    }
+]
 </pre>
 
-This creates a sections called:</p>
-<ul>
-<li>Main</li>
-<li>Favorites</li>
-<li>Projects</li>
-</ul> 
-
-with a few links in each section.
+Creates a single section with a link to the home page.
 
 If you just want a list of links, you will do this instead:
 
 <pre>
-    - links:
-      - name: Home
-        url: /
+   [
+        {
+            "name": "Home",
+            "url": "/"
+        }
+    ]
 </pre>
 
 This creates a link back to the top level of the site on its own.
@@ -390,7 +370,8 @@ A minimal config file will look like this:
 
 <pre>
 {
-    "name": "Hello, World"
+    "name": "Hello, World",
+    "url": "//example.com"
 }
 </pre>
 
