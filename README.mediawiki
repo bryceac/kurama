@@ -99,20 +99,6 @@ This will create an output directory,
 which contained the generated HTML files 
 and the assets that were copied over.
 
-Please be aware that, due to feed generation that occurs with posts,
-this will build you website with an IP address and port number.
-
-This was done, due to the underlying crate used for feeds.
-
-If you pass:
-
-<pre>
-kurama generate release
-</pre>
-
-It should use the URL you provided, which <strong>should not</strong>
-have been overriden.
-
 ==Preview Website==
 
 If you would like to preview your website before publishing it,
