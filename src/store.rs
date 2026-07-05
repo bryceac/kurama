@@ -183,6 +183,8 @@ impl Store {
 
             let file_path = output_dir.join(feed_output_path(&url));
 
+            println!("attempt to create {}", file_path.display());
+
             let _ = fs::create_dir_all(file_path.clone().parent().unwrap()).unwrap();
 
             match feed_builder.build() {
@@ -350,12 +352,4 @@ fn drop_first_character_from(s: &str) -> String {
     let content: String = characters[1..].iter().map(|s| s.to_owned()).collect();
 
     content
-}
-
-fn feed_output_path(path: &str) -> String {
-    if let Ok(url) = path.parse::<Uri>() {
-        drop_first_character_from(url.path())
-    } else {
-        drop_first_character_from(path)
-    }
 }
