@@ -183,7 +183,7 @@ impl Store {
 
             let file_path = output_dir.join(feed_output_path(&url));
 
-            let _ = fs::create_dir_all(file_path.clone()).unwrap();
+            let _ = fs::create_dir_all(file_path.clone().parent().unwrap()).unwrap();
 
             match feed_builder.build() {
                 Ok(feed) => {
