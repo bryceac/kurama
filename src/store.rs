@@ -353,3 +353,11 @@ fn drop_first_character_from(s: &str) -> String {
 
     content
 }
+
+fn feed_output_path(path: &str) -> String {
+    if let Ok(url) = path.parse::<Uri>() {
+        drop_first_character_from(url.path())
+    } else {
+        path.to_owned()
+    }
+}
