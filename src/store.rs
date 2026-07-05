@@ -32,7 +32,7 @@ impl Store {
                     directory_copy_options.overwrite = true;
     
                     if path.is_dir() {
-                        if let Err(error) = dir::copy(p, output_path.join(entry.path().file_stem().unwrap()), &directory_copy_options) {
+                        if let Err(error) = dir::copy(p, output_path.join(path.as_path().file_stem().unwrap()), &directory_copy_options) {
                             println!("{}", error)
                         }
                     }
