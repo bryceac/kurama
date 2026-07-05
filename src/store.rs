@@ -1,10 +1,8 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
-use crate::{ Archive, Page, Post, Configuration, Save, Paginator, PaginationMethod};
+use crate::{ Archive, Page, Post, Configuration, Save, Paginator, PaginationMethod };
 use tera::Tera;
-use http::uri::Uri;
-use unicode_segmentation::UnicodeSegmentation;
 
 pub struct Store {
     assets: String,
@@ -181,7 +179,7 @@ impl Store {
                 feed_builder.add_item(&post_to_item(&post, config));
             }
 
-            let file_path = output_dir.join(feed_output_path(&url));
+            let file_path = output_dir.join(feed_output_path(config, page));
 
             println!("attempt to create {}", file_path.display());
 
@@ -293,28 +291,7 @@ fn feed_title(config: &Configuration, page: usize) -> String {
 }
 
 fn feed_url(config: &Configuration, page: usize) -> String {
-    let mut path = if !config.blog_path.is_empty() {
-        config.blog_path.clone()
-    } else {
-        String::default()
-    };
-
-    let feed = match config.pagination_method {
-        PaginationMethod::File => if page > 1 {
-            format!("feed{}.json", page)
-        } else {
-            "feed.json".to_owned()
-        },
-        PaginationMethod::Dir => if page > 1 {
-            format!("{}/feed.json", page)
-        } else {
-            "feed.json".to_owned()
-        }
-    };
-
-    path.push_str("/");
-    path.push_str(&feed);
-
+    let path = feed_output_path(config, page);
     let mut site_url = format!("{}", config.url);
     site_url.push_str(&format!("/{}", path));
     site_url
@@ -346,18 +323,27 @@ fn post_to_item(post: &Post, config: &Configuration) -> Item {
     .build().unwrap()
 }
 
-fn drop_first_character_from(s: &str) -> String {
-    let characters: Vec<String> = s.graphemes(true).map(|s| s.to_owned()).collect();
-
-    let content: String = characters[1..].iter().map(|s| s.to_owned()).collect();
-
-    content
-}
-
-fn feed_output_path(path: &str) -> String {
-    if let Ok(url) = path.parse::<Uri>() {
-        drop_first_character_from(url.path())
+fn feed_output_path(config: &Configuration, page: usize) -> String {
+    let mut path = if !config.blog_path.is_empty() {
+        config.blog_path.clone()
     } else {
-        path.to_owned()
-    }
+        String::default()
+    };
+
+    let feed = match config.pagination_method {
+        PaginationMethod::File => if page > 1 {
+            format!("feed{}.json", page)
+        } else {
+            "feed.json".to_owned()
+        },
+        PaginationMethod::Dir => if page > 1 {
+            format!("{}/feed.json", page)
+        } else {
+            "feed.json".to_owned()
+        }
+    };
+
+    path.push_str("/");
+    path.push_str(&feed);
+    path
 }
