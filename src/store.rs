@@ -94,7 +94,7 @@ impl Store {
                         println!("{}", error)
                     }
                 },
-                Err(error) => println!("{}", error)
+                Err(error) => println!("{:?}", error)
             }
         }
     }
@@ -122,7 +122,7 @@ impl Store {
                         println!("{}", error);
                     }
                 },
-                Err(error) => println!("{}", error)
+                Err(error) => println!("{:?}", error)
             }
         }
     }
@@ -147,7 +147,7 @@ impl Store {
 
             match archive.render(config, templates, &paginator, &feed) {
                 Ok(html) => write_archive(&html, config, page, output_path),
-                Err(error) => println!("{}", error),
+                Err(error) => println!("{:?}", error),
             }
         }
     }
