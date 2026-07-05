@@ -234,7 +234,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
             } else {
                 archive_dir.join(output_file)
             };
-            let _ = fs::create_dir_all(file_path.clone()).unwrap();
+            let _ = fs::create_dir_all(archive_dir.clone()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
