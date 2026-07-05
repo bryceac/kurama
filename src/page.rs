@@ -28,7 +28,7 @@ impl Page {
                     Err(error) => Err(format!("{}", error))
                 }
             },
-            Err(error) => Err(format!("{}", error))
+            Err(error) => Err(format!("{:?}", error))
         }
     }
 

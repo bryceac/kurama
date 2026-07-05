@@ -58,7 +58,7 @@ impl Post {
 
         match templates.render("entry.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),
-            Err(errors) => Err(format!("{}", errors))
+            Err(errors) => Err(format!("{:?}", errors))
         }
     }
 }

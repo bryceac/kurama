@@ -28,7 +28,7 @@ impl Archive {
 
         match templates.render("archive.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),
-            Err(errors) => Err(format!("{}", errors))
+            Err(errors) => Err(format!("{:?}", errors))
         }
     }
 }
