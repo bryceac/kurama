@@ -253,7 +253,7 @@ since one should only need to check for either
 <strong>sections</strong> or <strong>links</strong>, 
 this should give you and idea of what to implement for your needs.
 
-===YAML===
+===JSON===
 
 The info from above is filled in with the data found in 
 <strong>config.yaml</strong>.
