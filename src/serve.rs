@@ -10,6 +10,7 @@ use std::time::Duration;
 use local_ip_address::local_ip;
 
 #[derive(Default, Parser)]
+#[clap(version = "0.1", about = "start dev server", long_about = None)]
 pub struct Serve {}
 
 impl Serve {
