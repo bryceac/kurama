@@ -8,7 +8,7 @@ use yaml_front_matter::YamlFrontMatter;
 use pulldown_cmark::{ html, Parser};
 use tera::{ Context, Tera };
 
-#[derive(Deserialize, Serialize, Eq)]
+#[derive(Deserialize, Serialize, Eq, Clone)]
 pub struct Page {
     pub metadata: Metadata,
     pub content: String

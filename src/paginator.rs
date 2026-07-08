@@ -1,4 +1,4 @@
-use crate::Post;
+use crate::Page;
 use serde::{ Deserialize, Serialize };
 
 pub struct Paginator {

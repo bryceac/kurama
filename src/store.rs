@@ -1,7 +1,7 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
-use crate::{ Archive, Page, Post, Configuration, Save, Paginator, PaginationMethod };
+use crate::{ Archive, Page, Configuration, Save, Paginator, PaginationMethod };
 use tera::Tera;
 
 pub struct Store {
@@ -68,7 +68,6 @@ impl Store {
         self.retrieve_pages()
         .into_iter()
         .filter(|p| p.metadata.date.is_some())
-        .map(|p| Post::from_page(p))
         .collect()
     }
 

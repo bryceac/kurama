@@ -1,7 +1,7 @@
 use chrono::{ DateTime, Local };
 use serde::{ Deserialize, Serialize };
 
-#[derive(Deserialize, Serialize, Eq )]
+#[derive(Deserialize, Serialize, Eq, Clone )]
 pub struct Metadata {
     #[serde(default="String::default")]
     pub title: String,
