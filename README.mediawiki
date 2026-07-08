@@ -241,9 +241,9 @@ In the template file, you need something like this:
 
 <pre>
     <nav id="nav">
-        {% if sections %}
+        {% if site.sections %}
             <ul>
-            {% for section in sections %}
+            {% for section in site.sections %}
             <li>
                 {{ section.name }}
                 <ul>
@@ -254,9 +254,9 @@ In the template file, you need something like this:
             </li>
             {% endfor %}
             </ul>
-        {% elif links %}
+        {% elif site.links %}
         <ul>
-        {% for link in links %}
+        {% for link in site.links %}
             <li><a href="{{ link.url }}">{{ link.name }}</a></li>
         {% endfor %}
         </ul>
@@ -436,6 +436,15 @@ If this is not set or set to zero, then no pagination will occur.</p>
 <dd>
 <p>Determines how pages will be paginated. The default is as a file.</p>
 <p>Set this to <strong>dir</strong> use directory pagination.</p>
+</dd>
+<dt style="font-weight:bold">links</dt>
+<dd>
+<p>List of links.</p>
+<p>This is for a link list that is not sectioned off.</p>
+</dd>
+<dt style="font-weight:bold">section</dt>
+<dd>
+<p>LIst of liks divided into sections.
 </dd>
 <dt style="font-weight:bold">feed_url</dt>
 <dd>
