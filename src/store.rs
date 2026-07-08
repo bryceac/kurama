@@ -262,7 +262,7 @@ fn permalink_for_post(post: &Page, config: &Configuration) -> String {
         post.metadata.date_components()[2], 
         post.metadata.slug)
     } else {
-        format!("posts/{}/{}/{}/{}", post.metadata.date_components()[0], 
+        format!("posts/{}/{}/{}/{}.html", post.metadata.date_components()[0], 
         post.metadata.date_components()[1], 
         post.metadata.date_components()[2], 
         post.metadata.slug)
