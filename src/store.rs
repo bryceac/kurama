@@ -65,10 +65,13 @@ impl Store {
     }
 
     pub fn posts(&self) -> Vec<Page> {
-        self.retrieve_pages()
+        let mut stored: Vec<Page> = self.retrieve_pages()
         .into_iter()
         .filter(|p| p.metadata.date.is_some())
-        .collect()
+        .collect();
+
+        stored.sort_by_key(|p| p.metadata.date.unwrap());
+        stored
     }
 
     pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
@@ -130,7 +133,7 @@ impl Store {
             return;
         }
 
-        let paginator = Paginator::from(&self.posts().sort_by_key(|p| p.metadata.date.unwrap()), config.items_per_page);
+        let paginator = Paginator::from(&self.posts(), config.items_per_page);
 
         let output_path = Path::new(p);
 
@@ -150,7 +153,7 @@ impl Store {
     }
 
     pub fn generate_feed(&self, config: &Configuration, p: &str) {
-        let paginator = Paginator::from(&self.posts().sort_by_key(|p| p.metadata.date.unwrap()), config.items_per_page);
+        let paginator = Paginator::from(&self.posts(), config.items_per_page);
         let mut feed_builder = Feed::builder();
         feed_builder.set_version(&FeedVersion::JSONFeed1_1);
         feed_builder.set_home_page(&format!("{}", config.url.clone()));
