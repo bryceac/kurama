@@ -105,12 +105,12 @@ impl Store {
             println!("Attempting to create post {} of {}", index+1, self.posts().len());
             match post.render(config, templates, &feed) {
                 Ok(html) => {
-                    let output_file = format!("{}.html", post.slug);
+                    let output_file = format!("{}.html", post.metadata.slug);
     
                     let post_dir = output_path
-                    .join(post.date_components()[0].clone())
-                    .join(post.date_components()[1].clone())
-                    .join(post.date_components()[2].clone());
+                    .join(post.metadata.date_components()[0].clone())
+                    .join(post.metadata.date_components()[1].clone())
+                    .join(post.metadata.date_components()[2].clone());
 
                     let _ = fs::create_dir_all(post_dir.clone()).unwrap();
 
@@ -254,19 +254,19 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
     }
 }
 
-fn permalink_for_post(post: &Post, config: &Configuration) -> String {
+fn permalink_for_post(post: &Page, config: &Configuration) -> String {
 
     let path = if !config.blog_path.is_empty() {
         format!("{}/posts/{}/{}/{}/{}", config.blog_path, 
-        post.date_components()[0], 
-        post.date_components()[1], 
-        post.date_components()[2], 
-        post.slug)
+        post.metadata.date_components()[0], 
+        post.metadata.date_components()[1], 
+        post.metadata.date_components()[2], 
+        post.metadata.slug)
     } else {
-        format!("posts/{}/{}/{}/{}", post.date_components()[0], 
-        post.date_components()[1], 
-        post.date_components()[2], 
-        post.slug)
+        format!("posts/{}/{}/{}/{}", post.metadata.date_components()[0], 
+        post.metadata.date_components()[1], 
+        post.metadata.date_components()[2], 
+        post.metadata.slug)
     };
 
     let mut site_url = format!("{}", config.url);
@@ -295,11 +295,11 @@ fn feed_url(config: &Configuration, page: usize) -> String {
     site_url
 }
 
-fn post_to_item(post: &Post, config: &Configuration) -> Item {
+fn post_to_item(post: &Page, config: &Configuration) -> Item {
     let permalink = permalink_for_post(post, config);
 
     let dates = Dates::builder()
-    .set_published(&post.date.to_rfc3339())
+    .set_published(&post.metadata.date.unwrap().to_rfc3339())
     .build().unwrap();
 
     let author = Author::builder()
@@ -314,7 +314,7 @@ fn post_to_item(post: &Post, config: &Configuration) -> Item {
     Item::builder()
     .set_id(&permalink)
     .set_url(&permalink)
-    .set_title(&post.title)
+    .set_title(&post.metadata.title)
     .set_dates(&dates)
     .add_author(&author)
     .set_content(&content)

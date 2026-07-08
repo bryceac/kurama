@@ -51,9 +51,15 @@ impl Page {
         context.insert("content", &self.content_html());
         context.insert("output_file", &output_url);
 
-        match templates.render("page.html", &context) {
-            Ok(output) => Ok(format!("{:#}", output)),
-            Err(errors) => Err(format!("{}", errors))
+        match self.metadata.date {
+            Some(_) => match templates.render("entry.html", &context) {
+                Ok(output) => Ok(format!("{:#}", output)),
+                Err(errors) => Err(format!("{}", errors))
+            },
+            None => match templates.render("page.html", &context) {
+                Ok(output) => Ok(format!("{:#}", output)),
+                Err(errors) => Err(format!("{}", errors))
+            }
         }
     }
 
