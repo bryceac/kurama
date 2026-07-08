@@ -33,6 +33,7 @@ like merging post into page module,
 with determination based on presence of date, 
 and redundant inclusions of sections and links.</p>
 <p>Because of this change, templates need to be updated.</p>
+<p>Also permalinks in JSON are fixed.</p>
 <p>Released Jul 7, 2026</p>
 </dd>
 <dt style="font-weight:bold">0.3.2</dt>
