@@ -2,12 +2,12 @@ use crate::Post;
 use serde::{ Deserialize, Serialize };
 
 pub struct Paginator {
-    posts: Vec<Post>,
+    posts: Vec<Page>,
     items_per_page: usize
 }
 
 impl Paginator {
-    pub fn from(posts: &Vec<Post>, items_per_page: usize) -> Self {
+    pub fn from(posts: &Vec<Page>, items_per_page: usize) -> Self {
         Self {
             posts: posts.clone(),
             items_per_page
@@ -26,7 +26,7 @@ impl Paginator {
         }
     }
 
-    pub fn page(&self, page: usize) -> Vec<Post> {
+    pub fn page(&self, page: usize) -> Vec<Page> {
         if self.items_per_page > 0 {
             let start_index = if page == 1 {
                 page-1
