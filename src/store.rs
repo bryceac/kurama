@@ -71,6 +71,7 @@ impl Store {
         .collect();
 
         stored.sort_by_key(|p| p.metadata.date.unwrap());
+        stored.reverse();
         stored
     }
 
