@@ -53,8 +53,6 @@ impl Post {
         context.insert("page", &self);
         context.insert("content", &self.content_html());
         context.insert("output_file", &output_url);
-        context.insert("sections", &config.sections);
-        context.insert("links", &config.links);
 
         match templates.render("entry.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),

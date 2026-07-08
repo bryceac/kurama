@@ -23,8 +23,6 @@ impl Archive {
         context.insert("pages", &paginator.page_count());
         context.insert("prev_page", &previous_page_from(self.page, config));
         context.insert("next_page", &next_page_from(self.page, paginator, config));
-        context.insert("sections", &config.sections);
-        context.insert("links", &config.links);
 
         match templates.render("archive.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),
