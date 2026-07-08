@@ -256,7 +256,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
 fn permalink_for_post(post: &Page, config: &Configuration) -> String {
 
     let path = if !config.blog_path.is_empty() {
-        format!("{}/posts/{}/{}/{}/{}", config.blog_path, 
+        format!("{}/posts/{}/{}/{}/{}.html", config.blog_path, 
         post.metadata.date_components()[0], 
         post.metadata.date_components()[1], 
         post.metadata.date_components()[2], 
