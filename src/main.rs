@@ -10,7 +10,6 @@ mod link;
 mod metadata;
 mod page;
 mod paginator;
-mod post;
 mod section;
 mod serve;
 mod save_string;
@@ -33,7 +32,6 @@ use crate::{
     page::Page as Page,
     paginator::Paginator as Paginator,
     paginator::PaginationMethod as PaginationMethod,
-    post::Post as Post,
     save_string::Save as Save,
     store::Store as Store
 };
