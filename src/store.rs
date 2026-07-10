@@ -267,6 +267,8 @@ impl Store {
                 map_links.push(map_link)
             }
         }
+
+        write_sitemap(&map_links, "output/sitemap.txt");
     }
 }
 
@@ -326,6 +328,15 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 println!("{}", error);
             }
         }
+    }
+}
+
+fn write_sitemap(links: &Vec<String>, path: &str) {
+    let content: String = links.iter().map(|l| format!("{}\r\n", l))
+    .collect();
+
+    if let Err(error) = content.save(path) {
+        println!("{}", error)
     }
 }
 
