@@ -198,7 +198,7 @@ impl Store {
     }
 
     fn generate_sitemap(&self, config: &Configuration) {
-        let mut links: Vec<String> = vec![];
+        let mut map_links: Vec<String> = vec![];
 
         let base_url = if config.url.scheme().is_none() {
             format!("http:{}", config.url)
@@ -206,10 +206,52 @@ impl Store {
             config.url.to_string()
         };
 
+        // retrieve main links
         match (config.links.clone(), config.sections.clone()) {
-            (links, sections) if links.is_empty() => todo!(),
-            (links, sections) if sections.is_empty() => todo!(),
-            _ => todo!()
+            (links, sections) if links.is_empty() => for section in sections {
+                for link in section.links {
+                    if link.url.contains("mai&#108;&#116;o") || link.url.contains("mailto:") {
+                        continue;
+                    }
+
+                    let map_link = format!("{}/{}", base_url, link.url);
+
+                    map_links.push(map_link);
+                }
+            },
+            (links, sections) if sections.is_empty() => for link in links {
+                if link.url.contains("mai&#108;&#116;o") || link.url.contains("mailto:") {
+                    continue;
+                }
+
+                let map_link = format!("{}/{}", base_url, link.url);
+
+                map_links.push(map_link);
+            },
+            (links, sections) => {
+                for section in sections {
+                    for link in section.links {
+                        if link.url.contains("mai&#108;&#116;o") || link.url.contains("mailto:") {
+                            continue;
+                        }
+    
+                        let map_link = format!("{}/{}", base_url, link.url);
+    
+                        map_links.push(map_link);
+                    }
+                }
+
+                for link in links {
+                    if link.url.contains("mai&#108;&#116;o") || link.url.contains("mailto:") {
+                        continue;
+                    }
+
+                    let map_link = format!("{}/{}", base_url, link.url);
+
+                    map_links.push(map_link);
+                }
+            },
+            _ => {}
         }
     }
 }
