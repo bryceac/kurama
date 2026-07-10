@@ -203,7 +203,7 @@ impl Store {
         let base_url = if config.url.scheme().is_none() {
             format!("http:{}", config.url)
         } else {
-            config.url
+            config.url.to_string()
         };
 
         match (config.links, config.sections) {
