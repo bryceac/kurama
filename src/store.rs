@@ -3,6 +3,7 @@ use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use crate::{ Archive, Page, Configuration, Save, Paginator, PaginationMethod };
 use tera::Tera;
+use http::Uri;
 
 pub struct Store {
     assets: String,
@@ -252,6 +253,19 @@ impl Store {
                 }
             },
             _ => {}
+        }
+
+        // retriev posts
+        for post in self.posts() {
+            if let Ok(permalink) = permalink_for_post(&post, config).parse::<Uri>() {
+                let map_link = if permalink.scheme().is_none() {
+                    format!("http:{}", permalink)
+                } else {
+                    permalink.to_string()
+                };
+
+                map_links.push(map_link)
+            }
         }
     }
 }
