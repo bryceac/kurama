@@ -216,7 +216,7 @@ impl Store {
                         continue;
                     }
 
-                    let map_link = if link.url != "index.html" || link.url != "/" {
+                    let map_link = if link.url != "index.html" && link.url != "/" {
                         format!("{}/{}", base_url, link.url)
                     } else {
                         format!("{}/", base_url)
@@ -230,7 +230,7 @@ impl Store {
                     continue;
                 }
 
-                let map_link = if link.url != "index.html" || link.url != "/" {
+                let map_link = if link.url != "index.html" && link.url != "/" {
                     format!("{}/{}", base_url, link.url)
                 } else {
                     format!("{}/", base_url)
@@ -245,7 +245,7 @@ impl Store {
                             continue;
                         }
     
-                        let map_link = if link.url != "index.html" || link.url != "/" {
+                        let map_link = if link.url != "index.html" && link.url != "/" {
                             format!("{}/{}", base_url, link.url)
                         } else {
                             format!("{}/", base_url)
@@ -256,7 +256,7 @@ impl Store {
                 }
 
                 for link in links {
-                    if link.url.contains("mai&#108;&#116;o") || link.url.contains("mailto:") {
+                    if link.url.contains("mai&#108;&#116;o") && link.url.contains("mailto:") {
                         continue;
                     }
 
