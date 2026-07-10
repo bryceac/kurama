@@ -54,6 +54,8 @@ impl Generate {
             store.generate_feed(&site_configuration, "output")
         }
 
+        store.generate_sitemap(&site_configuration);
+
         println!("Your site is now ready.")
     }
 }

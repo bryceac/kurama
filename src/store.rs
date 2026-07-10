@@ -198,7 +198,7 @@ impl Store {
         }
     }
 
-    fn generate_sitemap(&self, config: &Configuration) {
+    pub fn generate_sitemap(&self, config: &Configuration) {
         let mut map_links: Vec<String> = vec![];
 
         let base_url = if config.url.scheme().is_none() {
