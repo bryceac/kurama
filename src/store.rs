@@ -216,7 +216,11 @@ impl Store {
                         continue;
                     }
 
-                    let map_link = format!("{}/{}", base_url, link.url);
+                    let map_link = if link.url != "index.html" || link.url != "/" {
+                        format!("{}/{}", base_url, link.url)
+                    } else {
+                        format!("{}/", base_url)
+                    };
 
                     map_links.push(map_link);
                 }
@@ -226,7 +230,11 @@ impl Store {
                     continue;
                 }
 
-                let map_link = format!("{}/{}", base_url, link.url);
+                let map_link = if link.url != "index.html" || link.url != "/" {
+                    format!("{}/{}", base_url, link.url)
+                } else {
+                    format!("{}/", base_url)
+                };
 
                 map_links.push(map_link);
             },
@@ -237,7 +245,11 @@ impl Store {
                             continue;
                         }
     
-                        let map_link = format!("{}/{}", base_url, link.url);
+                        let map_link = if link.url != "index.html" || link.url != "/" {
+                            format!("{}/{}", base_url, link.url)
+                        } else {
+                            format!("{}/", base_url)
+                        };
     
                         map_links.push(map_link);
                     }
@@ -248,7 +260,11 @@ impl Store {
                         continue;
                     }
 
-                    let map_link = format!("{}/{}", base_url, link.url);
+                    let map_link = if link.url != "index.html" || link.url != "/" {
+                        format!("{}/{}", base_url, link.url)
+                    } else {
+                        format!("{}/", base_url)
+                    };
 
                     map_links.push(map_link);
                 }
