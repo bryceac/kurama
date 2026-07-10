@@ -196,6 +196,22 @@ impl Store {
             }
         }
     }
+
+    fn generate_sitemap(&self, config: &Configuration) {
+        let mut links: Vec<String> = vec![];
+
+        let base_url = if config.url.scheme().is_none() {
+            format!("http:{}", config.url)
+        } else {
+            config.url
+        };
+
+        match (config.links, config.sections) {
+            (links, sections) if links.is_empty() => todo!(),
+            (links, sections) if sections.is_empty() => todo!(),
+            _ => todo!()
+        }
+    }
 }
 
 fn write_archive(content: &str, config: &Configuration, page: usize, output_dir: &Path) {
