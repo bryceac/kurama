@@ -198,8 +198,9 @@ impl Store {
         }
     }
 
-    pub fn generate_sitemap(&self, config: &Configuration) {
+    pub fn generate_sitemap(&self, config: &Configuration, path: &str) {
         let mut map_links: Vec<String> = vec![];
+        let output_dir = Path::new(path);
 
         let base_url = if config.url.scheme().is_none() {
             format!("http:{}", config.url)
@@ -251,8 +252,7 @@ impl Store {
 
                     map_links.push(map_link);
                 }
-            },
-            _ => {}
+            }
         }
 
         // retriev posts
@@ -268,7 +268,9 @@ impl Store {
             }
         }
 
-        write_sitemap(&map_links, "output/sitemap.txt");
+        let file_path = output_dir.join("sitemap.txt");
+
+        write_sitemap(&map_links, &file_path.to_str().unwrap());
     }
 }
 
