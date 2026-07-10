@@ -206,7 +206,7 @@ impl Store {
             config.url.to_string()
         };
 
-        match (config.links, config.sections) {
+        match (config.links.clone(), config.sections.clone()) {
             (links, sections) if links.is_empty() => todo!(),
             (links, sections) if sections.is_empty() => todo!(),
             _ => todo!()
