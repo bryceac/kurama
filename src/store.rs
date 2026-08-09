@@ -162,6 +162,7 @@ impl Store {
         }
 
         let tag = Tag::from(name);
+        let tag_slug = tag.slug();
 
         let paginator = match t {
             ArchiveType::Tag => Paginator::from(&self.posts_for_tag(&tag), config.items_per_page),
@@ -182,7 +183,7 @@ impl Store {
             let feed = feed_url(config, page);
 
             match archive.render(config, templates, &paginator, &feed) {
-                Ok(html) => write_archive(&html, config, page, output_path, archive.archive_type.group()),
+                Ok(html) => write_archive(&html, config, page, output_path, if name.is_empty() { "" } else { &tag_slug }),
                 Err(error) => println!("{}", error),
             }
         }
