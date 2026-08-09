@@ -1,4 +1,4 @@
-use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
+use std::{ fs, path::{ Path, PathBuf }, sync::{LazyLock, Arc} };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use serde::{Serialize, Deserialize};
@@ -149,7 +149,7 @@ impl Store {
             let feed = feed_url(config, page);
 
             match archive.render(config, templates, &paginator, &feed) {
-                Ok(html) => write_archive(&html, config, page, output_path),
+                Ok(html) => write_archive(&html, config, page, output_path, archive.archive_type.group()),
                 Err(error) => println!("{}", error),
             }
         }
@@ -291,17 +291,26 @@ impl Store {
     }
 }
 
-fn write_archive(content: &str, config: &Configuration, page: usize, output_dir: &Path) {
+fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize, output_dir: &Path, order_dir: Option<T>) {
     match config.pagination_method {
         PaginationMethod::File => if !config.blog_path.is_empty() {
             let archive_dir = output_dir.join(&config.blog_path);
+
             let output_file = if page > 1 {
                 format!("index{}.html", page)
             } else {
                 "index.html".to_owned()
             };
 
-            let file_path = archive_dir.join(output_file);
+            let file_path = if let Some(dir) = order_dir {
+                archive_dir.join(dir.slug()).join(output_file)
+            } else {
+                archive_dir.join(output_file)
+            };
+
+            if let Some(_) = order_dir {
+                let _ = fs::create_dir_all(file_path.clone()).unwrap();
+            }
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
@@ -313,7 +322,15 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 "index.html".to_owned()
             };
 
-            let file_path = output_dir.join(output_file);
+            let file_path = if let Some(dir) = order_dir {
+                output_dir.join(dir.slug()).join(output_file)
+            } else {
+                output_dir.join(output_file)
+            };
+
+            if let Some(_) = order_dir {
+                let _ = fs::create_dir_all(file_path.clone()).unwrap();
+            }
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
@@ -324,9 +341,17 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
             let output_file = "index.html".to_owned();
 
             let file_path = if page > 1 {
-                archive_dir.join(format!("{}", page)).join(output_file)
+                if let Some(dir) = order_dir {
+                    archive_dir.join(dir.slug()).join(format!("{}", page)).join(output_file)
+                } else {
+                    archive_dir.join(format!("{}", page)).join(output_file)
+                }
             } else {
-                archive_dir.join(output_file)
+                if let Some(dir) = order_dir {
+                    archive_dir.join(dir.slug()).join(output_file)
+                } else {
+                    archive_dir.join(output_file)
+                }
             };
             let _ = fs::create_dir_all(archive_dir.clone()).unwrap();
 
@@ -337,9 +362,17 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
             let output_file = "index.html".to_owned();
 
             let file_path = if page > 1 {
-                output_dir.join(format!("{}", page)).join(output_file)
+                if let Some(dir) = order_dir {
+                    output_dir.join(dir.slug()).join(format!("{}", page)).join(output_file)
+                } else {
+                    output_dir.join(format!("{}", page)).join(output_file)
+                }
             } else {
-                output_dir.join(output_file)
+                if let Some(dir) = order_dir {
+                    output_dir.join(dir.slug()).join(output_file)
+                } else {
+                    output_dir.join(output_file)
+                }
             };
             let _ = fs::create_dir_all(file_path.clone()).unwrap();
 
