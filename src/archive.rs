@@ -32,7 +32,7 @@ impl Archive {
         if !config.blog_path.is_empty() {
             if let ArchiveType::Tag = self.archive_type {
                 let dir = Tag::from(&self.name);
-                context.insert("current_dir", &format!("{}/{}/", config.blog_path, dir.slug()));
+                context.insert("current_dir", &format!("{}/tags/{}/", config.blog_path, dir.slug()));
             } else {
                 context.insert("current_dir", &format!("{}/", config.blog_path));
             }
@@ -40,7 +40,7 @@ impl Archive {
         } else {
             if let ArchiveType::Tag = self.archive_type {
                 let dir = Tag::from(&self.name);
-                context.insert("current_dir", &format!("/{}/", dir.slug()));
+                context.insert("current_dir", &format!("/tags/{}/", dir.slug()));
             } else {
                 context.insert("current_dir", "/");
             }
@@ -68,14 +68,14 @@ fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t:
             PaginationMethod::File => if !config.blog_path.is_empty() {
                 if let ArchiveType::Tag = t.archive_type {
                     let dir = Tag::from(&t.name);
-                    Some(format!("/{}/{}/index{}.html", config.blog_path, dir.slug(), page+1))
+                    Some(format!("/{}/tags/{}/index{}.html", config.blog_path, dir.slug(), page+1))
                 } else {
                     Some(format!("/{}/index{}.html", config.blog_path, page+1))
                 }
             } else {
                 if let ArchiveType::Tag = t.archive_type {
                     let dir = Tag::from(&t.name);
-                    Some(format!("/{}/index{}.html", dir.slug(), page+1))
+                    Some(format!("/tags/{}/index{}.html", dir.slug(), page+1))
                 } else {
                     Some(format!("/index{}.html", page+1))
                 }
@@ -83,14 +83,14 @@ fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t:
             PaginationMethod::Dir => if !config.blog_path.is_empty() {
                 if let ArchiveType::Tag = t.archive_type {
                     let dir = Tag::from(&t.name);
-                    Some(format!("/{}/{}/{}", config.blog_path, dir.slug(), page+1))
+                    Some(format!("/{}/tags/{}/{}", config.blog_path, dir.slug(), page+1))
                 } else {
                     Some(format!("/{}/{}", config.blog_path, page+1))
                 }
             } else {
                 if let ArchiveType::Tag = t.archive_type {
                     let dir = Tag::from(&t.name);
-                    Some(format!("/{}/{}", dir.slug(), page+1))
+                    Some(format!("/tags/{}/{}", dir.slug(), page+1))
                 } else {
                     Some(format!("/{}", page+1))
                 }
@@ -109,14 +109,14 @@ fn previous_page_from(page: usize, config: &Configuration, t: &Archive) -> Optio
                 if prev_page > 1 {
                     if let ArchiveType::Tag = t.archive_type {
                         let dir = Tag::from(&t.name);
-                        Some(format!("/{}/{}/index{}.html", config.blog_path, dir.slug(), prev_page))
+                        Some(format!("/{}/tags/{}/index{}.html", config.blog_path, dir.slug(), prev_page))
                     } else {
                         Some(format!("/{}/index{}.html", config.blog_path, prev_page))
                     }
                 } else {
                     if let ArchiveType::Tag = t.archive_type {
                         let dir = Tag::from(&t.name);
-                        Some(format!("/{}/{}/", config.blog_path, dir.slug()))
+                        Some(format!("/{}/tags/{}/", config.blog_path, dir.slug()))
                     } else {
                         Some(format!("/{}/", config.blog_path))
                     }
@@ -125,14 +125,14 @@ fn previous_page_from(page: usize, config: &Configuration, t: &Archive) -> Optio
                 if prev_page > 1 {
                     if let ArchiveType::Tag = t.archive_type {
                         let dir = Tag::from(&t.name);
-                        Some(format!("/{}/index{}.html", dir.slug(), prev_page))
+                        Some(format!("/tags/{}/index{}.html", dir.slug(), prev_page))
                     } else {
                         Some(format!("/index{}.html", prev_page))
                     }
                 } else {
                     if let ArchiveType::Tag = t.archive_type {
                         let dir = Tag::from(&t.name);
-                        Some(format!("/{}/", dir.slug()))
+                        Some(format!("/tags/{}/", dir.slug()))
                     } else {
                         Some(format!("/"))
                     }
@@ -142,14 +142,14 @@ fn previous_page_from(page: usize, config: &Configuration, t: &Archive) -> Optio
                 if prev_page > 1 {
                     if let ArchiveType::Tag = t.archive_type {
                         let dir = Tag::from(&t.name);
-                        Some(format!("/{}/{}/{}", config.blog_path, dir.slug(), prev_page))
+                        Some(format!("/{}/tags/{}/{}", config.blog_path, dir.slug(), prev_page))
                     } else {
                         Some(format!("/{}/{}", config.blog_path, prev_page))
                     }
                 } else {
                     if let ArchiveType::Tag = t.archive_type {
                         let dir = Tag::from(&t.name);
-                        Some(format!("/{}/{}/", config.blog_path, dir.slug()))
+                        Some(format!("/{}/tags/{}/", config.blog_path, dir.slug()))
                     } else {
                         Some(format!("/{}/", config.blog_path))
                     }
@@ -158,14 +158,14 @@ fn previous_page_from(page: usize, config: &Configuration, t: &Archive) -> Optio
                 if prev_page > 1 {
                     if let ArchiveType::Tag = t.archive_type {
                         let dir = Tag::from(&t.name);
-                        Some(format!("/{}/{}/", dir.slug(), prev_page))
+                        Some(format!("/tags/{}/{}/", dir.slug(), prev_page))
                     } else {
                         Some(format!("/{}/", prev_page))
                     }
                 } else {
                     if let ArchiveType::Tag = t.archive_type {
                         let dir = Tag::from(&t.name);
-                        Some(format!("/{}/", dir.slug()))
+                        Some(format!("/tags/{}/", dir.slug()))
                     } else {
                         Some(format!("/"))
                     }

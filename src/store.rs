@@ -183,7 +183,7 @@ impl Store {
             let feed = feed_url(config, &tag.slug(), page);
 
             match archive.render(config, templates, &paginator, &feed) {
-                Ok(html) => write_archive(&html, config, page, output_path, if name.is_empty() { "" } else { &tag_slug }),
+                Ok(html) => write_archive(&html, config, page, output_path, if name.is_empty() { "" } else { &format!("/tags/{}", tag_slug ) }),
                 Err(error) => println!("{}", error),
             }
         }
@@ -220,9 +220,9 @@ impl Store {
         feed_builder.set_version(&FeedVersion::JSONFeed1_1);
         if let Some(tag) = tag.clone() {
             if !config.blog_path.is_empty() {
-                feed_builder.set_home_page(&format!("{}/{}/{}", config.url.clone(), config.blog_path, tag.slug()));
+                feed_builder.set_home_page(&format!("{}/{}/tags/{}", config.url.clone(), config.blog_path, tag.slug()));
             } else {
-                feed_builder.set_home_page(&format!("{}", config.url.clone()));
+                feed_builder.set_home_page(&format!("{}/tags/{}", config.url.clone(), tag.slug()));
             }
         } else {
             feed_builder.set_home_page(&format!("{}", config.url.clone()));
