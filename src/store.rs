@@ -161,15 +161,17 @@ impl Store {
             panic!("name cannot be empty for nonblog archive");
         }
 
+        let tag = Tag::from(name);
+
         let paginator = match t {
-            ArchiveType::Tag => Paginator::from(&self.posts_for_tag(name), config.items_per_page),
+            ArchiveType::Tag => Paginator::from(&self.posts_for_tag(&tag), config.items_per_page),
             _ => Paginator::from(&self.posts(), config.items_per_page)
         };
 
         let output_path = Path::new(p);
 
         let mut archive: Archive = match t {
-            ArchiveType::Tag => Archive::from_tag(&Tag::from(name)),
+            ArchiveType::Tag => Archive::from_tag(&tag),
             _ => Archive::default()
         };
 
