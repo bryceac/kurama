@@ -6,7 +6,7 @@ pub trait Taxonomy: Default {
     fn slug(&self) -> String;
 }
 
-#[derive(Clone, Eq, Default)]
+#[derive(Clone, Eq, Default, Hash)]
 pub struct Tag {
     pub name: String
 }

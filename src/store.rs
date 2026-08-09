@@ -2,7 +2,7 @@ use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use serde::{Serialize, Deserialize};
-use crate::{ Archive, ArchiveType, Page, Configuration, Save, Paginator, PaginationMethod, Taxonomy };
+use crate::{ Archive, ArchiveType, Page, Configuration, Save, Paginator, PaginationMethod, Taxonomy, Tag };
 use tera::Tera;
 use http::Uri;
 
@@ -75,6 +75,10 @@ impl Store {
         stored.sort_by_key(|p| p.metadata.date.unwrap());
         stored.reverse();
         stored
+    }
+
+    pub fn tags(&self) -> Vec<Tag> {
+        let mut results: HashSet<Tag>
     }
 
     pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
