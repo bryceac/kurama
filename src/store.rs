@@ -2,7 +2,7 @@ use std::{ fs, path::{ Path, PathBuf }, sync::{LazyLock, Arc} };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use serde::{Serialize, Deserialize};
-use crate::{ Archive, Page, Configuration, Save, Paginator, PaginationMethod, Taxonomy };
+use crate::{ Archive, ArchiveType, Page, Configuration, Save, Paginator, PaginationMethod, Taxonomy };
 use tera::Tera;
 use http::Uri;
 
@@ -141,6 +141,10 @@ impl Store {
         let output_path = Path::new(p);
 
         let mut archive: Archive<T> = Archive::default();
+
+        if let Some(order) = t.clone() {
+            archive.archive_type = ArchiveType::Group(order)
+        }
 
         for page in 1..=paginator.page_count() {
             println!("attempting to create page {} of the {}-page archive.", page, paginator.page_count());
@@ -291,7 +295,7 @@ impl Store {
     }
 }
 
-fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize, output_dir: &Path, order_dir: Option<T>) {
+fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize, output_dir: &Path, order_dir: Option<T>) where T: Clone {
     match config.pagination_method {
         PaginationMethod::File => if !config.blog_path.is_empty() {
             let archive_dir = output_dir.join(&config.blog_path);
@@ -302,13 +306,13 @@ fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize
                 "index.html".to_owned()
             };
 
-            let file_path = if let Some(dir) = order_dir {
+            let file_path = if let Some(dir) = order_dir.clone() {
                 archive_dir.join(dir.slug()).join(output_file)
             } else {
                 archive_dir.join(output_file)
             };
 
-            if let Some(_) = order_dir {
+            if let Some(_) = order_dir.clone() {
                 let _ = fs::create_dir_all(file_path.clone()).unwrap();
             }
 
@@ -322,13 +326,13 @@ fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize
                 "index.html".to_owned()
             };
 
-            let file_path = if let Some(dir) = order_dir {
+            let file_path = if let Some(dir) = order_dir.clone() {
                 output_dir.join(dir.slug()).join(output_file)
             } else {
                 output_dir.join(output_file)
             };
 
-            if let Some(_) = order_dir {
+            if let Some(_) = order_dir.clone() {
                 let _ = fs::create_dir_all(file_path.clone()).unwrap();
             }
 
@@ -341,13 +345,13 @@ fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize
             let output_file = "index.html".to_owned();
 
             let file_path = if page > 1 {
-                if let Some(dir) = order_dir {
+                if let Some(dir) = order_dir.clone() {
                     archive_dir.join(dir.slug()).join(format!("{}", page)).join(output_file)
                 } else {
                     archive_dir.join(format!("{}", page)).join(output_file)
                 }
             } else {
-                if let Some(dir) = order_dir {
+                if let Some(dir) = order_dir.clone() {
                     archive_dir.join(dir.slug()).join(output_file)
                 } else {
                     archive_dir.join(output_file)
@@ -362,13 +366,13 @@ fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize
             let output_file = "index.html".to_owned();
 
             let file_path = if page > 1 {
-                if let Some(dir) = order_dir {
+                if let Some(dir) = order_dir.clone() {
                     output_dir.join(dir.slug()).join(format!("{}", page)).join(output_file)
                 } else {
                     output_dir.join(format!("{}", page)).join(output_file)
                 }
             } else {
-                if let Some(dir) = order_dir {
+                if let Some(dir) = order_dir.clone() {
                     output_dir.join(dir.slug()).join(output_file)
                 } else {
                     output_dir.join(output_file)

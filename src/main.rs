@@ -26,7 +26,7 @@ use crate::{
     commands::Commands,
     configuration::Configuration as Configuration,
     kurama::Kurama,
-    archive::Archive as Archive,
+    archive::{ Archive as Archive, ArchiveType },
     link::Link as Link,
     metadata::Metadata as Metadata, 
     section::Section as Section,
