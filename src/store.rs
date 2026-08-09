@@ -196,7 +196,7 @@ impl Store {
         }
     }
 
-    pub fn generate_feed(&self, config: &Configuration, p: &str) {
+    pub fn generate_feed(&self, config: &Configuration, name: &str, p: &str, order_dir: &str) {
         let paginator = Paginator::from(&self.posts(), config.items_per_page);
         let mut feed_builder = Feed::builder();
         feed_builder.set_version(&FeedVersion::JSONFeed1_1);
