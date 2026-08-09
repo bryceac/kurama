@@ -34,7 +34,8 @@ use crate::{
     paginator::Paginator as Paginator,
     paginator::PaginationMethod as PaginationMethod,
     save_string::Save as Save,
-    store::Store as Store
+    store::Store as Store,
+    taxonomy::{ Taxonomy as Taxonomy, Tag as Tag }
 };
 
 use clap::Parser;
