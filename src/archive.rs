@@ -1,5 +1,5 @@
 use serde::{ Serialize, Deserialize };
-use crate::{ Configuration, Paginator, PaginationMethod, Taxonomy };
+use crate::{ Configuration, Paginator, PaginationMethod, Taxonomy, Tag };
 use tera::{ Tera, Context };
 use std::sync::LazyLock;
 
@@ -23,6 +23,7 @@ impl Archive {
         context.insert("site", &config);
         if !config.blog_path.is_empty() {
             if let ArchiveType::Tag = self.archive_type {
+                let dir = Tag::from(&self.name);
                 context.insert("current_dir", &format!("{}/{}/", config.blog_path, dir.slug()));
             } else {
                 context.insert("current_dir", &format!("{}/", config.blog_path));
@@ -30,6 +31,7 @@ impl Archive {
             
         } else {
             if let ArchiveType::Tag = self.archive_type {
+                let dir = Tag::from(&self.name);
                 context.insert("current_dir", &format!("/{}/", dir.slug()));
             } else {
                 context.insert("current_dir", "/");
@@ -40,8 +42,8 @@ impl Archive {
         context.insert("feed_url", feed);
         context.insert("posts", &paginator.page(self.page));
         context.insert("pages", &paginator.page_count());
-        context.insert("prev_page", &previous_page_from(self.page, config, self.archive_type.group()));
-        context.insert("next_page", &next_page_from(self.page, paginator, config, self.archive_type.group()));
+        context.insert("prev_page", &previous_page_from(self.page, config, self));
+        context.insert("next_page", &next_page_from(self.page, paginator, config, self));
 
         match templates.render("archive.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),
@@ -50,32 +52,36 @@ impl Archive {
     }
 }
 
-fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t: Option<ArchiveType>) -> Option<String> {
+fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t: &Archive) -> Option<String> {
     if page == paginator.page_count() {
         None
     } else {
         match config.pagination_method {
             PaginationMethod::File => if !config.blog_path.is_empty() {
-                if let Some(dir) = t {
+                if let ArchiveType::Tag = t.archive_type {
+                    let dir = Tag::from(&t.name);
                     Some(format!("/{}/{}/index{}.html", config.blog_path, dir.slug(), page+1))
                 } else {
                     Some(format!("/{}/index{}.html", config.blog_path, page+1))
                 }
             } else {
-                if let Some(dir) = t {
+                if let ArchiveType::Tag = t.archive_type {
+                    let dir = Tag::from(&t.name);
                     Some(format!("/{}/index{}.html", dir.slug(), page+1))
                 } else {
                     Some(format!("/index{}.html", page+1))
                 }
             },
             PaginationMethod::Dir => if !config.blog_path.is_empty() {
-                if let Some(dir) = t {
+                if let ArchiveType::Tag = t.archive_type {
+                    let dir = Tag::from(&t.name);
                     Some(format!("/{}/{}/{}", config.blog_path, dir.slug(), page+1))
                 } else {
                     Some(format!("/{}/{}", config.blog_path, page+1))
                 }
             } else {
-                if let Some(dir) = t {
+                if let ArchiveType::Tag = t.archive_type {
+                    let dir = Tag::from(&t.name);
                     Some(format!("/{}/{}", dir.slug(), page+1))
                 } else {
                     Some(format!("/{}", page+1))
@@ -85,7 +91,7 @@ fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t:
     }
 }
 
-fn previous_page_from(page: usize, config: &Configuration, t: Option<ArchiveType>) -> Option<String> {
+fn previous_page_from(page: usize, config: &Configuration, t: &Archive) -> Option<String> {
     let prev_page = page -1;
     if page == 1 {
         None
@@ -93,13 +99,15 @@ fn previous_page_from(page: usize, config: &Configuration, t: Option<ArchiveType
         match config.pagination_method {
             PaginationMethod::File => if !config.blog_path.is_empty() {
                 if prev_page > 1 {
-                    if let Some(dir) = t {
+                    if let ArchiveType::Tag = t.archive_type {
+                        let dir = Tag::from(&t.name);
                         Some(format!("/{}/{}/index{}.html", config.blog_path, dir.slug(), prev_page))
                     } else {
                         Some(format!("/{}/index{}.html", config.blog_path, prev_page))
                     }
                 } else {
-                    if let Some(dir) = t {
+                    if let ArchiveType::Tag = t.archive_type {
+                        let dir = Tag::from(&t.name);
                         Some(format!("/{}/{}/", config.blog_path, dir.slug()))
                     } else {
                         Some(format!("/{}/", config.blog_path))
@@ -107,13 +115,15 @@ fn previous_page_from(page: usize, config: &Configuration, t: Option<ArchiveType
                 }
             } else {
                 if prev_page > 1 {
-                    if let Some(dir) = t {
+                    if let ArchiveType::Tag = t.archive_type {
+                        let dir = Tag::from(&t.name);
                         Some(format!("/{}/index{}.html", dir.slug(), prev_page))
                     } else {
                         Some(format!("/index{}.html", prev_page))
                     }
                 } else {
-                    if let Some(dir) = t {
+                    if let ArchiveType::Tag = t.archive_type {
+                        let dir = Tag::from(&t.name);
                         Some(format!("/{}/", dir.slug()))
                     } else {
                         Some(format!("/"))
@@ -122,13 +132,15 @@ fn previous_page_from(page: usize, config: &Configuration, t: Option<ArchiveType
             },
             PaginationMethod::Dir => if !config.blog_path.is_empty() {
                 if prev_page > 1 {
-                    if let Some(dir) = t {
+                    if let ArchiveType::Tag = t.archive_type {
+                        let dir = Tag::from(&t.name);
                         Some(format!("/{}/{}/{}", config.blog_path, dir.slug(), prev_page))
                     } else {
                         Some(format!("/{}/{}", config.blog_path, prev_page))
                     }
                 } else {
-                    if let Some(dir) = t {
+                    if let ArchiveType::Tag = t.archive_type {
+                        let dir = Tag::from(&t.name);
                         Some(format!("/{}/{}/", config.blog_path, dir.slug()))
                     } else {
                         Some(format!("/{}/", config.blog_path))
@@ -136,13 +148,15 @@ fn previous_page_from(page: usize, config: &Configuration, t: Option<ArchiveType
                 }
             } else {
                 if prev_page > 1 {
-                    if let Some(dir) = t {
+                    if let ArchiveType::Tag = t.archive_type {
+                        let dir = Tag::from(&t.name);
                         Some(format!("/{}/{}/", dir.slug(), prev_page))
                     } else {
                         Some(format!("/{}/", prev_page))
                     }
                 } else {
-                    if let Some(dir) = t {
+                    if let ArchiveType::Tag = t.archive_type {
+                        let dir = Tag::from(&t.name);
                         Some(format!("/{}/", dir.slug()))
                     } else {
                         Some(format!("/"))
