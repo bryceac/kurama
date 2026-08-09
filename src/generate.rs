@@ -4,7 +4,7 @@ use std::{ fs::{
 }, path::{ Path },
     sync::LazyLock, };
 use crate::{ Configuration,
-     Store };
+     Store, Taxonomy };
 use tera::Tera;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
