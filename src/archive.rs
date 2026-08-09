@@ -10,6 +10,16 @@ pub enum ArchiveType<T: Taxonomy> {
     Group(T)
 }
 
+impl<T: Taxonomy> ArchiveType<T> where T: Clone {
+    pub fn group(&self) -> Option<T> {
+        if let Self::Group(group) = self {
+            Some(group.clone())
+        } else {
+            None
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Default)]
 pub struct Archive<T: Taxonomy> {
     pub archive_type: ArchiveType<T>,
@@ -39,8 +49,8 @@ impl<'de, T: Taxonomy> Archive<T> where T: Serialize + Deserialize<'de> + Clone 
         context.insert("feed_url", feed);
         context.insert("posts", &paginator.page(self.page));
         context.insert("pages", &paginator.page_count());
-        context.insert("prev_page", &previous_page_from(self.page, config));
-        context.insert("next_page", &next_page_from(self.page, paginator, config));
+        context.insert("prev_page", &previous_page_from(self.page, config, self.archive_type.group()));
+        context.insert("next_page", &next_page_from(self.page, paginator, config, self.archive_type.group()));
 
         match templates.render("archive.html", &context) {
             Ok(output) => Ok(format!("{:#}", output)),
@@ -55,14 +65,30 @@ fn next_page_from<T: Taxonomy>(page: usize, paginator: &Paginator, config: &Conf
     } else {
         match config.pagination_method {
             PaginationMethod::File => if !config.blog_path.is_empty() {
-                Some(format!("/{}/index{}.html", config.blog_path, page+1))
+                if let Some(dir) = t {
+                    Some(format!("/{}/{}/index{}.html", config.blog_path, dir.slug(), page+1))
+                } else {
+                    Some(format!("/{}/index{}.html", config.blog_path, page+1))
+                }
             } else {
-                Some(format!("/index{}.html", page+1))
+                if let Some(dir) = t {
+                    Some(format!("/{}/index{}.html", dir.slug(), page+1))
+                } else {
+                    Some(format!("/index{}.html", page+1))
+                }
             },
             PaginationMethod::Dir => if !config.blog_path.is_empty() {
-                Some(format!("/{}/{}", config.blog_path, page+1))
+                if let Some(dir) = t {
+                    Some(format!("/{}/{}/{}", config.blog_path, dir.slug(), page+1))
+                } else {
+                    Some(format!("/{}/{}", config.blog_path, page+1))
+                }
             } else {
-                Some(format!("/{}", page+1))
+                if let Some(dir) = t {
+                    Some(format!("/{}/{}", dir.slug(), page+1))
+                } else {
+                    Some(format!("/{}", page+1))
+                }
             }
         }
     }
