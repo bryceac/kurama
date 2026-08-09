@@ -189,6 +189,13 @@ impl Store {
         }
     }
 
+    pub fn generate_tag_archives(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
+        for tag in self.tags() {
+            println!("attempting to create archive for tag '{}'", tag);
+            self.generate_archive(config, templates, &tag.name, ArchiveType::Tag, p)
+        }
+    }
+
     pub fn generate_feed(&self, config: &Configuration, p: &str) {
         let paginator = Paginator::from(&self.posts(), config.items_per_page);
         let mut feed_builder = Feed::builder();
