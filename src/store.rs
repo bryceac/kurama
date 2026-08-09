@@ -1,7 +1,6 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock, collections::HashSet };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
-use serde::{Serialize, Deserialize};
 use crate::{ Archive, ArchiveType, Page, Configuration, Save, Paginator, PaginationMethod, Taxonomy, Tag };
 use tera::Tera;
 use http::Uri;
@@ -162,19 +161,17 @@ impl Store {
             panic!("name cannot be empty for nonblog archive");
         }
 
-        // let paginator = Paginator::from(&self.posts(), config.items_per_page);
         let paginator = match t {
-            ArchiveType::Tag => Paginator::from(&self.posts(), config.items_per_page),
+            ArchiveType::Tag => Paginator::from(&self.posts_for_tag(name), config.items_per_page),
             _ => Paginator::from(&self.posts(), config.items_per_page)
         };
 
         let output_path = Path::new(p);
 
-        let mut archive: Archive<T> = Archive::default();
-
-        if let Some(order) = t.clone() {
-            archive.archive_type = ArchiveType::Group(order)
-        }
+        let mut archive: Archive = match t {
+            ArchiveType::Tag => Archive::from_tag(&Tag::from(name)),
+            _ => Archive::default()
+        };
 
         for page in 1..=paginator.page_count() {
             println!("attempting to create page {} of the {}-page archive.", page, paginator.page_count());
