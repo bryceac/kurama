@@ -14,6 +14,7 @@ mod section;
 mod serve;
 mod save_string;
 mod store;
+mod taxonomy;
 
 
 use crate::{
