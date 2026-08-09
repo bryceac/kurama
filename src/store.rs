@@ -266,6 +266,13 @@ impl Store {
         }
     }
 
+    pub fn geberate_tag_feeds(&self, config: &Configuration, p: &str) {
+        for tag in self.tags() {
+            println!("attempting to create feed for tag '{}'", tag);
+            self.generate_feed(config, &tag.name, p);
+        }
+    }
+
     pub fn generate_sitemap(&self, config: &Configuration, path: &str) {
         let mut map_links: Vec<String> = vec![];
         let output_dir = Path::new(path);
