@@ -52,7 +52,8 @@ impl Generate {
             store.generate_archive(&site_configuration, &TEMPLATES, "", ArchiveType::Blog, "output");
             store.generate_tag_archives(&site_configuration, &TEMPLATES, "output");
 
-            store.generate_feed(&site_configuration, "", "output")
+            store.generate_feed(&site_configuration, "", "output");
+            store.geberate_tag_feeds(&site_configuration, "output");
         }
 
         store.generate_sitemap(&site_configuration, "output");
