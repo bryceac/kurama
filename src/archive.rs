@@ -25,6 +25,7 @@ impl Archive {
             page: usize::default()
         }
     }
+    
     pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, feed: &str) -> Result<String, String> {
         let mut context = Context::new();
         context.insert("site", &config);
