@@ -100,7 +100,7 @@ impl Store {
 
     pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         let output_path = Path::new(p);
-        let feed = feed_url(config, 1);
+        let feed = feed_url(config, "", 1);
         for (index, page) in self.pages().iter().enumerate() {
             println!("Attempting to create page {} of {}", index+1, self.pages().len());
             if config.blog_path.is_empty() && !self.posts().is_empty() && page.metadata.slug == "index" {
@@ -125,7 +125,7 @@ impl Store {
     
     pub fn generate_posts(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         let output_path = Path::new(p);
-        let feed = feed_url(config, 1);
+        let feed = feed_url(config, "", 1);
 
         for (index, post) in self.posts().iter().enumerate() {
             println!("Attempting to create post {} of {}", index+1, self.posts().len());
@@ -180,7 +180,7 @@ impl Store {
             println!("attempting to create page {} of the {}-page archive.", page, paginator.page_count());
             archive.page = page;
 
-            let feed = feed_url(config, page);
+            let feed = feed_url(config, &tag.slug(), page);
 
             match archive.render(config, templates, &paginator, &feed) {
                 Ok(html) => write_archive(&html, config, page, output_path, if name.is_empty() { "" } else { &tag_slug }),
@@ -196,18 +196,31 @@ impl Store {
         }
     }
 
-    pub fn generate_feed(&self, config: &Configuration, name: &str, p: &str, order_dir: &str) {
-        let paginator = if !name.is_empty() {
-            Paginator::from(&self.posts_for_tag(&Tag::from(name)), config.items_per_page)
+    pub fn generate_feed(&self, config: &Configuration, name: &str, p: &str) {
+
+        let tag = if !name.is_empty() {
+            Some(Tag::from(name))
+        } else {
+            None
+        };
+
+        let order_dir = if let Some(tag) = tag {
+            tag.slug()
+        } else {
+            String::default()
+        };
+
+        let paginator = if let Some(tag) = tag.clone() {
+            Paginator::from(&self.posts_for_tag(&tag), config.items_per_page)
         } else {
             Paginator::from(&self.posts(), config.items_per_page)
         };
 
         let mut feed_builder = Feed::builder();
         feed_builder.set_version(&FeedVersion::JSONFeed1_1);
-        if !order_dir.is_empty() {
+        if let Some(tag) = tag.clone() {
             if !config.blog_path.is_empty() {
-                feed_builder.set_home_page(&format!("{}/{}/{}", config.url.clone(), config.blog_path, order_dir));
+                feed_builder.set_home_page(&format!("{}/{}/{}", config.url.clone(), config.blog_path, tag.slug()));
             } else {
                 feed_builder.set_home_page(&format!("{}", config.url.clone()));
             }
@@ -219,11 +232,11 @@ impl Store {
 
         for page in 1..=paginator.page_count() {
             println!("attempting to create page {} of the {}-page feed.", page, paginator.page_count());
-            let url = feed_url(config, page);
+            let url = feed_url(config, &order_dir, page);
             let next_url = if page == paginator.page_count() {
                 None
             } else {
-                Some(feed_url(config, page+1))
+                Some(feed_url(config, &order_dir, page+1))
             };
             
             feed_builder.set_title(&feed_title(config, page));
@@ -238,7 +251,7 @@ impl Store {
                 feed_builder.add_item(&post_to_item(&post, config));
             }
 
-            let file_path = output_dir.join(feed_output_path(config, page));
+            let file_path = output_dir.join(feed_output_path(config, &order_dir, page));
 
             let _ = fs::create_dir_all(file_path.clone().parent().unwrap()).unwrap();
 
@@ -481,7 +494,7 @@ fn feed_title(config: &Configuration, page: usize) -> String {
 }
 
 fn feed_url(config: &Configuration, order_dir: &str, page: usize) -> String {
-    let path = feed_output_path(config, page);
+    let path = feed_output_path(config, order_dir, page);
     let mut site_url = format!("{}", config.url);
     site_url.push_str(&format!("/{}", path));
     site_url
@@ -524,7 +537,7 @@ fn feed_output_path(config: &Configuration, order_dir: &str, page: usize) -> Str
         if !path.is_empty() {
             path.push_str("/");
         }
-        
+
         path.push_str(order_dir);
     }
 
