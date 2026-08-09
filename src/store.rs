@@ -1,7 +1,8 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
-use crate::{ Archive, Page, Configuration, Save, Paginator, PaginationMethod, taxonomy::Taxonomy };
+use serde::{Serialize, Deserialize};
+use crate::{ Archive, Page, Configuration, Save, Paginator, PaginationMethod, Taxonomy };
 use tera::Tera;
 use http::Uri;
 
@@ -129,7 +130,7 @@ impl Store {
         }
     }
 
-    pub fn generate_archive<T: Taxonomy>(&self, config: &Configuration, templates: &LazyLock<Tera>, t: Option<T>, p: &str) where T: Default + Clone {
+    pub fn generate_archive<'de, T: Taxonomy>(&self, config: &Configuration, templates: &LazyLock<Tera>, t: Option<T>, p: &str) where T: Default + Clone + Serialize + Deserialize {
         if !config.blog_path.is_empty() && config.blog_name.is_empty() {
             println!("Blog name must be provided if a path is specified.");
             return;
