@@ -10,7 +10,7 @@ pub enum ArchiveType<T: Taxonomy> {
     Group(T)
 }
 
-impl<T: Taxonomy> ArchiveType<T> where T: Clone {
+impl<T: Taxonomy> ArchiveType<T> where T: Clone + Default {
     pub fn group(&self) -> Option<T> {
         if let Self::Group(group) = self {
             Some(group.clone())
