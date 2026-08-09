@@ -17,14 +17,24 @@ pub struct Archive<T: Taxonomy> {
     pub page: usize
 }
 
-impl<'de, T: Taxonomy> Archive<T> where T: Serialize + Deserialize<'de> {
+impl<'de, T: Taxonomy> Archive<T> where T: Serialize + Deserialize<'de> + Clone {
     pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, feed: &str) -> Result<String, String> {
         let mut context = Context::new();
         context.insert("site", &config);
         if !config.blog_path.is_empty() {
-            context.insert("current_dir", &format!("{}/", config.blog_path));
+            if let ArchiveType::Group(dir) = self.archive_type.clone() {
+                context.insert("current_dir", &format!("{}/{}/", config.blog_path, dir.slug()));
+            } else {
+                context.insert("current_dir", &format!("{}/", config.blog_path));
+            }
+            
         } else {
-            context.insert("current_dir", "/");
+            if let ArchiveType::Group(dir) = self.archive_type.clone() {
+                context.insert("current_dir", &format!("/{}/", dir.slug()));
+            } else {
+                context.insert("current_dir", "/");
+            }
+            
         }
         context.insert("archive", &self);
         context.insert("feed_url", feed);
