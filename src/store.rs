@@ -204,7 +204,7 @@ impl Store {
             None
         };
 
-        let order_dir = if let Some(tag) = tag {
+        let order_dir = if let Some(tag) = tag.clone() {
             tag.slug()
         } else {
             String::default()
