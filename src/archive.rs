@@ -49,7 +49,7 @@ impl<'de, T: Taxonomy> Archive<T> where T: Serialize + Deserialize<'de> + Clone 
     }
 }
 
-fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration) -> Option<String> {
+fn next_page_from<T: Taxonomy>(page: usize, paginator: &Paginator, config: &Configuration, t: Option<T>) -> Option<String> {
     if page == paginator.page_count() {
         None
     } else {
