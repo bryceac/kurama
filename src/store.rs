@@ -197,7 +197,12 @@ impl Store {
     }
 
     pub fn generate_feed(&self, config: &Configuration, name: &str, p: &str, order_dir: &str) {
-        let paginator = Paginator::from(&self.posts(), config.items_per_page);
+        let paginator = if !name.is_empty() {
+            Paginator::from(&self.posts_for_tag(&Tag::from(name)), config.items_per_page)
+        } else {
+            Paginator::from(&self.posts(), config.items_per_page)
+        };
+
         let mut feed_builder = Feed::builder();
         feed_builder.set_version(&FeedVersion::JSONFeed1_1);
         if !order_dir.is_empty() {
@@ -475,7 +480,7 @@ fn feed_title(config: &Configuration, page: usize) -> String {
     }
 }
 
-fn feed_url(config: &Configuration, page: usize) -> String {
+fn feed_url(config: &Configuration, order_dir: &str, page: usize) -> String {
     let path = feed_output_path(config, page);
     let mut site_url = format!("{}", config.url);
     site_url.push_str(&format!("/{}", path));
