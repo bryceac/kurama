@@ -1,7 +1,7 @@
 use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
-use crate::{ Archive, Page, Configuration, Save, Paginator, PaginationMethod };
+use crate::{ Archive, Page, Configuration, Save, Paginator, PaginationMethod, taxonomy::Taxonomy };
 use tera::Tera;
 use http::Uri;
 
@@ -129,7 +129,7 @@ impl Store {
         }
     }
 
-    pub fn generate_archive(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
+    pub fn generate_archive<T: Taxonomy>(&self, config: &Configuration, templates: &LazyLock<Tera>, t: Option<T>, p: &str) where T: Default + Clone {
         if !config.blog_path.is_empty() && config.blog_name.is_empty() {
             println!("Blog name must be provided if a path is specified.");
             return;
@@ -139,7 +139,7 @@ impl Store {
 
         let output_path = Path::new(p);
 
-        let mut archive = Archive::default();
+        let mut archive: Archive<T> = Archive::default();
 
         for page in 1..=paginator.page_count() {
             println!("attempting to create page {} of the {}-page archive.", page, paginator.page_count());
