@@ -1,11 +1,10 @@
 use clap::Parser;
-use serde::{Deserialize, Serialize};
 use std::{ fs::{ 
     create_dir_all,
 }, path::{ Path },
     sync::LazyLock, };
 use crate::{ Configuration,
-     Store, Taxonomy, archive::ArchiveType };
+     Store, archive::ArchiveType };
 use tera::Tera;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
