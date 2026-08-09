@@ -1,5 +1,5 @@
 use serde::{ Serialize, Deserialize };
-use crate::{ Configuration, Paginator, PaginationMethod, Taxonomy, Tag };
+use crate::{ Configuration, Paginator, PaginationMethod, Taxonomy };
 use tera::{ Tera, Context };
 use std::sync::LazyLock;
 
