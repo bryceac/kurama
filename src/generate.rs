@@ -5,7 +5,7 @@ use std::{ fs::{
 }, path::{ Path },
     sync::LazyLock, };
 use crate::{ Configuration,
-     Store, Taxonomy };
+     Store, Taxonomy, archive::ArchiveType };
 use tera::Tera;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
@@ -50,7 +50,7 @@ impl Generate {
             };
 
             store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
-            store.generate_archive(&site_configuration, &TEMPLATES, None, "output");
+            store.generate_archive(&site_configuration, &TEMPLATES, "", ArchiveType::Blog, "output");
 
             store.generate_feed(&site_configuration, "output")
         }
