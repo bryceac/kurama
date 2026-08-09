@@ -4,20 +4,10 @@ use tera::{ Tera, Context };
 use std::sync::LazyLock;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
-pub enum ArchiveType<T: Taxonomy> {
+pub enum ArchiveType {
     #[default]
     Blog,
-    Group(T)
-}
-
-impl<T: Taxonomy> ArchiveType<T> where T: Clone + Default {
-    pub fn group(&self) -> Option<T> {
-        if let Self::Group(group) = self {
-            Some(group.clone())
-        } else {
-            None
-        }
-    }
+    Tag
 }
 
 #[derive(Serialize, Deserialize, Clone, Default)]
