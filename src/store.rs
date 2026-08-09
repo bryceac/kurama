@@ -324,7 +324,7 @@ impl Store {
     }
 }
 
-fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize, output_dir: &Path, order_dir: Option<T>) where T: Clone {
+fn write_archive(content: &str, config: &Configuration, page: usize, output_dir: &Path, order_dir: &str) {
     match config.pagination_method {
         PaginationMethod::File => if !config.blog_path.is_empty() {
             let archive_dir = output_dir.join(&config.blog_path);
@@ -335,13 +335,13 @@ fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize
                 "index.html".to_owned()
             };
 
-            let file_path = if let Some(dir) = order_dir.clone() {
-                archive_dir.join(dir.slug()).join(output_file)
+            let file_path = if !order_dir.is_empty() {
+                archive_dir.join(order_dir).join(output_file)
             } else {
                 archive_dir.join(output_file)
             };
 
-            if let Some(_) = order_dir.clone() {
+            if !order_dir.is_empty() {
                 let _ = fs::create_dir_all(file_path.clone()).unwrap();
             }
 
@@ -355,13 +355,13 @@ fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize
                 "index.html".to_owned()
             };
 
-            let file_path = if let Some(dir) = order_dir.clone() {
-                output_dir.join(dir.slug()).join(output_file)
+            let file_path = if !order_dir.is_empty() {
+                output_dir.join(order_dir).join(output_file)
             } else {
                 output_dir.join(output_file)
             };
 
-            if let Some(_) = order_dir.clone() {
+            if !order_dir.is_empty() {
                 let _ = fs::create_dir_all(file_path.clone()).unwrap();
             }
 
@@ -374,14 +374,14 @@ fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize
             let output_file = "index.html".to_owned();
 
             let file_path = if page > 1 {
-                if let Some(dir) = order_dir.clone() {
-                    archive_dir.join(dir.slug()).join(format!("{}", page)).join(output_file)
+                if !order_dir.is_empty() {
+                    archive_dir.join(order_dir).join(format!("{}", page)).join(output_file)
                 } else {
                     archive_dir.join(format!("{}", page)).join(output_file)
                 }
             } else {
-                if let Some(dir) = order_dir.clone() {
-                    archive_dir.join(dir.slug()).join(output_file)
+                if !order_dir.is_empty() {
+                    archive_dir.join(order_dir).join(output_file)
                 } else {
                     archive_dir.join(output_file)
                 }
@@ -395,14 +395,14 @@ fn write_archive<T: Taxonomy>(content: &str, config: &Configuration, page: usize
             let output_file = "index.html".to_owned();
 
             let file_path = if page > 1 {
-                if let Some(dir) = order_dir.clone() {
-                    output_dir.join(dir.slug()).join(format!("{}", page)).join(output_file)
+                if !order_dir.is_empty() {
+                    output_dir.join(order_dir).join(format!("{}", page)).join(output_file)
                 } else {
                     output_dir.join(format!("{}", page)).join(output_file)
                 }
             } else {
-                if let Some(dir) = order_dir.clone() {
-                    output_dir.join(dir.slug()).join(output_file)
+                if !order_dir.is_empty() {
+                    output_dir.join(order_dir).join(output_file)
                 } else {
                     output_dir.join(output_file)
                 }
