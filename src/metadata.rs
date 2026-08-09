@@ -8,6 +8,7 @@ pub struct Metadata {
     pub title: String,
     pub date: Option<DateTime<Local>>,
     pub slug: String,
+    #[serde(default)]
     pub tags: Vec<Tag>
 }
 
