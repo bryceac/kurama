@@ -11,12 +11,13 @@ pub enum ArchiveType {
 }
 
 #[derive(Serialize, Deserialize, Clone, Default)]
-pub struct Archive<T: Taxonomy> {
-    pub archive_type: ArchiveType<T>,
+pub struct Archive {
+    pub name: String,
+    pub archive_type: ArchiveType,
     pub page: usize
 }
 
-impl<'de, T: Taxonomy> Archive<T> where T: Serialize + Deserialize<'de> + Clone {
+impl Archive {
     pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, feed: &str) -> Result<String, String> {
         let mut context = Context::new();
         context.insert("site", &config);
@@ -49,7 +50,7 @@ impl<'de, T: Taxonomy> Archive<T> where T: Serialize + Deserialize<'de> + Clone 
     }
 }
 
-fn next_page_from<T: Taxonomy>(page: usize, paginator: &Paginator, config: &Configuration, t: Option<T>) -> Option<String> {
+fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t: Option<T>) -> Option<String> {
     if page == paginator.page_count() {
         None
     } else {
@@ -84,7 +85,7 @@ fn next_page_from<T: Taxonomy>(page: usize, paginator: &Paginator, config: &Conf
     }
 }
 
-fn previous_page_from<T: Taxonomy>(page: usize, config: &Configuration, t: Option<T>) -> Option<String> {
+fn previous_page_from(page: usize, config: &Configuration, t: Option<T>) -> Option<String> {
     let prev_page = page -1;
     if page == 1 {
         None
