@@ -18,6 +18,13 @@ pub struct Archive {
 }
 
 impl Archive {
+    pub fn from_tag(t: &Tag) -> Self {
+        Self {
+            name: t.name.clone(),
+            archive_type: ArchiveType::Tag,
+            page: usize::default()
+        }
+    }
     pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, feed: &str) -> Result<String, String> {
         let mut context = Context::new();
         context.insert("site", &config);
