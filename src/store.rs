@@ -146,13 +146,21 @@ impl Store {
         }
     }
 
-    pub fn generate_archive<'de, T: Taxonomy>(&self, config: &Configuration, templates: &LazyLock<Tera>, t: Option<T>, p: &str) where T: Default + Clone + Serialize + Deserialize<'de> {
+    pub fn generate_archive(&self, config: &Configuration, templates: &LazyLock<Tera>, name: &str, t: ArchiveType, p: &str) {
         if !config.blog_path.is_empty() && config.blog_name.is_empty() {
             println!("Blog name must be provided if a path is specified.");
             return;
         }
 
-        let paginator = Paginator::from(&self.posts(), config.items_per_page);
+        if name.is_empty() && t != ArchiveType::Blog {
+            panic!("name cannot be empty for nonblog archive");
+        }
+
+        // let paginator = Paginator::from(&self.posts(), config.items_per_page);
+        let paginator = match t {
+            ArchiveType::Tag => Paginator::from(&self.posts(), config.items_per_page),
+            _ => Paginator::from(&self.posts(), config.items_per_page)
+        };
 
         let output_path = Path::new(p);
 

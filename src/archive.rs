@@ -3,7 +3,7 @@ use crate::{ Configuration, Paginator, PaginationMethod, Taxonomy, Tag };
 use tera::{ Tera, Context };
 use std::sync::LazyLock;
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default, PartialEq)]
 pub enum ArchiveType {
     #[default]
     Blog,
@@ -25,7 +25,7 @@ impl Archive {
             page: usize::default()
         }
     }
-    
+
     pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, feed: &str) -> Result<String, String> {
         let mut context = Context::new();
         context.insert("site", &config);
