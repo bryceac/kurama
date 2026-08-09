@@ -69,7 +69,7 @@ fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration) ->
     }
 }
 
-fn previous_page_from(page: usize, config: &Configuration) -> Option<String> {
+fn previous_page_from<T: Taxonomy>(page: usize, config: &Configuration, t: Option<T>) -> Option<String> {
     let prev_page = page -1;
     if page == 1 {
         None
@@ -77,15 +77,31 @@ fn previous_page_from(page: usize, config: &Configuration) -> Option<String> {
         match config.pagination_method {
             PaginationMethod::File => if !config.blog_path.is_empty() {
                 if prev_page > 1 {
-                    Some(format!("/{}/index{}.html", config.blog_path, prev_page))
+                    if let Some(dir) = t {
+                        Some(format!("/{}/{}/index{}.html", config.blog_path, dir.slug(), prev_page))
+                    } else {
+                        Some(format!("/{}/index{}.html", config.blog_path, prev_page))
+                    }
                 } else {
-                    Some(format!("/{}/", config.blog_path))
+                    if let Some(dir) = t {
+                        Some(format!("/{}/{}/", config.blog_path, dir.slug()))
+                    } else {
+                        Some(format!("/{}/", config.blog_path))
+                    }
                 }
             } else {
                 if prev_page > 1 {
-                    Some(format!("/index{}.html", prev_page))
+                    if let Some(dir) = t {
+                        Some(format!("/{}/index{}.html", dir.slug(), prev_page))
+                    } else {
+                        Some(format!("/index{}.html", prev_page))
+                    }
                 } else {
-                    Some(format!("/"))
+                    if let Some(dir) = t {
+                        Some(format!("/{}/", dir.slug()))
+                    } else {
+                        Some(format!("/"))
+                    }
                 }
             },
             PaginationMethod::Dir => if !config.blog_path.is_empty() {
