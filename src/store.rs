@@ -513,12 +513,20 @@ fn post_to_item(post: &Page, config: &Configuration) -> Item {
     .build().unwrap()
 }
 
-fn feed_output_path(config: &Configuration, page: usize) -> String {
+fn feed_output_path(config: &Configuration, order_dir: &str, page: usize) -> String {
     let mut path = if !config.blog_path.is_empty() {
         config.blog_path.clone()
     } else {
         String::default()
     };
+
+    if !order_dir.is_empty() {
+        if !path.is_empty() {
+            path.push_str("/");
+        }
+        
+        path.push_str(order_dir);
+    }
 
     let feed = match config.pagination_method {
         PaginationMethod::File => if page > 1 {
