@@ -1,7 +1,14 @@
-use serde::{ Serialize, Deserialize };
-use crate::{ Configuration, Paginator, PaginationMethod };
+use serde::{ Serialize, Deserialize, ser::SerializeMap };
+use crate::{ Configuration, Paginator, PaginationMethod, Taxonomy };
 use tera::{ Tera, Context };
 use std::sync::LazyLock;
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub enum ArchiveType<T: Taxonomy + Serialize + Deserialize> {
+    #[default]
+    Blog,
+    Group(T)
+}
 
 #[derive(Serialize, Deserialize, Clone, Default)]
 pub struct Archive {
