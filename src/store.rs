@@ -1,4 +1,4 @@
-use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
+use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock, collections::HashSet };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use serde::{Serialize, Deserialize};
@@ -78,7 +78,19 @@ impl Store {
     }
 
     pub fn tags(&self) -> Vec<Tag> {
-        let mut results: HashSet<Tag>
+        let mut results: HashSet<Tag> = HashSet::new();
+
+        for post in self.posts() {
+            if post.metadata.tags.is_empty() {
+                continue;
+            }
+
+            for tag in post.metadata.tags {
+                results.insert(tag.clone());
+            }
+        }
+
+        results.into_iter().collect()
     }
 
     pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
