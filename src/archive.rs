@@ -22,14 +22,14 @@ impl Archive {
         let mut context = Context::new();
         context.insert("site", &config);
         if !config.blog_path.is_empty() {
-            if let ArchiveType::Group(dir) = self.archive_type.clone() {
+            if let ArchiveType::Tag = self.archive_type {
                 context.insert("current_dir", &format!("{}/{}/", config.blog_path, dir.slug()));
             } else {
                 context.insert("current_dir", &format!("{}/", config.blog_path));
             }
             
         } else {
-            if let ArchiveType::Group(dir) = self.archive_type.clone() {
+            if let ArchiveType::Tag = self.archive_type {
                 context.insert("current_dir", &format!("/{}/", dir.slug()));
             } else {
                 context.insert("current_dir", "/");
@@ -50,7 +50,7 @@ impl Archive {
     }
 }
 
-fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t: Option<T>) -> Option<String> {
+fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t: Option<ArchiveType>) -> Option<String> {
     if page == paginator.page_count() {
         None
     } else {
@@ -85,7 +85,7 @@ fn next_page_from(page: usize, paginator: &Paginator, config: &Configuration, t:
     }
 }
 
-fn previous_page_from(page: usize, config: &Configuration, t: Option<T>) -> Option<String> {
+fn previous_page_from(page: usize, config: &Configuration, t: Option<ArchiveType>) -> Option<String> {
     let prev_page = page -1;
     if page == 1 {
         None
