@@ -86,6 +86,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "any_ascii"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "90c6333e01ba7235575b6ab53e5af10f1c327927fd97c36462917e289557ea64"
+
+[[package]]
 name = "autocfg"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -921,6 +927,7 @@ dependencies = [
  "jfeed",
  "local-ip-address",
  "pulldown-cmark",
+ "rslug",
  "serde",
  "serde_json",
  "serde_yaml_bw",
@@ -1406,6 +1413,15 @@ name = "regex-syntax"
 version = "0.8.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
+
+[[package]]
+name = "rslug"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7e67d88d4333775a1ddb375a1b4fe7f9175d49b641011c7f3340fd41426caedf"
+dependencies = [
+ "any_ascii",
+]
 
 [[package]]
 name = "rustc-demangle"
