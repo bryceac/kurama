@@ -126,6 +126,8 @@ fn previous_page_from<T: Taxonomy>(page: usize, config: &Configuration, t: Optio
                     }
                 } else {
                     if let Some(dir) = t {
+                        Some(format!("/{}/", dir.slug()))
+                    } else {
                         Some(format!("/"))
                     }
                 }
