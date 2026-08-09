@@ -12,7 +12,6 @@ pub enum ArchiveType<T: Taxonomy> {
 
 #[derive(Serialize, Deserialize, Clone, Default)]
 pub struct Archive<T: Taxonomy> {
-    pub name: Option<String>,
     pub archive_type: ArchiveType<T>,
     pub page: usize
 }
@@ -106,15 +105,29 @@ fn previous_page_from<T: Taxonomy>(page: usize, config: &Configuration, t: Optio
             },
             PaginationMethod::Dir => if !config.blog_path.is_empty() {
                 if prev_page > 1 {
-                    Some(format!("/{}/{}", config.blog_path, prev_page))
+                    if let Some(dir) = t {
+                        Some(format!("/{}/{}/{}", config.blog_path, dir.slug(), prev_page))
+                    } else {
+                        Some(format!("/{}/{}", config.blog_path, prev_page))
+                    }
                 } else {
-                    Some(format!("/{}/", config.blog_path))
+                    if let Some(dir) = t {
+                        Some(format!("/{}/{}/", config.blog_path, dir.slug()))
+                    } else {
+                        Some(format!("/{}/", config.blog_path))
+                    }
                 }
             } else {
                 if prev_page > 1 {
-                    Some(format!("/{}/", prev_page))
+                    if let Some(dir) = t {
+                        Some(format!("/{}/{}/", dir.slug(), prev_page))
+                    } else {
+                        Some(format!("/{}/", prev_page))
+                    }
                 } else {
-                    Some(format!("/"))
+                    if let Some(dir) = t {
+                        Some(format!("/"))
+                    }
                 }
             }
         }
