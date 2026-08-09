@@ -400,7 +400,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 output_dir.join(output_file)
             };
 
-            let _ = fs::create_dir_all(file_path.clone()).unwrap();
+            let _ = fs::create_dir_all(file_path.clone().parent().unwrap()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
@@ -424,7 +424,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 }
             };
 
-            let _ = fs::create_dir_all(file_path.clone()).unwrap();
+            let _ = fs::create_dir_all(file_path.clone().parent().unwrap()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
