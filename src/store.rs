@@ -382,9 +382,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 archive_dir.join(output_file)
             };
 
-            if !order_dir.is_empty() {
-                let _ = fs::create_dir_all(file_path.clone()).unwrap();
-            }
+            let _ = fs::create_dir_all(file_path.clone()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
@@ -402,9 +400,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                 output_dir.join(output_file)
             };
 
-            if !order_dir.is_empty() {
-                let _ = fs::create_dir_all(file_path.clone()).unwrap();
-            }
+            let _ = fs::create_dir_all(file_path.clone()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
@@ -427,7 +423,8 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
                     archive_dir.join(output_file)
                 }
             };
-            let _ = fs::create_dir_all(archive_dir.clone()).unwrap();
+
+            let _ = fs::create_dir_all(file_path.clone()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
