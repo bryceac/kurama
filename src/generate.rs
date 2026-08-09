@@ -49,7 +49,7 @@ impl Generate {
             };
 
             store.generate_posts(&site_configuration, &TEMPLATES, blog_path);
-            store.generate_archive(&site_configuration, &TEMPLATES, "output");
+            store.generate_archive(&site_configuration, &TEMPLATES, None, "output");
 
             store.generate_feed(&site_configuration, "output")
         }
