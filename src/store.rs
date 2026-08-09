@@ -93,6 +93,12 @@ impl Store {
         results.into_iter().collect()
     }
 
+    pub fn posts_for_tag(&self, t: &Tag) -> Vec<Page> {
+        self.posts().into_iter()
+        .filter(|p| p.metadata.tags.contains(t))
+        .collect()
+    }
+
     pub fn generate_pages(&self, config: &Configuration, templates: &LazyLock<Tera>, p: &str) {
         let output_path = Path::new(p);
         let feed = feed_url(config, 1);
