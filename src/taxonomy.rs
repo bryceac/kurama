@@ -6,6 +6,7 @@ pub trait Taxonomy {
     fn slug(&self) -> String;
 }
 
+#[derive(Clone, Eq)]
 pub struct Tag {
     pub name: String
 }
@@ -19,6 +20,12 @@ impl Tag {
 impl Display for Tag {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.name)
+    }
+}
+
+impl PartialEq for Tag {
+    fn eq(&self, other: &Self) -> bool {
+        self.name == other.name
     }
 }
 

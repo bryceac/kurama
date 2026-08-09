@@ -1,12 +1,14 @@
 use chrono::{ DateTime, Local };
 use serde::{ Deserialize, Serialize };
+use crate::Tag;
 
 #[derive(Deserialize, Serialize, Eq, Clone )]
 pub struct Metadata {
     #[serde(default="String::default")]
     pub title: String,
     pub date: Option<DateTime<Local>>,
-    pub slug: String
+    pub slug: String,
+    pub tags: Vec<Tag>
 }
 
 impl Metadata {
@@ -31,6 +33,7 @@ impl PartialEq for Metadata {
     fn eq(&self, other: &Self) -> bool {
         self.title == other.title &&
         self.date == other.date &&
-        self.slug == other.slug
+        self.slug == other.slug &&
+        self.tags == other.tags
     }
 }
