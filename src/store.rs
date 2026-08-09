@@ -200,8 +200,16 @@ impl Store {
         let paginator = Paginator::from(&self.posts(), config.items_per_page);
         let mut feed_builder = Feed::builder();
         feed_builder.set_version(&FeedVersion::JSONFeed1_1);
-        feed_builder.set_home_page(&format!("{}", config.url.clone()));
-
+        if !order_dir.is_empty() {
+            if !config.blog_path.is_empty() {
+                feed_builder.set_home_page(&format!("{}/{}/{}", config.url.clone(), config.blog_path, order_dir));
+            } else {
+                feed_builder.set_home_page(&format!("{}", config.url.clone()));
+            }
+        } else {
+            feed_builder.set_home_page(&format!("{}", config.url.clone()));
+        }
+        
         let output_dir = Path::new(p);
 
         for page in 1..=paginator.page_count() {
