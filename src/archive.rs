@@ -11,13 +11,13 @@ pub enum ArchiveType<T: Taxonomy> {
 }
 
 #[derive(Serialize, Deserialize, Clone, Default)]
-pub struct Archive {
+pub struct Archive<T: Taxonomy> {
     pub name: Option<String>,
-    pub archive_type: ArchiveType<Tag>,
+    pub archive_type: ArchiveType<T>,
     pub page: usize
 }
 
-impl Archive {
+impl<'de, T: Taxonomy> Archive<T> where T: Serialize + Deserialize<'de> {
     pub fn render(&self, config: &Configuration, templates: &LazyLock<Tera>, paginator: &Paginator, feed: &str) -> Result<String, String> {
         let mut context = Context::new();
         context.insert("site", &config);
