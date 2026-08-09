@@ -2,7 +2,7 @@ use std::fmt::Display;
 use serde::{ Serialize, Deserialize };
 use rslug::Slugifier;
 
-pub trait Taxonomy {
+pub trait Taxonomy: Default {
     fn slug(&self) -> String;
 }
 

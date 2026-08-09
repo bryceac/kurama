@@ -1,4 +1,4 @@
-use std::{ fs, path::{ Path, PathBuf }, sync::{LazyLock, Arc} };
+use std::{ fs, path::{ Path, PathBuf }, sync::LazyLock };
 use fs_extra::dir;
 use jfeed::{Item, Dates, Author, Content, Feed, FeedVersion };
 use serde::{Serialize, Deserialize};
