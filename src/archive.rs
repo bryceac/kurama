@@ -5,6 +5,7 @@ use std::sync::LazyLock;
 
 #[derive(Serialize, Deserialize, Clone, Default)]
 pub struct Archive {
+    pub name: Option<String>,
     pub page: usize
 }
 
