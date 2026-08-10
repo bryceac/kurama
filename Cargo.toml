@@ -13,24 +13,24 @@ keywords = ["kurama", "static", "site", "generator"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tera = "1"
+tera = "2"
 serde = { version = "1", features = ["derive"] }
 yaml-front-matter = "0.1"
 tokio = { version = "1", features = ["full"]}
-warp = "0.3"
+warp = "0.4"
 futures = "0.3"
-serde_yaml_bw = "2.0.1"
+serde_yaml_bw = "2.5.6"
 fs_extra = "1.3.0"
-local-ip-address = "0.6.5"
-pulldown-cmark = "0.13.0"
-shellexpand = "3.1.1"
-clap = { version = "4.5.40", features = ["derive"] }
+local-ip-address = "0.6.13"
+pulldown-cmark = "0.13.4"
+shellexpand = "3.1.2"
+clap = { version = "4.6.6", features = ["derive"] }
 chrono = {version = "0.4.45", features = ["serde", "alloc"] }
 jfeed = "0.1.1"
 url_path = "0.1.3"
 http-serde-ext = "1.0.2"
-http = "1.4.2"
-serde_json = "1.0.150"
+http = "1.5.0"
+serde_json = "1.0.151"
 rslug = "0.3.0"
 
 [package.metadata.deb]
