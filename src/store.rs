@@ -383,12 +383,12 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
             };
 
             let file_path = if !order_dir.is_empty() {
-                archive_dir.join(order_dir).join(output_file)
+                archive_dir.join("tags").join(order_dir).join(output_file)
             } else {
                 archive_dir.join(output_file)
             };
 
-            let _ = fs::create_dir_all(file_path.clone()).unwrap();
+            let _ = fs::create_dir_all(file_path.clone().parent().unwrap()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
@@ -401,7 +401,7 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
             };
 
             let file_path = if !order_dir.is_empty() {
-                output_dir.join(order_dir).join(output_file)
+                output_dir.join("tags").join(order_dir).join(output_file)
             } else {
                 output_dir.join(output_file)
             };
@@ -418,13 +418,13 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
 
             let file_path = if page > 1 {
                 if !order_dir.is_empty() {
-                    archive_dir.join(order_dir).join(format!("{}", page)).join(output_file)
+                    archive_dir.join("tags").join(order_dir).join(format!("{}", page)).join(output_file)
                 } else {
                     archive_dir.join(format!("{}", page)).join(output_file)
                 }
             } else {
                 if !order_dir.is_empty() {
-                    archive_dir.join(order_dir).join(output_file)
+                    archive_dir.join("tags").join(order_dir).join(output_file)
                 } else {
                     archive_dir.join(output_file)
                 }
@@ -440,18 +440,18 @@ fn write_archive(content: &str, config: &Configuration, page: usize, output_dir:
 
             let file_path = if page > 1 {
                 if !order_dir.is_empty() {
-                    output_dir.join(order_dir).join(format!("{}", page)).join(output_file)
+                    output_dir.join("tags").join(order_dir).join(format!("{}", page)).join(output_file)
                 } else {
                     output_dir.join(format!("{}", page)).join(output_file)
                 }
             } else {
                 if !order_dir.is_empty() {
-                    output_dir.join(order_dir).join(output_file)
+                    output_dir.join("tags").join(order_dir).join(output_file)
                 } else {
                     output_dir.join(output_file)
                 }
             };
-            let _ = fs::create_dir_all(file_path.clone()).unwrap();
+            let _ = fs::create_dir_all(file_path.clone().parent().unwrap()).unwrap();
 
             if let Err(error) = content.save(file_path.to_str().unwrap()) {
                 println!("{}", error);
