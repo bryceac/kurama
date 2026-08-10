@@ -210,6 +210,12 @@ impl Store {
             String::default()
         };
 
+        let tag_name = if let Some(tag) = tag {
+            tag.name
+        } else {
+            String::default()
+        };
+
         let paginator = if let Some(tag) = tag.clone() {
             Paginator::from(&self.posts_for_tag(&tag), config.items_per_page)
         } else {
@@ -239,7 +245,7 @@ impl Store {
                 Some(feed_url(config, &order_dir, page+1))
             };
             
-            feed_builder.set_title(&feed_title(config, page));
+            feed_builder.set_title(&feed_title(config, &tag_name, page));
             
             feed_builder.set_url(&url);
 
