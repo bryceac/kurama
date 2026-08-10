@@ -483,11 +483,12 @@ fn permalink_for_post(post: &Page, config: &Configuration) -> String {
     site_url
 }
 
-fn feed_title(config: &Configuration, page: usize) -> String {
-    let title = if !config.blog_name.is_empty() {
-        config.blog_name.clone()
-    } else {
-        config.name.clone()
+fn feed_title(config: &Configuration, name: &str, page: usize) -> String {
+    let title = match (name, config.blog_name) {
+        (n, bn) if n.is_empty() => config.blog_name.clone(),
+        (n, bn) if bn.is_empty() => n.to_owned(),
+        (n, bn) if !n.is_empty() && !bn.is_empty() => n.to_owned(),
+        _ => config.name.clone()
     };
 
     if page > 1 {
