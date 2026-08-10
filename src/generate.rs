@@ -9,17 +9,11 @@ use crate::{ Configuration,
 use tera::Tera;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
-    let mut tera = match Tera::new("templates/*.html") {
-            Ok(t) => t,
-            Err(error) => {
-                println!("Parsing error(s): {}", error);
-                std::process::exit(1);
-            }
-        };
+    let mut tera = Tera::default();
 
-
-        tera.autoescape_on(vec![]);
-        tera
+    tera.load_glob_fs("templates/*.html");
+    tera.autoescape_on(vec![]);
+    tera
 });
 
 #[derive(Default, Parser)]

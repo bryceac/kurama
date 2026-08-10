@@ -13,7 +13,7 @@ keywords = ["kurama", "static", "site", "generator"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tera = "2"
+tera = { version = "2", features = ["glob_fs"] }
 serde = { version = "1", features = ["derive"] }
 yaml-front-matter = "0.1"
 tokio = { version = "1", features = ["full"]}
