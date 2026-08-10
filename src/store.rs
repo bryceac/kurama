@@ -506,7 +506,7 @@ fn permalink_for_tag(t: &Tag, config: &Configuration) -> String {
     let path = if !config.blog_path.is_empty() {
         format!("{}/tags/{}", config.blog_path, t.slug())
     } else {
-        format!("tags/{}", config.blog_path, t.slug())
+        format!("tags/{}", t.slug())
     };
 
     let mut site_url = format!("{}", config.url);
