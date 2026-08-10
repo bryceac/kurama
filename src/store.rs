@@ -484,7 +484,7 @@ fn permalink_for_post(post: &Page, config: &Configuration) -> String {
 }
 
 fn feed_title(config: &Configuration, name: &str, page: usize) -> String {
-    let title = match (name, config.blog_name) {
+    let title = match (name, config.blog_name.clone()) {
         (n, bn) if n.is_empty() => config.blog_name.clone(),
         (n, bn) if bn.is_empty() => n.to_owned(),
         (n, bn) if !n.is_empty() && !bn.is_empty() => n.to_owned(),
