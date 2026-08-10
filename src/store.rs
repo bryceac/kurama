@@ -542,7 +542,7 @@ fn feed_output_path(config: &Configuration, order_dir: &str, page: usize) -> Str
             path.push_str("/");
         }
 
-        path.push_str(order_dir);
+        path.push_str(&format!("tags/{}", order_dir));
     }
 
     let feed = match config.pagination_method {
