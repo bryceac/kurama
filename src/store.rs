@@ -183,7 +183,7 @@ impl Store {
             let feed = feed_url(config, &tag.slug(), page);
 
             match archive.render(config, templates, &paginator, &feed) {
-                Ok(html) => write_archive(&html, config, page, output_path, if name.is_empty() { "" } else { &format!("/tags/{}", tag_slug ) }),
+                Ok(html) => write_archive(&html, config, page, output_path, &tag_slug),
                 Err(error) => println!("{}", error),
             }
         }
@@ -210,7 +210,7 @@ impl Store {
             String::default()
         };
 
-        let tag_name = if let Some(tag) = tag {
+        let tag_name = if let Some(tag) = tag.clone() {
             tag.name
         } else {
             String::default()
