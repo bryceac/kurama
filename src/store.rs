@@ -365,7 +365,18 @@ impl Store {
             }
         }
 
-        for tag 
+        // retrieve tags
+        for tag in self.tags() {
+            if let Ok(permalink) = permalink_for_tag(&tag, config).parse::<Uri>() {
+                let map_link = if permalink.scheme().is_none() {
+                    format!("http:{}", permalink)
+                } else {
+                    permalink.to_string()
+                };
+
+                map_links.push(map_link)
+            }
+        } 
 
         let file_path = output_dir.join("sitemap.txt");
 
