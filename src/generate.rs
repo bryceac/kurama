@@ -16,6 +16,8 @@ static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
                 std::process::exit(1);
             }
         };
+
+
         tera.autoescape_on(vec![]);
         tera
 });
