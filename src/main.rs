@@ -14,6 +14,7 @@ mod section;
 mod serve;
 mod save_string;
 mod store;
+mod slugify;
 mod taxonomy;
 
 
@@ -35,6 +36,7 @@ use crate::{
     paginator::PaginationMethod as PaginationMethod,
     save_string::Save as Save,
     store::Store as Store,
+    slugify::*,
     taxonomy::{ Taxonomy as Taxonomy, Tag as Tag }
 };
 
