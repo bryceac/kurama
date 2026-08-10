@@ -4,15 +4,17 @@ use std::{ fs::{
 }, path::{ Path },
     sync::LazyLock, };
 use crate::{ Configuration,
-     Store, archive::ArchiveType };
+     Store, 
+     archive::ArchiveType };
 use tera::Tera;
+use rslug::Slugifier;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
     let mut tera = match Tera::new("templates/*.html") {
             Ok(t) => t,
             Err(error) => {
                 println!("Parsing error(s): {}", error);
-                ::std::process::exit(1);
+                std::process::exit(1);
             }
         };
         tera.autoescape_on(vec![]);
