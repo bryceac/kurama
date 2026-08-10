@@ -29,6 +29,7 @@ This static site generator is my homebrewed solution to that trouble.
 <dd>
 <p>Major change</p>
 <p>tags are now available, along with dedicated feeds for tags.</p>
+<p>Also, a slugify filter has been added, along with a update in dependencies.</p>
 <p>Released Aug 9, 2026</p>
 </dd>
 <dt style="font-weight:bold">0.3.4</dt>
