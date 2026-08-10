@@ -6,13 +6,20 @@ use std::{ fs::{
 use crate::{ Configuration,
      Store, 
      archive::ArchiveType };
-use tera::Tera;
+use tera::{Tera, Kwargs, State};
+use rslug::Slugifier;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
     let mut tera = Tera::default();
 
     tera.load_from_glob("templates/*.html").expect("Something went wrong");
     tera.autoescape_on(Vec::<&str>::new());
+    tera.register_filter("slugify", | s: &str, _: Kwargs, _: &State | {
+        let slugify_with_underscore = Slugifier::new()
+        .separator("_");
+
+        slugify_with_underscore.slugify(s)
+    });
     tera
 });
 
