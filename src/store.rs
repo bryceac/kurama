@@ -365,6 +365,8 @@ impl Store {
             }
         }
 
+        for tag 
+
         let file_path = output_dir.join("sitemap.txt");
 
         write_sitemap(&map_links, &file_path.to_str().unwrap());
@@ -482,6 +484,18 @@ fn permalink_for_post(post: &Page, config: &Configuration) -> String {
         post.metadata.date_components()[1], 
         post.metadata.date_components()[2], 
         post.metadata.slug)
+    };
+
+    let mut site_url = format!("{}", config.url);
+    site_url.push_str(&format!("/{}", path));
+    site_url
+}
+
+fn permalink_for_tag(t: &Tag, config: &Configuration) -> String {
+    let path = if !config.blog_path.is_empty() {
+        format!("{}/tags/{}", config.blog_path, t.slug())
+    } else {
+        format!("tags/{}", config.blog_path, t.slug())
     };
 
     let mut site_url = format!("{}", config.url);
