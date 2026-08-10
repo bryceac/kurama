@@ -11,8 +11,8 @@ use tera::Tera;
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
     let mut tera = Tera::default();
 
-    tera.load_from_glob("templates/*.html");
-    tera.autoescape_on(vec![]);
+    tera.load_from_glob("templates/*.html").expect("Something went wrong");
+    tera.autoescape_on(Vec::<&str>::new());
     tera
 });
 
