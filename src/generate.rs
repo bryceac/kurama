@@ -7,7 +7,6 @@ use crate::{ Configuration,
      Store, 
      archive::ArchiveType };
 use tera::Tera;
-use rslug::Slugifier;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
     let mut tera = match Tera::new("templates/*.html") {
