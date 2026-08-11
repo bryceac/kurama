@@ -7,6 +7,7 @@ use crate::{ Configuration,
      Store, 
      archive::ArchiveType };
 use tera::{Tera, Kwargs, State};
+use tera_contrib::dates;
 use rslug::Slugifier;
 
 static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
@@ -14,6 +15,7 @@ static TEMPLATES: LazyLock<Tera> = LazyLock::new(|| {
 
     tera.load_from_glob("templates/*.html").expect("Something went wrong");
     tera.autoescape_on(Vec::<&str>::new());
+    tera.register_filter("date", dates::date);
     tera.register_filter("slugify", | s: &str, _: Kwargs, _: &State | {
         let slugify_with_underscore = Slugifier::new()
         .separator("_");
