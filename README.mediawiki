@@ -25,6 +25,12 @@ This static site generator is my homebrewed solution to that trouble.
 ==Version History==
 
 <dl>
+<dt style="font-weight:bold">0.4.1</dt>
+<dd>
+<p>Minor change</p>
+<p>fix issue with date filter that happened because of dependency upgrades.</p>
+<p>Released Aug 11, 2026</p>
+</dd>
 <dt style="font-weight:bold">0.4.0</dt>
 <dd>
 <p>Major change</p>
